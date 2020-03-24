@@ -1,6 +1,6 @@
-package com.java.service;
+package com.java.service.intf;
 
-import com.java.bean.Student;
+import com.java.model.entity.Student;
 
 import java.util.List;
 

@@ -16,7 +16,7 @@ idea / eclipse
 1. 先把项目运行起来（导入项目，配置环境，修改mysql数据库的配置，数据库名称是test，运行test.sql创建student表）
 2. 在浏览器输入：
  * localhost：8088 -> 显示index.html 内容
- * localhost:8080/index.html -> 全路径访问index.html，显示index.html 内容
+ * localhost:8088/index.html -> 全路径访问index.html，显示index.html 内容
  * localhost:8088/student/hello -> 显示hello world
  * localhost:8088/student/searchStudent -> 返回从mysql数据库中查询到的学生数据，数据格式为json
  * localhost:8088/student/findStudent -> 返回从mysql数据库中查询到的学生数据，数据格式为json

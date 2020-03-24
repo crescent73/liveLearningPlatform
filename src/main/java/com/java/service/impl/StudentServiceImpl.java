@@ -1,8 +1,8 @@
 package com.java.service.impl;
 
-import com.java.bean.Student;
+import com.java.model.entity.Student;
 import com.java.dao.StudentDao;
-import com.java.service.StudentService;
+import com.java.service.intf.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

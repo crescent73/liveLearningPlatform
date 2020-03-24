@@ -1,4 +1,4 @@
-package com.java.bean;
+package com.java.model.entity;
 
 public class Student {
     private String name;
