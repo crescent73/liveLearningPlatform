@@ -1,4 +1,4 @@
-package com.java.constant.response;
+package com.java.model.vo;
 
 public class Data<T> {
 

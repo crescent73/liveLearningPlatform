@@ -13,7 +13,7 @@ idea / eclipse
 2. 使用maven运行，在terminal中输入mvn spring-boot:run
 
 ###测试：
-1. 先把项目运行起来（导入项目，配置环境，修改mysql数据库的配置，数据库名称是test，运行test.sql创建student表）
+1. 先把项目运行起来（导入项目，配置环境，修改mysql数据库的配置，数据库名称是living_studying_platform，运行living_studying_platform.sql创建表）
 2. 在浏览器输入：
  * localhost：8088 -> 显示index.html 内容
  * localhost:8088/index.html -> 全路径访问index.html，显示index.html 内容

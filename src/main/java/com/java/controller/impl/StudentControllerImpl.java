@@ -1,4 +1,4 @@
-package com.java.controller;
+package com.java.controller.impl;
 
 import com.java.model.entity.Student;
 import com.java.service.intf.StudentService;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
-public class StudentController {
+public class StudentControllerImpl {
 
     @Autowired
     private StudentService studentService;

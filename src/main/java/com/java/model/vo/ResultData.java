@@ -1,4 +1,4 @@
-package com.java.constant.response;
+package com.java.model.vo;
 
 import com.java.constant.enums.ResultCodeEnum;
 
