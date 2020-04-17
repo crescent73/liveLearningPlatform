@@ -11,4 +11,5 @@ public interface SystemController {
     ResultData modifyInfo();
     // 注册
     ResultData register();
+
 }

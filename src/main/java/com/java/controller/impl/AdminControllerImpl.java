@@ -11,22 +11,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminControllerImpl implements AdminController {
 
     @RequestMapping("/courseList")
-    public ResultData courseList(Course course) {
+    public ResultData courseList() {
         return null;
     }
 
     @RequestMapping("/courseDetail")
-    public ResultData courseDetail(Course course) {
+    public ResultData courseDetail() {
         return null;
     }
 
     @RequestMapping("/modifyCourseInfo")
-    public ResultData modifyCourseInfo(Course course) {
+    public ResultData modifyCourseInfo() {
         return null;
     }
 
     @RequestMapping("/deleteCourse")
-    public ResultData deleteCourse(Integer courseId) {
+    public ResultData deleteCourse() {
         return null;
     }
+
 }

@@ -5,11 +5,11 @@ import com.java.model.vo.ResultData;
 
 public interface AdminController {
     // 查看课程列表
-    ResultData courseList(Course course);
+    ResultData courseList();
     // 课程详情
-    ResultData courseDetail(Course course);
+    ResultData courseDetail();
     // 修改课程信息
-    ResultData modifyCourseInfo(Course course);
+    ResultData modifyCourseInfo();
     // 删除课程信息
-    ResultData deleteCourse(Integer courseId);
+    ResultData deleteCourse();
 }

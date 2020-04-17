@@ -17,10 +17,18 @@ public interface StudentController {
     // 删除收藏课程
     ResultData deleteCollectCourse();
 
+    // 查看录播
+    ResultData getVideo();
+    // 删除录播
+    ResultData deleteVideo();
+
     // 获取直播流
     ResultData getLivingStream();
     // 签到
     ResultData sign();
+    // 获取当前在线人数
+    ResultData getOnlinePeople();
+
 
     // 获取消息列表
     ResultData getMessageList();

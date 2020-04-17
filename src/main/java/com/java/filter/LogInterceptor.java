@@ -12,17 +12,15 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object o){
 
-        if (!req.getRequestURI().equals("/blackboard/response")) {
-            //打印请求
-            System.out.println("\n-------------------------------------------");
-            System.out.println(new Date() + ",request : [" + req.getRequestURL() + "]     params  [" + req.getParameterMap() + "]");
-            Enumeration enu = req.getParameterNames();
-            while (enu.hasMoreElements()) {
-                String paraName = (String) enu.nextElement();
-                System.out.println(paraName + ": " + req.getParameter(paraName));
-            }
-            System.out.println("-------------------------------------------\n");
+        //打印请求
+        System.out.println("\n-------------------------------------------");
+        System.out.println(new Date() + ",request : [" + req.getRequestURL() + "]     params  [" + req.getParameterMap() + "]");
+        Enumeration enu = req.getParameterNames();
+        while (enu.hasMoreElements()) {
+            String paraName = (String) enu.nextElement();
+            System.out.println(paraName + ": " + req.getParameter(paraName));
         }
+        System.out.println("-------------------------------------------\n");
         return true;
     }
 

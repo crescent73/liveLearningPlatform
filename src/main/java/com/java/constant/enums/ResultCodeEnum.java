@@ -12,35 +12,16 @@ public enum ResultCodeEnum
 	SERVER_ERROR("500","服务器内部错误"),
 	
 	//连接
-	DB_CONNECTION_SUCCESS("200","数据库连接成功"),
-	DB_CONNECTION_FAILURE("201","数据库连接失败"),
+	OK("200","OK"),
 	//增
-	DB_ADD_SUCCESS("202","添加成功"),
 	DB_ADD_FAILURE("203","添加失败"),
-	DB_ADD_FAILURE_TEACHER_NOT_EXIST("203","添加失败_老师不存在"),
-	DB_ADD_FAILURE_STUDENT_NOT_EXIST("203","添加失败_学生不存在"),
-	DB_ADD_FAILURE_COURSE_NOT_EXIST("203","添加失败_课程不存在"),
-	DB_ADD_FAILURE_TEACHER_ALREADY_EXIST("203","添加失败_老师已存在"),
-	DB_ADD_FAILURE_STUDENT_ALREADY_EXIST("203","添加失败_学生已存在"),
-	DB_ADD_FAILURE_COURSE_ALREADY_EXIST("203","添加失败_老师已存在"),
 	//删
-	DB_DELETE_SUCCESS("204","删除成功"),
 	DB_DELETE_FAILURE("205","删除失败"),
-	DB_DELETE_FAILURE_COURSE_NOT_EXIST("205","删除失败_课程不存在"),
-	DB_DELETE_FAILURE_STUDENT_NOT_EXIST("205","删除失败_学生不存在"),
 	//改
-	DB_UPDATE_SUCCESS("206","修改成功"),
 	DB_UPDATE_ERROR("207","修改失败"),
-	DB_UPDATE_REQUEST_NULL("207","修改失败_请输入修改数据"),
-	DB_UPDATE_ERROR_OVERFLOW("207","修改失败_字段字数超过规定"),
-	DB_UPDATE_FAILURE_TEACHER_NOT_EXIST("207","修改失败_老师不存在"),
-	DB_UPDATE_FAILURE_COURSE_NOT_EXIST("207","修改失败_课程不存在"),
-	DB_UPDATE_FAILURE_NOTICE_NOT_EXIST("207","修改失败_公告不存在"),
 	//查
 	DB_FIND_SUCCESS("208","查找成功"),
 	DB_FIND_FAILURE("209","查找失败，没有该条记录"),
-	//详细错误
-	
 	
 	//请求参数	
 	PARA_WORNING_NULL("301","必要请求参数为空"),

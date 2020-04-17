@@ -2,18 +2,19 @@ package com.java.controller.intf;
 
 import com.java.model.entity.Course;
 import com.java.model.vo.ResultData;
+import org.springframework.messaging.handler.annotation.Header;
+
+import java.util.Map;
 
 public interface TeacherController {
     // 获取课程列表（搜索课程）
     ResultData getCourseList(Course course);
-    // 获取课程详情
-    ResultData getCourseDetail(Course course);
     // 创建课程
     ResultData createCourse();
     // 删除课程
     ResultData deleteCourse();
     // 修改课程信息
-    ResultData modifyCourseInfo();
+//    ResultData modifyCourseInfo();
     // 设置课程权限
     ResultData setCoursePermission();
 
@@ -24,6 +25,8 @@ public interface TeacherController {
     // 删除收藏课程
     ResultData deleteCollectCourse();
 
+    // 查看录播列表
+    ResultData getVideoList();
     // 查看录播
     ResultData getVideo();
     // 删除录播
@@ -35,11 +38,13 @@ public interface TeacherController {
     ResultData publishSign();
     // 查看签到情况
     ResultData getSignDetail();
+    // 获取当前在线人数
+    ResultData getOnlinePeople();
 
     // 获取消息列表
     ResultData getMessageList();
     // 发送消息
-    ResultData sendMessage();
+    ResultData sendMessage(String message,Map<String,Object> session);
 
     // 获取公告列表
     ResultData getNoticeList();
