@@ -13,6 +13,6 @@ public interface LiveUserDao {
     @Select("select * from live_user where ip=#{ip}")
     LiveUser findOne(String ip);
 
-    @Insert("insert into live_student values(#{ip},#{randomName})")
+    @Insert("insert into live_user values(#{ip},#{randomName})")
     int insert(LiveUser liveUser);
 }

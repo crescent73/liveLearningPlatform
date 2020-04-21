@@ -1,7 +1,9 @@
 package com.java.dao;
 
+import com.java.constant.consist.Constant;
 import com.java.model.entity.Guest;
 import com.java.model.entity.LiveUser;
+import com.java.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,27 +13,39 @@ import java.util.Set;
 
 @Repository
 public class StatDao {
+
     @Autowired
-    RedisTemplate redisTemplate;
+    RedisUtil redisUtil;
 
-    public void pushOnlineUser(LiveUser liveUser){
-        redisTemplate.opsForSet().add("OnlineUser",liveUser);
+    // 添加在线用户
+    public boolean pushOnlineUser(LiveUser liveUser){
+        long result = redisUtil.sSet(Constant.ONLINE_USER_KEY, liveUser);
+        return result>0?true:false;
     }
 
-    public void popOnlineUser(LiveUser liveUser){
-        redisTemplate.opsForSet().remove("OnlineUser",liveUser);
+    // 删除在线用户
+    public boolean popOnlineUser(LiveUser liveUser){
+        long result = redisUtil.setRemove(Constant.ONLINE_USER_KEY, liveUser);
+        return result>0?true:false;
     }
+
+    // 获取所有在线用户
     public Set getAllUserOnline(){
-        return redisTemplate.opsForSet().members("OnlineUser");
+        return redisUtil.sGet(Constant.ONLINE_USER_KEY);
     }
-    public void pushGuestHistory(Guest guest){
+
+    // 添加访客记录
+    public boolean pushGuestHistory(Guest guest){
         //最多存储指定个数的访客
-        if (redisTemplate.opsForList().size("Guest") == 2000l){
-            redisTemplate.opsForList().rightPop("Guest");
+        if (redisUtil.lGetListSize(Constant.GUEST_KEY) == 2000l){
+            if(!redisUtil.lPop(Constant.GUEST_KEY))
+                return false;
         }
-        redisTemplate.opsForList().leftPush("Guest",guest);
+        return redisUtil.lSet(Constant.GUEST_KEY, guest);
     }
+
+    // 获取所有的访客记录
     public List getGuestHistory(){
-        return redisTemplate.opsForList().range("Guest",0,-1);
+        return redisUtil.lGet(Constant.GUEST_KEY,0,-1);
     }
 }

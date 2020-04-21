@@ -1,7 +1,6 @@
-package com.java.controller.impl;
+package com.java.controller;
 
 import com.java.constant.enums.ResultCodeEnum;
-import com.java.controller.intf.TeacherController;
 import com.java.model.entity.Course;
 import com.java.model.entity.LiveUser;
 import com.java.model.entity.Msg;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/teacher")
-public class TeacherControllerImpl implements TeacherController {
+public class TeacherController {
 
     private ResultData resultData;
     @Autowired
@@ -91,43 +90,9 @@ public class TeacherControllerImpl implements TeacherController {
         return null;
     }
 
-    @RequestMapping("/getOnlinePeople")
-    public ResultData getOnlinePeople() {
-        resultData = new ResultData<List>();
-        List allUserOnline = statService.getAllUserOnline();
-        resultData.setResult(ResultCodeEnum.OK);
-        resultData.setData(allUserOnline);
-        return resultData;
-    }
 
-    @RequestMapping("/getHistoryGuest")
-    public ResultData getHistoryGuest() {
-        resultData = new ResultData<List>();
-        List allGuestHistory = statService.getGuestHistory();
-        resultData.setResult(ResultCodeEnum.OK);
-        resultData.setData(allGuestHistory);
-        return resultData;
-    }
 
-    @RequestMapping("/getMessageList")
-    public ResultData getMessageList() {
-        return null;
-    }
 
-    @RequestMapping("/sendMessage")
-    @SendTo("/topic/group")
-    public ResultData sendMessage(String message, @Header(value="simpSessionAttributes") Map<String,Object> session) {
-        LiveUser liveUser = (LiveUser) session.get("user");
-        String username = liveUser.getRandomName();
-        Msg msg = new Msg();
-        msg.setCreator(username);
-        msg.setSTime(Calendar.getInstance());
-        msg.setMsgBody(message);
-        resultData = new ResultData<List>();
-        resultData.setResult(ResultCodeEnum.OK);
-        resultData.setData(msg);
-        return resultData;
-    }
 
     @RequestMapping("/getNoticeList")
     public ResultData getNoticeList() {

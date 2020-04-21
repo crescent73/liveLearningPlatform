@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>socket</title>
+</head>
+<body>
+<div id="content">
+    <input v-model="name"/>
+    <button @Click="sendMessage">发送</button>
+
+</div>
+
+</body>
+<script src="http://cdn.bootcss.com/sockjs-client/1.0.0/sockjs.min.js"></script>
+<script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.js"></script>
+<script src="static/js/jquery-2.1.0.min.js"></script>
+<script src="static/js/bootstrap.js"></script>
+<script src="static/js/vue.js"></script>
+<script>
+    var socket=new Vue({
+        el: '#content',
+        data:{
+            name:"",
+            stompClient:null
+        },
+        methods:{
+            initHtml(){
+                that = this;
+                console.log("init")
+                $.ajax({
+                    type:"post",
+                    url:"/system/connect",
+                    data:{
+                        name:"name"
+                    },
+                    success:function(res){
+                        console.log(res)
+                        that.allUserOnline = res.data.allUserOnline;
+                        that.allGuestHistory = res.data.allGuestHistory;
+                    },
+                    error:function(res){
+                        console.log(res)
+                    }
+                })
+            },
+            connect(){
+                let that = this
+                console.log("connect!")
+                var socket = new SockJS("/live");
+                this.stompClient = Stomp.over(socket);
+                this.stompClient.connect({},function(frame){
+                    console.log("开始连接！"+frame)
+                    that.stompClient.subscribe('/topic/onlineUser', function (data) {
+                        console.log("online_user",data)
+                    });
+                    that.stompClient.subscribe('/topic/notice',function (res) {
+                        console.log("订阅消息！")
+                        console.log(res)
+                    })
+                })
+            },
+            sendMessage(){
+                this.stompClient.send('/demo/change-notice',{},this.name)
+            }
+        },
+        mounted(){
+            this.initHtml();
+            this.connect()
+        }
+    })
+
+</script>
+</html>

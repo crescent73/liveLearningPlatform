@@ -1,7 +1,6 @@
 package com.java;
 
-import com.java.MainApplication;
-import com.java.controller.impl.StudentControllerImpl;
+import com.java.controller.StudentController;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = MainApplication.class)
 public class ApplicationTest {
     @Autowired
-    private StudentControllerImpl studentController;
+    private StudentController studentController;
     @Test
     public void contextLoads() {
-        String hello = studentController.helloWorld();
-        System.out.println(hello);
+//        String hello = studentController.helloWorld();
+//        System.out.println(hello);
     }
 
 }
