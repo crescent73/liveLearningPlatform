@@ -15,18 +15,24 @@ public enum ResultCodeEnum
 	OK("200","OK"),
 	//增
 	DB_ADD_FAILURE("203","添加失败"),
+	DB_ADD_TEACHER_NOT_EXIST("204","教师不存在"),
+	DB_SIGN_FAILURE("204","教师不存在"),
 	//删
-	DB_DELETE_FAILURE("205","删除失败"),
+	DB_DELETE_FAILURE("210","签到失败，请重试"),
 	//改
 	DB_UPDATE_ERROR("207","修改失败"),
 	//查
-	DB_FIND_SUCCESS("208","查找成功"),
 	DB_FIND_FAILURE("209","查找失败，没有该条记录"),
 	
 	//请求参数	
 	PARA_WORNING_NULL("301","必要请求参数为空"),
 	PARA_FORMAT_ERROR("302","请求的参数格式错误"),
 	PARA_NUM_ERROR("303","请求的参数个数错误"),
+	TEACHER_NOT_EXIST("304","教师不存在"),
+	STUDENT_NOT_EXIST("305","学生不存在"),
+	SIGN_NOT_EXIST("305","签到不存在"),
+	COURSE_NOT_EXIST("306","课程不存在"),
+	COURSE_SCHEDULE_NOT_EXIST("306","节次不存在"),
 
 	//系统功能
 	LOGIN_SUCCESS("400","登录成功"),

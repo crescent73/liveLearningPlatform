@@ -1,16 +1,15 @@
 package com.java.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.java.model.entity.User;
+import com.java.model.dto.SignDetail;
+import com.java.model.entity.SignStudent;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @Mapper
-public interface UserDao extends BaseMapper<User> {
-
-
+public interface SignStudentDao extends BaseMapper<SignStudent> {
+    List<SignDetail> getSignDetail(Integer signId);
 }
