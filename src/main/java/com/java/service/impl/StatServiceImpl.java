@@ -14,7 +14,7 @@ import java.util.Set;
 @Service
 public class StatServiceImpl implements StatService {
     @Autowired
-    private StatDao  statDao;
+    private StatDao statDao;
     public void pushOnlineUser(LiveUser liveUser){
         statDao.pushOnlineUser(liveUser);
     }

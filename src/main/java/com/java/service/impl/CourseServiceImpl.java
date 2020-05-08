@@ -6,6 +6,7 @@ import com.java.dao.CourseScheduleDao;
 import com.java.dao.StudentCourseDao;
 import com.java.dao.UserDao;
 import com.java.model.entity.Course;
+import com.java.model.entity.CourseDetail;
 import com.java.model.entity.CourseSchedule;
 import com.java.model.entity.User;
 import com.java.service.intf.CourseService;
@@ -48,7 +49,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public List<Course> getCourseList(Course course) {
-        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<Course>();
         courseQueryWrapper.eq(course.getCourseId() != null,"course_id",course.getCourseId());
         courseQueryWrapper.eq(course.getCourseName()!=null,"course_name",course.getCourseName());
         courseQueryWrapper.eq(course.getCourseNumber()!=null,"course_name",course.getCourseName());
@@ -60,8 +61,17 @@ public class CourseServiceImpl implements CourseService {
             return null;
     }
 
-    public List<Course> getStudentCourse(Integer studentId,Course course){
+    public List<Course> getStudentCourse(Integer studentId, Course course){
         List<Course> courses = studentCourseDao.searchStudentCourse(studentId, course);
+        if (courses.size()>0){
+            return courses;
+        } else {
+            return null;
+        }
+    }
+
+    public List<CourseDetail> getCourse(Course course){
+        List<CourseDetail> courses = courseDao.search1(course);
         if (courses.size()>0){
             return courses;
         } else {

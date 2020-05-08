@@ -1,6 +1,5 @@
 package com.java.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.java.dao.CollectionDao;
 import com.java.dao.CourseDao;
 import com.java.dao.UserDao;
@@ -39,7 +38,7 @@ public class CollectionServiceImpl implements CollectionService {
      * @return
      */
     @Override
-    public List<Course> collectCourseList(Course course,Integer userId) {
+    public List<Course> collectCourseList(Course course, Integer userId) {
         List<Course> courseList = collectionDao.findUserCollection(userId, course);
         if (courseList.size()>0){
             return courseList;

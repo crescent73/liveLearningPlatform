@@ -72,7 +72,7 @@ public class SignServiceImpl implements SignService {
      */
     @Override
     public List<Sign> getSignList(Sign sign) {
-        QueryWrapper<Sign> signQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Sign> signQueryWrapper = new QueryWrapper<Sign>();
         signQueryWrapper.eq("course_id",sign.getCourseId());
         signQueryWrapper.eq("user_id",sign.getUserId());
         signQueryWrapper.eq(sign.getCourseScheduleId()!=null,"course_schedule_id",sign.getCourseScheduleId());

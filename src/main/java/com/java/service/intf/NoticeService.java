@@ -1,7 +1,6 @@
 package com.java.service.intf;
 
 import com.java.model.entity.Notice;
-import com.java.model.vo.ResultData;
 
 import java.util.List;
 

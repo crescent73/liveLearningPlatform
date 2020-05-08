@@ -1,17 +1,24 @@
 package com.java.controller;
 
+import com.java.constant.enums.FileStorage;
 import com.java.constant.enums.ResultCodeEnum;
 import com.java.model.entity.Collections;
 import com.java.model.entity.Course;
+import com.java.model.entity.File;
 import com.java.model.entity.SignStudent;
 import com.java.model.vo.ResultData;
 import com.java.service.intf.CollectionService;
 import com.java.service.intf.CourseService;
 import com.java.service.intf.SignService;
+import com.java.service.intf.StudentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +30,11 @@ public class StudentController {
     private SignService signService;
     private CourseService courseService;
     private CollectionService collectionService;
+    private StudentService studentService;
+    private ResultData resultData;
+    public StudentController() {
+        resultData = new ResultData();
+    }
 
     @Autowired
     public void setSignService(SignService signService) {
@@ -38,8 +50,8 @@ public class StudentController {
     }
 
     @RequestMapping("/searchCourse")
-    public ResultData getCourseList(Course course,Integer studentId) {
-        ResultData<List<Course>> resultData = new ResultData<>();
+    public ResultData getCourseList(Course course, Integer studentId) {
+        ResultData <List<Course>> resultData = new ResultData <List<Course>>();
         if (studentId==null||course==null){
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
@@ -55,8 +67,8 @@ public class StudentController {
     }
 
     @RequestMapping("/getCollectionCourseList")
-    public ResultData collectCourseList(Course course,Integer userId) {
-        ResultData<List<Course>> resultData = new ResultData<>();
+    public ResultData collectCourseList(Course course, Integer userId) {
+        ResultData <List<Course>> resultData = new ResultData <>();
         if (userId == null){
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
@@ -72,7 +84,7 @@ public class StudentController {
     }
 
     @RequestMapping("/addCollectCourse")
-    public ResultData addCollectCourse(Integer courseId,Integer userId) {
+    public ResultData addCollectCourse(Integer courseId, Integer userId) {
         ResultData resultData = new ResultData();
         // 检查参数
         if (courseId==null||userId==null){
@@ -127,7 +139,7 @@ public class StudentController {
 
     @RequestMapping("/getLivingStream")
     public ResultData getLivingStream(Integer courseScheduleId) {
-        ResultData<Map> resultData = new ResultData<>();
+        ResultData <Map> resultData = new ResultData <>();
         if (courseScheduleId==null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
@@ -143,7 +155,7 @@ public class StudentController {
     }
 
     @RequestMapping("/sign")
-    public ResultData sign(Integer signId,Integer studentId) {
+    public ResultData sign(Integer signId, Integer studentId) {
         ResultData resultData = new ResultData();
         if (signId==null||studentId==null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
@@ -165,33 +177,34 @@ public class StudentController {
         return resultData;
     }
 
-    @RequestMapping("/getNoticeList")
-    public ResultData getNoticeList() {
-        return null;
-    }
-
-    @RequestMapping("/getAssignmentList")
-    public ResultData getAssignmentList() {
-        return null;
-    }
-
-    @RequestMapping("/getAssignmentDetail")
-    public ResultData getAssignmentDetail() {
-        return null;
-    }
-
     @RequestMapping("/submitAssignment")
-    public ResultData submitAssignment() {
-        return null;
+    public ResultData submitAssignment(Integer courseId, Long uploaderId, String fileName , String fileDescription,
+                                       @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
+        System.out.println("courseId:"+courseId+",uploaderId:"+uploaderId+",fileName:"+fileName);
+        if(courseId != null && uploaderId != null && StringUtils.isNotBlank(fileName)){
+            if(files != null && files.size() > 0){
+                File file = new File();
+                file.setCourseId(courseId);
+                file.setUploaderId(Math.toIntExact(uploaderId));
+                file.setFileName(fileName);
+                if(fileDescription != null)
+                    file.setFileDescription(fileDescription);
+                String dirPath = req.getServletContext().getRealPath(FileStorage.FILE_STORAGE_PATH);
+                try{
+                    resultData = studentService.submitAssignment(file,dirPath,files);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    resultData = new ResultData();
+                    resultData.setResult(ResultCodeEnum.SERVER_ERROR);
+                }
+            } else{
+                resultData.setResult(ResultCodeEnum.FILE_UPLOAD_EMPTY);  //上传附件为空
+            }
+        }else {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);  //重要参数为空
+        }
+
+        return resultData;
     }
 
-    @RequestMapping("/searchFile")
-    public ResultData getFileList() {
-        return null;
-    }
-
-    @RequestMapping("/downloadFile")
-    public ResultData downloadFile() {
-        return null;
-    }
 }

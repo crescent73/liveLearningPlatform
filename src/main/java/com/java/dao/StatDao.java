@@ -5,7 +5,6 @@ import com.java.model.entity.Guest;
 import com.java.model.entity.LiveUser;
 import com.java.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

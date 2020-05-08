@@ -12,5 +12,5 @@ import java.util.List;
 @Mapper
 public interface StudentCourseDao extends BaseMapper<StudentCourse> {
 
-    List<Course> searchStudentCourse(Integer studentId,Course course);
+    List<Course> searchStudentCourse(Integer studentId, Course course);
 }
