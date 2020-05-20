@@ -15,7 +15,7 @@ public interface TeacherService {
     public ResultData addNotice(Notice notice);
 
     //删除公告
-    public ResultData deleteNotice(Long id);
+    public ResultData deleteNotice(Integer id);
 
     //修改公告
     public ResultData modifyNotice(Notice notice);
@@ -30,7 +30,7 @@ public interface TeacherService {
     public ResultData modifyFileInfo(File file);
 
     //删除文档
-    public ResultData deleteFile(Long id);
+    public ResultData deleteFile(Integer id);
 
     //删除文档中的附件
     public ResultData deleteAttachment(Attachment attachment);
@@ -45,7 +45,7 @@ public interface TeacherService {
     public ResultData gradeAssignment(File file);
 
     //删除作业
-    public ResultData deleteAssignment(Long id);
+    public ResultData deleteAssignment(Integer id);
 
     //删除作业中的附件
     public ResultData deleteAssignmentFile(Attachment attachment);

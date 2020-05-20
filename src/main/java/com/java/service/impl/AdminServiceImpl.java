@@ -8,6 +8,7 @@ import com.java.dao.TeacherDao;
 import com.java.model.entity.*;
 import com.java.model.vo.Data;
 import com.java.model.vo.ResultData;
+import com.java.service.intf.AdminService;
 import com.java.service.intf.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public abstract class AdminServiceImpl implements SystemService {
+public abstract class AdminServiceImpl implements AdminService {
     private ResultData <Data> resultData;
     @Autowired
     private CourseDao courseDao;

@@ -13,6 +13,4 @@ import java.util.List;
 public interface CollectionDao extends BaseMapper<Collections> {
 
     List<Course> findUserCollection(Integer userId, Course course);
-
-
 }

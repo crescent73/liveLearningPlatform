@@ -8,6 +8,7 @@ import com.java.model.entity.*;
 import com.java.model.vo.Data;
 import com.java.model.vo.ResultData;
 import com.java.service.intf.SystemService;
+import com.java.service.intf.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public abstract class TeacherServiceImpl implements SystemService {
+public class TeacherServiceImpl implements TeacherService {
     private ResultData resultData;
 
     @Autowired
@@ -28,8 +29,12 @@ public abstract class TeacherServiceImpl implements SystemService {
     @Autowired
     private NoticeDao noticeDao;
 
-    @Autowired
+
     private TeacherDao teacherDao;
+    @Autowired
+    public void setTeacherDao(TeacherDao teacherDao) {
+        this.teacherDao = teacherDao;
+    }
 
     @Autowired
     private AttachmentDao attachmentDao;
@@ -65,7 +70,6 @@ public abstract class TeacherServiceImpl implements SystemService {
     }
 
     @Transactional
-
     public ResultData deleteNotice(Integer id) {
         resultData = new ResultData <Data>();
         if(id != null) {
@@ -431,8 +435,6 @@ public abstract class TeacherServiceImpl implements SystemService {
         return resultData;
     }
 
-    @RequestMapping("/searchFile")
-    @ResponseBody
     public ResultData viewAssignment(File file, PageParam pageParam) {
         resultData = new ResultData <Data>();
         if(file != null) {

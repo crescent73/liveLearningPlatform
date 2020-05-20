@@ -1,10 +1,14 @@
 package com.java.dao;
 
 import com.java.model.entity.Teacher;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Mapper
+@Repository
 public interface TeacherDao {
     public List<Teacher> find(Teacher teacher);
 

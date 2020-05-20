@@ -26,16 +26,18 @@ import java.util.Map;
 public class TeacherController {
 
 
-    private SignService signService;
+
     private CourseService courseService;
     private CollectionService collectionService;
+    @Autowired
     private SystemService systemService;
+    @Autowired
     private TeacherService teacherService;
     private ResultData resultData;
     public TeacherController() {
          resultData = new ResultData();
     }
-
+    private SignService signService;
     @Autowired
     public void setSignService(SignService signService) {
         this.signService = signService;
@@ -377,7 +379,7 @@ public class TeacherController {
     }
 
     @RequestMapping("/deleteNotice")
-    public ResultData deleteNotice(Long noticeId) {
+    public ResultData deleteNotice(Integer noticeId) {
         if(noticeId != null) {
             try{
                 resultData = teacherService.deleteNotice(noticeId);
@@ -439,7 +441,7 @@ public class TeacherController {
     }
 
     @RequestMapping("/deleteFile")
-    public ResultData deleteFile(Long fileId) {
+    public ResultData deleteFile(Integer fileId) {
         if(fileId != null) {
             try{
                 resultData = teacherService.deleteFile(fileId);
@@ -455,7 +457,6 @@ public class TeacherController {
     }
 
     @RequestMapping("/deleteAttachment")
-    @ResponseBody
     public ResultData deleteAttachment(Integer attachmentId) {
         if(attachmentId != null) {
             Attachment attachment = new Attachment();
@@ -474,7 +475,6 @@ public class TeacherController {
     }
 
     @RequestMapping("/publishAssignment")
-    @ResponseBody
     public ResultData publishAssignment(Integer courseId, Long uploaderId, String fileName , String fileDescription,
                                         @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
         System.out.println("courseId:"+courseId+",uploaderId:"+uploaderId+",fileName:"+fileName);
@@ -504,8 +504,8 @@ public class TeacherController {
         return resultData;
     }
 
-    @RequestMapping("/deleteFile")
-    public ResultData deleteAssignment(Long fileId) {
+    @RequestMapping("/deleteAssignment")
+    public ResultData deleteAssignment(Integer fileId) {
         if(fileId != null) {
             try{
                 resultData = teacherService.deleteAssignment(fileId);
@@ -520,8 +520,7 @@ public class TeacherController {
         return resultData;
     }
 
-    @RequestMapping("/deleteAttachment")
-    @ResponseBody
+    @RequestMapping("/deleteAssignmentFile")
     public ResultData deleteAssignmentFile(Integer attachmentId) {
         if(attachmentId != null) {
             Attachment attachment = new Attachment();
@@ -540,7 +539,6 @@ public class TeacherController {
     }
 
     @RequestMapping("/viewAssignment")
-    @ResponseBody
     public ResultData viewAssignment(File file, PageParam pageParam){
         if(file != null && file.getCourseId() != null) {
             try{
@@ -558,8 +556,7 @@ public class TeacherController {
         return resultData;
     }
 
-    @RequestMapping("/viewAssignment")
-    @ResponseBody
+    @RequestMapping("/gradeAssignment")
     public ResultData gradeAssignment(File file){
         if(file!=null && file.getId()!=null){
             try{
@@ -575,6 +572,5 @@ public class TeacherController {
         }
         return resultData;
     }
-
 
 }

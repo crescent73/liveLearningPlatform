@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.java.model.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface CourseDao extends BaseMapper<Course> {
     public Teacher findTeacherByCourseId(Long courseId);
     public List<Student> findStudentByCourseId(Long courseId);
     public List<File> findFileByCourseId(Long courseId);
+
+    @Select("select * from course")
     public List<Notice> findNoticeByCourseId(Long courseId);
 
     /**

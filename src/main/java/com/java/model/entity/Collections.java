@@ -17,5 +17,4 @@ public class Collections {
     private Integer userId;
     private Integer courseId;
     private Timestamp collectTime;
-
 }
