@@ -130,14 +130,15 @@
             danmu:null,
             danmuColor:['#666666','blue','white','red','pink'],
             allUserOnline:[],
-            allGuestHistory:[]
+            allGuestHistory:[],
+            courseScheduleId:1
         },
         methods: {
             getOnlineUser(){
-                this.stompClient.send("/demo/onlineUser", {atytopic: "topic"}, null);
+                this.stompClient.send("/demo/onlineUser."+this.courseScheduleId, {atytopic: "topic"}, null);
             },
             getAllGuestHistory(){
-                this.stompClient.send("/demo/guest", {atytopic: "topic"}, null);
+                this.stompClient.send("/demo/guest."+this.courseScheduleId, {atytopic: "topic"}, null);
             },
             initHtml(){
                 that = this;
@@ -146,7 +147,8 @@
                     type:"post",
                     url:"/system/connect",
                     data:{
-                        name:"name"
+                        name:"name",
+                        courseScheduleId:that.courseScheduleId
                     },
                     success:function(res){
                         console.log(res)
@@ -174,16 +176,16 @@
                         msgBody: '连接成功！'
                     });
                     // 更新在线人数
-                    that.stompClient.subscribe('/topic/onlineUser', function (data) {
+                    that.stompClient.subscribe('/topic/onlineUser.'+that.courseScheduleId, function (data) {
                         that.number = JSON.parse(data.body).length
                         that.allUserOnline = JSON.parse(data.body)
                     });
                     // 更新曾经访问用户人数
-                    that.stompClient.subscribe('/topic/guest',function(data){
+                    that.stompClient.subscribe('/topic/guest.'+that.courseScheduleId,function(data){
                         that.allGuestHistory = JSON.parse(data.body)
                     })
                     // 更新聊天室消息
-                    that.stompClient.subscribe('/topic/group', function (data) {
+                    that.stompClient.subscribe('/topic/group.'+that.courseScheduleId, function (data) {
                         that.messages.push(JSON.parse(data.body))
                         let time = $('#danmu').data("nowTime")+3;
                         let aDanmu={
@@ -202,7 +204,7 @@
             sendMessage: function () {
                 // 发送消息
                 if (this.messageinput != null) {
-                    this.stompClient.send("/demo/chat", {atytopic: "topic"}, this.messageinput);
+                    this.stompClient.send("/demo/chat."+this.courseScheduleId, {atytopic: "topic"}, this.messageinput);
                     this.messageinput = null;
                 } else if (chatroom.messageinput == null) {
                     this.messageinput = "请输入内容!!!";

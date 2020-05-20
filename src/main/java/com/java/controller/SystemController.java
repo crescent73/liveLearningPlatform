@@ -166,7 +166,7 @@ public class SystemController {
 
 
     @RequestMapping("/connect")
-    public ResultData connect(HttpServletRequest request){
+    public ResultData connect(HttpServletRequest request,Integer courseScheduleId){
         String ip = IpUtil.getIp(request);
         HttpSession session = request.getSession();
         LiveUser user = (LiveUser) session.getAttribute("user");
@@ -180,8 +180,8 @@ public class SystemController {
             liveUserService.insert(user);
             session.setAttribute("user",user);
         }
-        List allUserOnline = liveController.getOnlinePeople();
-        List allGuestHistory = liveController.getHistoryGuest();
+        List allUserOnline = liveController.getOnlinePeople(courseScheduleId);
+        List allGuestHistory = liveController.getHistoryGuest(courseScheduleId);
         Map<String,List> all = new HashMap<String,List>();
         all.put("allUserOnline",allUserOnline);
         all.put("allGuestHistory",allGuestHistory);

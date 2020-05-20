@@ -15,21 +15,36 @@ import java.util.Set;
 public class StatServiceImpl implements StatService {
     @Autowired
     private StatDao statDao;
-    public void pushOnlineUser(LiveUser liveUser){
-        statDao.pushOnlineUser(liveUser);
+    public void pushOnlineUser(LiveUser liveUser,Integer courseScheduleId){
+        if (courseScheduleId == null) {
+            System.out.println("courseScheduleId is null!!! 111");
+        }
+        statDao.pushOnlineUser(liveUser,courseScheduleId);
     }
 
-    public void popOnlineUser(LiveUser liveUser){
-       statDao.popOnlineUser(liveUser);
+    public void popOnlineUser(LiveUser liveUser,Integer courseScheduleId){
+        if (courseScheduleId == null) {
+            System.out.println("courseScheduleId is null!!! 222");
+        }
+       statDao.popOnlineUser(liveUser,courseScheduleId);
     }
-    public List getAllUserOnline(){
-        Set allUserOnlineSet = statDao.getAllUserOnline();
+    public List getAllUserOnline(Integer courseScheduleId){
+        if (courseScheduleId == null) {
+            System.out.println("courseScheduleId is null!!! 333");
+        }
+        Set allUserOnlineSet = statDao.getAllUserOnline(courseScheduleId);
         return new ArrayList(allUserOnlineSet);
     }
-    public void pushGuestHistory(Guest guest){
-        statDao.pushGuestHistory(guest);
+    public void pushGuestHistory(Guest guest,Integer courseScheduleId){
+        if (courseScheduleId == null) {
+            System.out.println("courseScheduleId is null!!! 444");
+        }
+        statDao.pushGuestHistory(guest,courseScheduleId);
     }
-    public List getGuestHistory(){
-        return statDao.getGuestHistory();
+    public List getGuestHistory(Integer courseScheduleId){
+        if (courseScheduleId == null) {
+            System.out.println("courseScheduleId is null!!! 555");
+        }
+        return statDao.getGuestHistory(courseScheduleId);
     }
 }

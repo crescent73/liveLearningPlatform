@@ -32,7 +32,8 @@
                     type:"post",
                     url:"/system/connect",
                     data:{
-                        name:"name"
+                        name:"name",
+                        courseScheduleId:1
                     },
                     success:function(res){
                         console.log(res)
@@ -51,17 +52,17 @@
                 this.stompClient = Stomp.over(socket);
                 this.stompClient.connect({},function(frame){
                     console.log("开始连接！"+frame)
-                    that.stompClient.subscribe('/topic/onlineUser', function (data) {
+                    that.stompClient.subscribe('/topic/onlineUser.1', function (data) {
                         console.log("online_user",data)
                     });
-                    that.stompClient.subscribe('/topic/notice',function (res) {
+                    that.stompClient.subscribe('/topic/notice.1',function (res) {
                         console.log("订阅消息！")
                         console.log(res)
                     })
                 })
             },
             sendMessage(){
-                this.stompClient.send('/demo/change-notice',{},this.name)
+                this.stompClient.send('/demo/change-notice.1',{},this.name)
             }
         },
         mounted(){

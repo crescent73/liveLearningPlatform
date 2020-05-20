@@ -25,10 +25,10 @@ public class RedisTest {
         LiveUser liveUser = new LiveUser();
         liveUser.setIp("localhost");
         liveUser.setRandomName("666");
-        statDao.pushOnlineUser(liveUser);
-        System.out.println(statDao.getAllUserOnline());
-        statDao.popOnlineUser(liveUser);
-        System.out.println(statDao.getAllUserOnline());
+//        statDao.pushOnlineUser(liveUser);
+//        System.out.println(statDao.getAllUserOnline());
+//        statDao.popOnlineUser(liveUser);
+//        System.out.println(statDao.getAllUserOnline());
 
     }
 
