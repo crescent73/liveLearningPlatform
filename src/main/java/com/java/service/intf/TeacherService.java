@@ -1,10 +1,10 @@
 package com.java.service.intf;
 
-import com.java.model.entity.Attachment;
 import com.java.model.entity.File;
 import com.java.model.entity.Notice;
 import com.java.model.entity.PageParam;
 import com.java.model.vo.ResultData;
+import com.sun.xml.internal.ws.api.message.Attachment;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

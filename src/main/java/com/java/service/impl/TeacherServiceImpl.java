@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TeacherServiceImpl implements TeacherService {
+public class TeacherServiceImpl {
     private ResultData resultData;
 
     @Autowired
@@ -30,7 +30,7 @@ public class TeacherServiceImpl implements TeacherService {
     private NoticeDao noticeDao;
 
 
-    private TeacherDao teacherDao;
+    /*private TeacherDao teacherDao;
     @Autowired
     public void setTeacherDao(TeacherDao teacherDao) {
         this.teacherDao = teacherDao;
@@ -496,12 +496,12 @@ public class TeacherServiceImpl implements TeacherService {
         return resultData;
     }
 
-    /**
+    *//**
      * 判断课程是否存在
      * 外键约束条件，若课程不存在插入修改报错
      * @param courseId
      * @return 存在 true 不存在 false
-     */
+     *//*
     private boolean isCourseExist(Integer courseId) {
         List<CourseDetail> courses = null;
         Course course = new Course();
@@ -512,12 +512,12 @@ public class TeacherServiceImpl implements TeacherService {
         return courseId != null && courses.size() == 1;
     }
 
-    /**
+    *//**
      * 判断老师是否存在
      * 外键约束条件，若老师不存在插入修改报错
      * @param teacherId
      * @return 存在 true 不存在 false
-     */
+     *//*
     private boolean isTeacherExist(Integer teacherId) {
         List<Teacher> teachers = null;
         Teacher teacher = new Teacher();
@@ -528,12 +528,12 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherId != null && teachers.size() > 0;
     }
 
-    /**
+    *//**
      * 判断公告是否存在
      * 外键约束条件，若公告不存在插入修改报错
      * @param noticeId
      * @return 存在 true 不存在 false
-     */
+     *//*
     private boolean isNoticeExist(Integer noticeId) {
         List<NoticeDetail> notices = null;
         Notice notice = new Notice();
@@ -544,12 +544,12 @@ public class TeacherServiceImpl implements TeacherService {
         return notices != null && notices.size() > 0;
     }
 
-    /**
+    *//**
      * 判断文件是否存在
      * 外键约束条件，若公告不存在插入修改报错
      * @param fileId
      * @return 存在 true 不存在 false
-     */
+     *//*
     private boolean isFileExist(Integer fileId) {
         List<FileDetail> files = null;
         File file = new File();
@@ -558,5 +558,5 @@ public class TeacherServiceImpl implements TeacherService {
             files = fileDao.find(file);
         }
         return files != null && files.size() > 0;
-    }
+    }*/
 }

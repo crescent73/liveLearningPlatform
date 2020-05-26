@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface FileService {
     // 上传文档
-    int uploadFile();
+    int uploadFile(File file);
     // 获取文档列表
-    List<File> getFileList();
+    List<File> getFileList(File file);
     // 下载文档
-    File downloadFile();
+    File downloadFile(File file);
     // 修改文档信息
-    int modifyFileInfo();
+    int modifyFileInfo(File file);
     // 删除文档
-    int deleteFile();
+    int deleteFile(File file);
 }

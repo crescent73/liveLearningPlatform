@@ -28,14 +28,10 @@ public class SystemServiceImpl implements SystemService {
     @Autowired
     private NoticeDao noticeDao;
 
-    @Autowired
-    private TeacherDao teacherDao;
 
     @Autowired
     private FileDao fileDao;
 
-    @Autowired
-    private AttachmentDao attachmentDao;
 
     @Override
     public ResultData register(User user) {
@@ -86,7 +82,12 @@ public class SystemServiceImpl implements SystemService {
         resultData.setResult(ResultCodeEnum.LOGOUT_SUCCESS);
         return resultData;
     }
-    @Transactional
+
+    @Override
+    public ResultData modifyInfo(Integer id, String password, String userType, HttpSession session) {
+        return null;
+    }
+   /* @Transactional
     public ResultData modifyInfo(Integer id, String password, String userType, HttpSession httpSession) {
         resultData = new ResultData <Data>();
         if(id!=null) {
@@ -270,5 +271,5 @@ public class SystemServiceImpl implements SystemService {
             }
         }
         return null; //确实必要参数返回为空
-    }
+    }*/
 }

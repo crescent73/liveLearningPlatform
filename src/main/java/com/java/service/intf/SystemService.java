@@ -15,18 +15,13 @@ public interface SystemService {
     // 修改信息
     public ResultData modifyInfo(Integer id, String password, String userType, HttpSession session);
 
-    //查询课程公告列表（Student和Teacher公用）
+    /*//查询课程公告列表（Student和Teacher公用）
     public ResultData getNoticeList(Notice notice, PageParam pageParam);
 
     //获取课程文档列表（Student和Teacher公用）
     public ResultData searchFile(File file, PageParam pageParam);
 
-    //下载课程文档（Student和Teacher公用）
-    public AttachmentDetail downloadAttachment(Attachment attachment);
-
     //获取作业列表（Student和Teacher公用），作业以文件的形式呈现
-    public ResultData getAssignmentList(File file, PageParam pageParam);
+    public ResultData getAssignmentList(File file, PageParam pageParam);*/
 
-    //获取作业详情（Student和Teacher公用），作业详情以下载的文件呈现
-    public AttachmentDetail getAssignmentDetail(Attachment attachment);
 }

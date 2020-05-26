@@ -1,10 +1,8 @@
 package com.java.service.impl;
 
 import com.java.constant.enums.ResultCodeEnum;
-import com.java.dao.AttachmentDao;
 import com.java.dao.CourseDao;
 import com.java.dao.FileDao;
-import com.java.dao.TeacherDao;
 import com.java.model.entity.*;
 import com.java.model.vo.Data;
 import com.java.model.vo.ResultData;
@@ -18,22 +16,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl {
     private ResultData <Data> resultData;
 
     @Autowired
     private CourseDao courseDao;
 
-    @Autowired
-    private TeacherDao teacherDao;
 
     @Autowired
     private FileDao fileDao;
 
-    @Autowired
-    private AttachmentDao attachmentDao;
-
-    @Transactional
+/*    @Transactional
     public ResultData submitAssignment(File file, String dirPath, List<MultipartFile> attachments) {
         resultData = new ResultData <Data>();
         boolean isSuccess = false;
@@ -114,12 +107,12 @@ public class StudentServiceImpl implements StudentService {
         }
         return resultData;
     }
-    /**
+    *//**
      * 判断课程是否存在
      * 外键约束条件，若课程不存在插入修改报错
      * @param courseId
      * @return 存在 true 不存在 false
-     */
+     *//*
     private boolean isCourseExist(Integer courseId) {
         List<CourseDetail> courses = null;
         Course course = new Course();
@@ -130,12 +123,12 @@ public class StudentServiceImpl implements StudentService {
         return courseId != null && courses.size() == 1;
     }
 
-    /**
+    *//**
      * 判断老师是否存在
      * 外键约束条件，若老师不存在插入修改报错
      * @param teacherId
      * @return 存在 true 不存在 false
-     */
+     *//*
     private boolean isTeacherExist(Integer teacherId) {
         List<Teacher> teachers = null;
         Teacher teacher = new Teacher();
@@ -144,6 +137,6 @@ public class StudentServiceImpl implements StudentService {
             teachers = teacherDao.find(teacher);
         }
         return teacherId != null && teachers.size() > 0;
-    }
+    }*/
 
 }

@@ -29,37 +29,4 @@ public class CourseSchedule{
         this.studentId = studentId;
         this.courseId = courseId;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
-    }
-
-    @Override
-    public String toString() {
-        return "CourseSchedule{" +
-                "id=" + id +
-                ", studentId=" + studentId +
-                ", courseId=" + courseId +
-                '}';
-    }
 }

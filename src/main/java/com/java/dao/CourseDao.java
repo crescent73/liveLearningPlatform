@@ -16,8 +16,6 @@ public interface CourseDao extends BaseMapper<Course> {
     public int update(Course course);
     public int insert(Course course);
     public int delete(Course course);
-    public Teacher findTeacherByCourseId(Long courseId);
-    public List<Student> findStudentByCourseId(Long courseId);
     public List<File> findFileByCourseId(Long courseId);
 
     @Select("select * from course")
