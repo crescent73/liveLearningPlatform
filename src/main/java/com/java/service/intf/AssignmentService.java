@@ -1,6 +1,7 @@
 package com.java.service.intf;
 
 import com.java.model.entity.Assignment;
+import com.java.model.entity.StudentAssignment;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ public interface AssignmentService {
     // 发布作业
     int publishAssignment(Assignment assignment);
     // 修改作业
-    int gradeAssignment(Assignment assignment);
+    int gradeAssignment(StudentAssignment studentAssignment);
     // 删除作业
     int deleteAssignment(Assignment assignment);
     // 提交作业
-    int submitAssignment(Assignment assignment);
+    int submitAssignment(StudentAssignment studentAssignment);
 }

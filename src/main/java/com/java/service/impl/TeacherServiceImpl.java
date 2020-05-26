@@ -9,6 +9,7 @@ import com.java.model.vo.Data;
 import com.java.model.vo.ResultData;
 import com.java.service.intf.SystemService;
 import com.java.service.intf.TeacherService;
+import com.sun.xml.internal.ws.api.message.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,96 +30,10 @@ public class TeacherServiceImpl {
     @Autowired
     private NoticeDao noticeDao;
 
-
-    /*private TeacherDao teacherDao;
-    @Autowired
-    public void setTeacherDao(TeacherDao teacherDao) {
-        this.teacherDao = teacherDao;
-    }
-
-    @Autowired
-    private AttachmentDao attachmentDao;
-
     @Autowired
     private FileDao fileDao;
 
-    @Transactional
-    public ResultData addNotice(Notice notice) {
-        resultData = new ResultData <Data>();
-        if(notice != null) {
-            //course外键校验
-            if(!isCourseExist(notice.getCourseId())) {
-                resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE_COURSE_NOT_EXIST);//课程不存在
-                return resultData;
-            }
-            //teacher外键校验
-            if(!isTeacherExist(notice.getPublisherId())) {
-                resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE_TEACHER_NOT_EXIST);//教师不存在
-                return resultData;
-            }
-
-            int result = noticeDao.insert(notice);
-            if(result > 0) {
-                resultData.setResult(ResultCodeEnum.DB_ADD_SUCCESS); //添加成功
-            } else {
-                resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE); //添加失败
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);  //必要参数为空
-        }
-        return resultData;
-    }
-
-    @Transactional
-    public ResultData deleteNotice(Integer id) {
-        resultData = new ResultData <Data>();
-        if(id != null) {
-            Notice notice = new Notice();
-            notice.setId(id);
-            int result = noticeDao.delete(notice);
-            if(result > 0) {
-                resultData.setResult(ResultCodeEnum.DB_DELETE_SUCCESS);
-            } else {
-                resultData.setResult(ResultCodeEnum.DB_DELETE_FAILURE);
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);  //必要参数为空
-        }
-        return resultData;
-    }
-
-    @Transactional
-    public ResultData modifyNotice(Notice notice) {
-        resultData = new ResultData <Data>();
-        if(notice != null && notice.getId() > 0) { //course不为空且id存在
-            //公告校验
-            if(!isNoticeExist(notice.getId())) {
-                resultData.setResult(ResultCodeEnum.DB_UPDATE_FAILURE_NOTICE_NOT_EXIST);//公告不存在
-                return resultData;
-            }
-            //course外键校验
-            if(!isCourseExist(notice.getCourseId())) {
-                resultData.setResult(ResultCodeEnum.DB_UPDATE_FAILURE_COURSE_NOT_EXIST);//课程不存在
-                return resultData;
-            }
-            //teacher外键校验
-            if(!isTeacherExist(notice.getPublisherId())) {
-                resultData.setResult(ResultCodeEnum.DB_UPDATE_FAILURE_TEACHER_NOT_EXIST);//教师不存在
-                return resultData;
-            }
-
-            int result = noticeDao.update(notice);
-            if(result > 0) {
-                resultData.setResult(ResultCodeEnum.DB_UPDATE_SUCCESS); //修改成功
-            } else {
-                resultData.setResult(ResultCodeEnum.DB_UPDATE_ERROR);  //修改失败
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL); //id直接返回数据必要参数为空
-        }
-        return resultData;
-    }
-
+/*
     @Transactional
     public ResultData addFile(File file, String dirPath, List<MultipartFile> attachments) {
         resultData = new ResultData <Data>();
@@ -191,8 +106,8 @@ public class TeacherServiceImpl {
             resultData.setResult(ResultCodeEnum.FILE_UPLOAD_FAILURE);//文件上传失败
         }
         return resultData;
-    }
-
+    }*/
+/*
     @Transactional
     public ResultData addAttachment(Attachment myAttachment, List<MultipartFile> attachments) {
         resultData = new ResultData <Data>();
@@ -494,14 +409,14 @@ public class TeacherServiceImpl {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL); //id直接返回数据必要参数为空
         }
         return resultData;
-    }
+    }*/
 
-    *//**
+    /**
      * 判断课程是否存在
      * 外键约束条件，若课程不存在插入修改报错
      * @param courseId
      * @return 存在 true 不存在 false
-     *//*
+     */
     private boolean isCourseExist(Integer courseId) {
         List<CourseDetail> courses = null;
         Course course = new Course();
@@ -511,13 +426,13 @@ public class TeacherServiceImpl {
         }
         return courseId != null && courses.size() == 1;
     }
-
+/*
     *//**
      * 判断老师是否存在
      * 外键约束条件，若老师不存在插入修改报错
      * @param teacherId
      * @return 存在 true 不存在 false
-     *//*
+     **//*
     private boolean isTeacherExist(Integer teacherId) {
         List<Teacher> teachers = null;
         Teacher teacher = new Teacher();

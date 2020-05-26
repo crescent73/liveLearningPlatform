@@ -1,24 +1,12 @@
 package com.java.controller;
 
-import com.java.constant.enums.FileStorage;
 import com.java.constant.enums.ResultCodeEnum;
-import com.java.model.entity.Collections;
-import com.java.model.entity.Course;
-import com.java.model.entity.File;
-import com.java.model.entity.SignStudent;
+import com.java.model.entity.*;
 import com.java.model.vo.ResultData;
-import com.java.service.intf.CollectionService;
-import com.java.service.intf.CourseService;
-import com.java.service.intf.SignService;
-import com.java.service.intf.StudentService;
-import org.apache.commons.lang3.StringUtils;
+import com.java.service.intf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +18,12 @@ public class StudentController {
     private SignService signService;
     private CourseService courseService;
     private CollectionService collectionService;
-    private StudentService studentService;
-    private ResultData resultData;
-    public StudentController() {
-        resultData = new ResultData();
-    }
+    @Autowired
+    private NoticeService noticeService;
+    @Autowired
+    private AssignmentService assignmentService;
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     public void setSignService(SignService signService) {
@@ -177,34 +166,84 @@ public class StudentController {
         return resultData;
     }
 
-    @RequestMapping("/submitAssignment")
-    public ResultData submitAssignment(Integer courseId, Long uploaderId, String fileName , String fileDescription,
-                                       @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
-        System.out.println("courseId:"+courseId+",uploaderId:"+uploaderId+",fileName:"+fileName);
-        if(courseId != null && uploaderId != null && StringUtils.isNotBlank(fileName)){
-            if(files != null && files.size() > 0){
-                File file = new File();
-                file.setCourseId(courseId);
-                file.setUploaderId(Math.toIntExact(uploaderId));
-                file.setFileName(fileName);
-                if(fileDescription != null)
-                    file.setFileDescription(fileDescription);
-                String dirPath = req.getServletContext().getRealPath(FileStorage.FILE_STORAGE_PATH);
-                try{
-                    resultData = studentService.submitAssignment(file,dirPath,files);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    resultData = new ResultData();
-                    resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-                }
-            } else{
-                resultData.setResult(ResultCodeEnum.FILE_UPLOAD_EMPTY);  //上传附件为空
-            }
-        }else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);  //重要参数为空
+    @RequestMapping("/getNoticeList")
+    public ResultData getNoticeList(Notice notice) {
+        ResultData <List<Notice>> resultData = new ResultData <>();
+        if (notice.getCourseId() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
         }
-
+        List<Notice> noticeList = noticeService.getNoticeList(notice);
+        if (noticeList!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(noticeList);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
         return resultData;
+    }
+
+
+    @RequestMapping("/getAssignmentList")
+    public ResultData getAssignmentList(Assignment assignment) {
+        ResultData<List<Assignment>> resultData = new ResultData <>();
+        if (assignment.getCourseId() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        List<Assignment> assignmentList = assignmentService.getAssignmentList(assignment);
+        if (assignmentList!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(assignmentList);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
+        return resultData;
+    }
+
+    @RequestMapping("/getAssignmentListDetail")
+    public ResultData getAssignmentListDetail(Assignment assignment) {
+        ResultData<Assignment> resultData = new ResultData <>();
+        if (assignment.getAssignmentId() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        Assignment assignmentDetail = assignmentService.getAssignmentDetail(assignment);
+        if (assignmentDetail!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(assignmentDetail);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
+        return resultData;
+    }
+
+    @RequestMapping("/submitAssignment")
+    public ResultData submitAssignment(StudentAssignment studentAssignment){
+        ResultData<StudentAssignment> resultData = new ResultData <>();
+        if (studentAssignment.getUserId() == null || studentAssignment.getAssignmentId() == null
+                ||studentAssignment.getAssignmentSubmission() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = assignmentService.submitAssignment(studentAssignment);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE);
+        }
+        return resultData;
+    }
+
+
+    @RequestMapping("/searchFile")
+    public ResultData searchFile(File file) {
+        return null;
+    }
+
+    @RequestMapping("/downloadFile")
+    public ResultData downloadFile(File file) {
+        return null;
     }
 
 }

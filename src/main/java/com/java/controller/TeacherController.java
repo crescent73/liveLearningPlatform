@@ -29,15 +29,13 @@ public class TeacherController {
 
     private CourseService courseService;
     private CollectionService collectionService;
-    @Autowired
-    private SystemService systemService;
-    @Autowired
-    private TeacherService teacherService;
-    private ResultData resultData;
-    public TeacherController() {
-         resultData = new ResultData();
-    }
     private SignService signService;
+    @Autowired
+    private NoticeService noticeService;
+    @Autowired
+    private AssignmentService assignmentService;
+    @Autowired
+    private FileService fileService;
     @Autowired
     public void setSignService(SignService signService) {
         this.signService = signService;
@@ -337,240 +335,190 @@ public class TeacherController {
     }
 
 
+    @RequestMapping("/getNoticeList")
+    public ResultData getNoticeList(Notice notice) {
+        ResultData <List<Notice>> resultData = new ResultData <>();
+        if (notice.getCourseId() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        List<Notice> noticeList = noticeService.getNoticeList(notice);
+        if (noticeList!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(noticeList);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
+        return resultData;
+    }
+
 
     @RequestMapping("/addNotice")
-    @ResponseBody
     public ResultData addNotice(Notice notice) {
-        if(notice != null) {
-            if(notice.getCourseId() != null && notice.getPublisherId() != null
-                    && StringUtils.isNotBlank(notice.getNoticeTitle())
-                    && StringUtils.isNotBlank(notice.getNoticeContent())
-                    && notice.getNoticeLevel()!= null) {
-                try{
-                    resultData = teacherService.addNotice(notice);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    resultData = new ResultData();
-                    resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-                }
-            } else {
-                resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            }
-        }else {
+        ResultData<Notice> resultData = new ResultData <>();
+        if (notice.getCourseId() == null || notice.getUserId() == null
+                ||notice.getNoticeTitle() == null || notice.getNoticeContent() == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = noticeService.publishNotice(notice);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE);
         }
         return resultData;
     }
 
     @RequestMapping("/modifyNotice")
     public ResultData modifyNotice(Notice notice) {
-        if(notice != null && notice.getId() != null) {
-            try{
-                resultData = teacherService.modifyNotice(notice);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        } else {
+        ResultData<Notice> resultData = new ResultData <>();
+        if (notice.getNoticeId() == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = noticeService.modifyNotice(notice);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
         }
         return resultData;
     }
 
     @RequestMapping("/deleteNotice")
-    public ResultData deleteNotice(Integer noticeId) {
-        if(noticeId != null) {
-            try{
-                resultData = teacherService.deleteNotice(noticeId);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        } else {
+    public ResultData deleteNotice(Notice notice) {
+        ResultData<Notice> resultData = new ResultData <>();
+        if (notice.getNoticeId() == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = noticeService.deleteNotice(notice);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_DELETE_FAILURE);
         }
         return resultData;
     }
 
-    @RequestMapping("/addFile")
-    public ResultData addFile(Integer courseId, Long uploaderId, String fileName , String fileDescription,
-                              @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
-        System.out.println("courseId:"+courseId+",uploaderId:"+uploaderId+",fileName:"+fileName);
-        if(courseId != null && uploaderId != null && StringUtils.isNotBlank(fileName)){
-            if(files != null && files.size() > 0){
-                File file = new File();
-                file.setCourseId(courseId);
-                file.setUploaderId(Math.toIntExact(uploaderId));
-                file.setFileName(fileName);
-                if(fileDescription != null)
-                    file.setFileDescription(fileDescription);
-                String dirPath = req.getServletContext().getRealPath(FileStorage.FILE_STORAGE_PATH);
-                try{
-                    resultData = teacherService.addFile(file,dirPath,files);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    resultData = new ResultData();
-                    resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-                }
-            } else{
-                resultData.setResult(ResultCodeEnum.FILE_UPLOAD_EMPTY);  //上传附件为空
-            }
-        }else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);  //重要参数为空
+    @RequestMapping("/getAssignmentList")
+    public ResultData getAssignmentList(Assignment assignment) {
+        ResultData<List<Assignment>> resultData = new ResultData <>();
+        if (assignment.getCourseId() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
         }
-
+        List<Assignment> assignmentList = assignmentService.getAssignmentList(assignment);
+        if (assignmentList!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(assignmentList);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
         return resultData;
+    }
+
+    @RequestMapping("/getAssignmentListDetail")
+    public ResultData getAssignmentListDetail(Assignment assignment) {
+        ResultData<Assignment> resultData = new ResultData <>();
+        if (assignment.getAssignmentId() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        Assignment assignmentDetail = assignmentService.getAssignmentDetail(assignment);
+        if (assignmentDetail!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(assignmentDetail);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
+        return resultData;
+    }
+
+
+    @RequestMapping("/publishAssignment")
+    public ResultData publishAssignment(Assignment assignment) {
+        ResultData<Assignment> resultData = new ResultData <>();
+        if (assignment.getCourseId() == null || assignment.getUserId() == null
+                ||assignment.getAssignmentTitle() == null || assignment.getAssignmentContent() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = assignmentService.publishAssignment(assignment);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE);
+        }
+        return resultData;
+    }
+
+    @RequestMapping("/gradeAssignment")
+    public ResultData gradeAssignment(StudentAssignment studentAssignment){
+        ResultData<StudentAssignment> resultData = new ResultData <>();
+        if (studentAssignment.getStudentAssignmentId() == null || studentAssignment.getScore() == null
+                ||studentAssignment.getUserId() == null || studentAssignment.getTeacherReply() == null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = assignmentService.gradeAssignment(studentAssignment);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_UPDATE_ERROR);
+        }
+        return resultData;
+    }
+
+    @RequestMapping("/deleteAssignment")
+    public ResultData deleteAssignment(Assignment assignment) {
+        ResultData<Assignment> resultData = new ResultData <>();
+        if (assignment.getAssignmentId()==null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        int result = assignmentService.deleteAssignment(assignment);
+        if (result>0){
+            resultData.setResult(ResultCodeEnum.OK);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_DELETE_FAILURE);
+        }
+        return resultData;
+    }
+
+
+    @RequestMapping("/addFile")
+    public ResultData addFile(Integer courseId, Integer user, String fileName ,
+                              @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
+        ResultData<File> resultData = new ResultData <>();
+        String dirPath = req.getServletContext().getRealPath(FileStorage.FILE_STORAGE_PATH);
+        return resultData;
+    }
+
+    @RequestMapping("/searchFile")
+    public ResultData searchFile(File file) {
+        ResultData<List<File>> resultData = new ResultData <>();
+        return resultData;
+    }
+
+    @RequestMapping("/downloadFile")
+    public ResultData downloadFile(File file) {
+        return null;
     }
 
     @RequestMapping("/modifyFile")
     public ResultData modifyFileInfo(File file) {
-        if(file!=null && file.getId()!=null){
-            try{
-                    resultData=teacherService.modifyFileInfo(file);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        }else{
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
+        ResultData<File> resultData = new ResultData <>();
         return resultData;
     }
 
     @RequestMapping("/deleteFile")
     public ResultData deleteFile(Integer fileId) {
-        if(fileId != null) {
-            try{
-                resultData = teacherService.deleteFile(fileId);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
+        ResultData<File> resultData = new ResultData <>();
         return resultData;
     }
 
-    @RequestMapping("/deleteAttachment")
-    public ResultData deleteAttachment(Integer attachmentId) {
-        if(attachmentId != null) {
-            Attachment attachment = new Attachment();
-            attachment.setId(attachmentId);
-            try{
-                resultData = teacherService.deleteAttachment(attachment);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
-        return resultData;
-    }
 
-    @RequestMapping("/publishAssignment")
-    public ResultData publishAssignment(Integer courseId, Long uploaderId, String fileName , String fileDescription,
-                                        @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
-        System.out.println("courseId:"+courseId+",uploaderId:"+uploaderId+",fileName:"+fileName);
-        if(courseId != null && uploaderId != null && StringUtils.isNotBlank(fileName)){
-            if(files != null && files.size() > 0){
-                File file = new File();
-                file.setCourseId(courseId);
-                file.setUploaderId(Math.toIntExact(uploaderId));
-                file.setFileName(fileName);
-                if(fileDescription != null)
-                    file.setFileDescription(fileDescription);
-                String dirPath = req.getServletContext().getRealPath(FileStorage.FILE_STORAGE_PATH);
-                try{
-                    resultData = teacherService.publishAssignment(file,dirPath,files);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    resultData = new ResultData();
-                    resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-                }
-            } else{
-                resultData.setResult(ResultCodeEnum.FILE_UPLOAD_EMPTY);  //上传附件为空
-            }
-        }else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);  //重要参数为空
-        }
-
-        return resultData;
-    }
-
-    @RequestMapping("/deleteAssignment")
-    public ResultData deleteAssignment(Integer fileId) {
-        if(fileId != null) {
-            try{
-                resultData = teacherService.deleteAssignment(fileId);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
-        return resultData;
-    }
-
-    @RequestMapping("/deleteAssignmentFile")
-    public ResultData deleteAssignmentFile(Integer attachmentId) {
-        if(attachmentId != null) {
-            Attachment attachment = new Attachment();
-            attachment.setId(attachmentId);
-            try{
-                resultData = teacherService.deleteAssignmentFile(attachment);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        } else {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
-        return resultData;
-    }
-
-    @RequestMapping("/viewAssignment")
-    public ResultData viewAssignment(File file, PageParam pageParam){
-        if(file != null && file.getCourseId() != null) {
-            try{
-                resultData = teacherService.viewAssignment(file,pageParam);
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        }else {
-            resultData = new ResultData();
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
-        System.out.println(resultData);
-        return resultData;
-    }
-
-    @RequestMapping("/gradeAssignment")
-    public ResultData gradeAssignment(File file){
-        if(file!=null && file.getId()!=null){
-            try{
-                resultData=teacherService.gradeAssignment(file);
-
-            }catch(Exception e){
-                e.printStackTrace();
-                resultData = new ResultData();
-                resultData.setResult(ResultCodeEnum.SERVER_ERROR);
-            }
-        }else{
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-        }
-        return resultData;
-    }
 
 }

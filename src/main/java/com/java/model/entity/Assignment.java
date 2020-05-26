@@ -17,4 +17,5 @@ public class Assignment {
     private Timestamp publishTime;
     private Integer courseId;
     private Integer courseScheduleId;
+    private Integer userId;
 }
