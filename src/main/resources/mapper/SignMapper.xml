@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.SignStudentDao">
+    <select id="getSignDetail" resultType="SignDetail">
+        select sign_id,user.user_id,sign_time,user_nickname,user_number,user_role
+        from user inner join (select * from sign_student where sign_id=#{signId}) sign
+            on user.user_id = sign.student_id
+    </select>
+</mapper>

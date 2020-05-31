@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.CollectionDao">
+    <select id="findUserCollection" resultType="Course">
+        select * from course
+        where course_id in (select course_id from collection where user_id=#{userId})
+        <if test="course.courseName!=null and course.courseName!=''">
+            and course_name like CONCAT(CONCAT('%', #{course.courseName}), '%')
+        </if>
+        <if test="course.courseNumber!=null and course.courseNumber!=''">
+            and course_number like CONCAT(CONCAT('%', #{course.courseNumber}), '%')
+        </if>
+    </select>
+</mapper>
