@@ -201,7 +201,7 @@ public class StudentController {
         return resultData;
     }
 
-    @RequestMapping("/getAssignmentListDetail")
+    @RequestMapping("/getAssignmentDetail")
     public ResultData getAssignmentListDetail(Assignment assignment) {
         ResultData<Assignment> resultData = new ResultData <>();
         if (assignment.getAssignmentId() == null) {

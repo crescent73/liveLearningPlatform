@@ -79,7 +79,7 @@ public class TeacherController {
         if (result>0){
             resultData.setResult(ResultCodeEnum.OK);
         } else if(result == -2){
-            resultData.setResult(ResultCodeEnum.DB_ADD_TEACHER_NOT_EXIST);
+            resultData.setResult(ResultCodeEnum.TEACHER_NOT_EXIST);
         } else {
             resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE);
         }
@@ -373,7 +373,8 @@ public class TeacherController {
     @RequestMapping("/modifyNotice")
     public ResultData modifyNotice(Notice notice) {
         ResultData<Notice> resultData = new ResultData <>();
-        if (notice.getNoticeId() == null) {
+        if (notice.getNoticeId() == null || ( notice.getUserId() == null && notice.getCourseId() == null
+                && notice.getNoticeTitle() == null && notice.getNoticeContent() == null)) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
         }
@@ -419,7 +420,7 @@ public class TeacherController {
         return resultData;
     }
 
-    @RequestMapping("/getAssignmentListDetail")
+    @RequestMapping("/getAssignmentDetail")
     public ResultData getAssignmentListDetail(Assignment assignment) {
         ResultData<Assignment> resultData = new ResultData <>();
         if (assignment.getAssignmentId() == null) {
@@ -458,7 +459,7 @@ public class TeacherController {
     public ResultData gradeAssignment(StudentAssignment studentAssignment){
         ResultData<StudentAssignment> resultData = new ResultData <>();
         if (studentAssignment.getStudentAssignmentId() == null || studentAssignment.getScore() == null
-                ||studentAssignment.getUserId() == null || studentAssignment.getTeacherReply() == null) {
+                || studentAssignment.getTeacherReply() == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
         }

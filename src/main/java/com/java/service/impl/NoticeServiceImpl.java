@@ -37,13 +37,13 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public int modifyNotice(Notice notice) {
-        int update = noticeDao.update(notice);
+        int update = noticeDao.updateById(notice);
         return update;
     }
 
     @Override
     public int deleteNotice(Notice notice) {
-        int result = noticeDao.deleteById(notice.getCourseId());
+        int result = noticeDao.deleteById(notice.getNoticeId());
         return result;
     }
 }
