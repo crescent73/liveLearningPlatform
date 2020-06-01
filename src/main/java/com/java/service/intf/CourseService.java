@@ -12,7 +12,7 @@ public interface CourseService {
     // 创建课程
     int createCourse(Course course);
     // 删除课程
-    int deleteCourse(List <Integer> courseList);
+    int deleteCourse(List<Integer> courseList);
     // 设置课程权限
     int setCoursePermission(Course course);
     // 开始上课

@@ -11,5 +11,5 @@ public interface CollectionService {
     // 添加收藏课程
     int addCollectCourse(Collections collections);
     // 删除收藏课程
-    int deleteCollectCourse(List <Integer> collectionIdList);
+    int deleteCollectCourse(List<Integer> collectionIdList);
 }
