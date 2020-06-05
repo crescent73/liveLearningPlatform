@@ -10,15 +10,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 
 public interface UserDao extends BaseMapper<User> {
-    JdbcTemplate jdbcTemplate =null;
-
-     static void addUser(User user) {
-         ;
-         //插入数据库
-        String sql = "INSERT INTO users VALUES(null,?,?,?,?,?,?,?,?,?)";
-        jdbcTemplate
-                .update(sql,user.getUserId(),user.getUserNickname(), user.getUserGender(), user.getUserPassword(), user.getUserEmail()
-                ,user.getUserRole(),user.getSchoolId(),user.getUserNumber(),user.getUserName());
-    }
 
 }

@@ -30,19 +30,23 @@ public enum ResultCodeEnum
 	STUDENT_NOT_EXIST("305","学生不存在"),
 	SIGN_NOT_EXIST("305","签到不存在"),
 	COURSE_NOT_EXIST("306","课程不存在"),
-	COURSE_SCHEDULE_NOT_EXIST("306","节次不存在"),
+	COURSE_SCHEDULE_NOT_EXIST("307","节次不存在"),
+	USER_HAVE_EXIST("308","用户已存在"),
 
 	//系统功能
-	LOGIN_SUCCESS("400","登录成功"),
+	LOGIN_SUCCESS("200","登录成功"),
+	REGISTER_ERROR("400","注册失败"),
 	LOGIN_ERROR("401","登录失败_账号或密码错误"),
 	NO_EXIST_USER("402","用户不存在"),
 	NO_ENOUGH_MES("403","登录失败_账号或密码为空"),
-	LOGOUT_SUCCESS("404","退出登录成功"),
-	NO_LOGIN_USER("405","退出登录失败_用户未登录"),
-	FILE_UPLOAD_SUCCESS("406","文件上传成功"),
-	FILE_UPLOAD_FAILURE("407","文件上传失败"),
-	FILE_EMPTY("410","附件不存在"),
-	USER_ALREADY_LOGIN("411","用户已登陆"),;
+	LOGOUT_SUCCESS("200","退出登录成功"),
+	NO_LOGIN_USER("404","退出登录失败_用户未登录"),
+	FILE_UPLOAD_SUCCESS("200","文件上传成功"),
+	FILE_UPLOAD_FAILURE("405","文件上传失败"),
+	FILE_DOWNLOAD_FAILURE("406","文件下载失败"),
+	FILE_DELETE_FAILURE("407","文件下载失败"),
+	FILE_EMPTY("408","文件不存在"),
+	USER_ALREADY_LOGIN("409","用户已登陆"),;
 
 	private String code;
 	private String desc;
