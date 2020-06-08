@@ -32,8 +32,6 @@ import java.util.Map;
 @RequestMapping("/teacher")
 public class TeacherController {
 
-
-
     private CourseService courseService;
     private CollectionService collectionService;
     private SignService signService;

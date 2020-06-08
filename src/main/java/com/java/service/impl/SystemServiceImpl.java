@@ -57,47 +57,4 @@ public class SystemServiceImpl implements SystemService {
         int i = userDao.updateById(user);
         return i;
     }
-   /* @Transactional
-
-    @Transactional
-    public AttachmentDetail downloadAttachment(Attachment attachment) {
-        resultData = new ResultData <Data>();
-        if(attachment != null){
-            List<Attachment> attachments = attachmentDao.find(attachment);
-            if(attachments.size() == 1) {
-                AttachmentDetail attachmentDetail = new AttachmentDetail();
-                attachmentDetail.setAttachmentInfo(attachments.get(0));
-
-                java.io.File attachmentFile = new java.io.File(attachmentDetail.getAttachmentPath());
-                System.out.println("attachmentDetail"+attachmentDetail);
-                attachmentDetail.setFile(attachmentFile);
-
-                return attachmentDetail;
-            } else {
-                return null; //未找到对应文件，返回为空
-            }
-        }
-        return null; //确实必要参数返回为空
-    }
-
-    @Transactional
-    public AttachmentDetail getAssignmentDetail(Attachment attachment) {
-        resultData = new ResultData <Data>();
-        if(attachment != null){
-            List<Attachment> attachments = attachmentDao.find(attachment);
-            if(attachments.size() == 1) {
-                AttachmentDetail attachmentDetail = new AttachmentDetail();
-                attachmentDetail.setAttachmentInfo(attachments.get(0));
-
-                java.io.File attachmentFile = new java.io.File(attachmentDetail.getAttachmentPath());
-                System.out.println("attachmentDetail"+attachmentDetail);
-                attachmentDetail.setFile(attachmentFile);
-
-                return attachmentDetail;
-            } else {
-                return null; //未找到对应文件，返回为空
-            }
-        }
-        return null; //确实必要参数返回为空
-    }*/
 }
