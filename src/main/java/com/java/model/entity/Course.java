@@ -14,4 +14,9 @@ public class Course {
     private String courseName;
     private Integer isShow; // 1:show,0:not show
     private Integer teacherId; // user_role=2
+    private String courseDetail;
+    private String courseLevel;
+    private String coursePictureName;
+    private String coursePicturePath;
+    private String courseType;
 }

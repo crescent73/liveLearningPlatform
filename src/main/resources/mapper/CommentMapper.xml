@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.dao.CommentDao">
+    <select id="getCommentList" resultType="CommentDetail">
+        select comment_id,`comment`.user_id,user_nickname,comment_content,publish_time
+        from comment inner join user on comment.user_id = user.user_id
+        where course_id = #{courseId}
+    </select>
+</mapper>

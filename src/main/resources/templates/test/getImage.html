@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="image">
+    <img :src="imageSrc">
+</div>
+
+
+</body>
+<script src="/js/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    var imageSrc = new Vue({
+        el: '#image',
+        data: {
+            imageSrc:""
+        },
+        methods: {
+            getImage(){
+                let that = this;
+                $.ajax({
+                    type: "get",
+                    url:"/teacher/getCourseImage",
+                    responseType: 'blob',
+                    data:{
+                        courseId:13
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.imageSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+
+                });
+            }
+        },
+        created(){
+
+        },
+        mounted() {
+            this.getImage();
+        }
+
+    });
+</script>
+</html>

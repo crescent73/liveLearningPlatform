@@ -25,104 +25,41 @@ import java.util.Map;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private SignService signService;
+    @Autowired
+    private CourseController courseController;
+    @Autowired
+    private CollectionController collectionController;
+    @Autowired
+    private SignController signController;
+    @Autowired
+    private NoticeController noticeController;
+    @Autowired
+    private AssignmentController assignmentController;
+    @Autowired
+    private FileController fileController;
+    @Autowired
+    private CommentController commentController;
+    @Autowired
     private CourseService courseService;
-    private CollectionService collectionService;
-    @Autowired
-    private NoticeService noticeService;
-    @Autowired
-    private AssignmentService assignmentService;
-    @Autowired
-    private FileService fileService;
-
-    @Autowired
-    public void setSignService(SignService signService) {
-        this.signService = signService;
-    }
-    @Autowired
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-    @Autowired
-    public void setCollectionService(CollectionService collectionService) {
-        this.collectionService = collectionService;
-    }
 
     @RequestMapping("/searchCourse")
     public ResultData getCourseList(Course course, Integer studentId) {
-        ResultData <List<Course>> resultData = new ResultData <List<Course>>();
-        if (studentId==null||course==null){
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        List<Course> courseList = courseService.getStudentCourse(studentId,course);
-        if (courseList!=null){
-            resultData.setData(courseList);
-            resultData.setResult(ResultCodeEnum.OK);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }
-        return resultData;
+        return courseController.getStudentCourseList(studentId,course);
     }
 
     @RequestMapping("/getCollectionCourseList")
     public ResultData collectCourseList(Course course, Integer userId) {
-        ResultData <List<Course>> resultData = new ResultData <>();
-        if (userId == null){
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        List<Course> courseList = collectionService.collectCourseList(course, userId);
-        if (courseList!=null){
-            resultData.setData(courseList);
-            resultData.setResult(ResultCodeEnum.OK);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }
-        return resultData;
+        return collectionController.collectCourseList(course,userId);
     }
 
     @RequestMapping("/addCollectCourse")
     public ResultData addCollectCourse(Integer courseId, Integer userId) {
-        ResultData resultData = new ResultData();
-        // 检查参数
-        if (courseId==null||userId==null){
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        // 调用service
-        Collections collections = new Collections();
-        collections.setCourseId(courseId);
-        collections.setUserId(userId);
-        int result = collectionService.addCollectCourse(collections);
-        // 封装返回结果
-        if (result>0){
-            resultData.setResult(ResultCodeEnum.OK);
-        } else if (result == -2){
-            resultData.setResult(ResultCodeEnum.STUDENT_NOT_EXIST);
-        } else if (result == -3){
-            resultData.setResult(ResultCodeEnum.COURSE_NOT_EXIST);
-        } else{
-            resultData.setResult(ResultCodeEnum.DB_SIGN_FAILURE);
-        }
-        return resultData;
+        return collectionController.addCollectCourse(courseId,userId);
     }
 
     @RequestMapping("/deleteCollectCourse")
     public ResultData deleteCollectCourse(Integer[] collectionId) {
-        ResultData resultData = new ResultData();
-        if (collectionId==null||collectionId.length<=0) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        List<Integer> collectionIdList = Arrays.asList(collectionId);
-        int result = collectionService.deleteCollectCourse(collectionIdList);
-        if (result >= collectionIdList.size()){
-            resultData.setResult(ResultCodeEnum.OK);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_DELETE_FAILURE);
-        }
-        return resultData;
+        return collectionController.deleteCollectCourse(collectionId);
     }
 
     @RequestMapping("/getCourseVideoLIst")
@@ -155,138 +92,54 @@ public class StudentController {
 
     @RequestMapping("/sign")
     public ResultData sign(Integer signId, Integer studentId) {
-        ResultData resultData = new ResultData();
-        if (signId==null||studentId==null) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        SignStudent signStudent = new SignStudent();
-        signStudent.setSignId(studentId);
-        signStudent.setSignId(signId);
-        int result = signService.sign(signStudent);
-        if (result>0){
-            resultData.setResult(ResultCodeEnum.OK);
-        } else if (result == -2){
-            resultData.setResult(ResultCodeEnum.SIGN_NOT_EXIST);
-        } else if (result == -3){
-            resultData.setResult(ResultCodeEnum.STUDENT_NOT_EXIST);
-        } else{
-            resultData.setResult(ResultCodeEnum.DB_SIGN_FAILURE);
-        }
-        return resultData;
+        return signController.sign(signId,studentId);
     }
 
     @RequestMapping("/getNoticeList")
     public ResultData getNoticeList(Notice notice) {
-        ResultData <List<Notice>> resultData = new ResultData <>();
-        if (notice.getCourseId() == null) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        List<Notice> noticeList = noticeService.getNoticeList(notice);
-        if (noticeList!=null){
-            resultData.setResult(ResultCodeEnum.OK);
-            resultData.setData(noticeList);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }
-        return resultData;
+        return noticeController.getNoticeList(notice);
     }
 
 
     @RequestMapping("/getAssignmentList")
     public ResultData getAssignmentList(Assignment assignment) {
-        ResultData<List<Assignment>> resultData = new ResultData <>();
-        if (assignment.getCourseId() == null) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        List<Assignment> assignmentList = assignmentService.getAssignmentList(assignment);
-        if (assignmentList!=null){
-            resultData.setResult(ResultCodeEnum.OK);
-            resultData.setData(assignmentList);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }
-        return resultData;
+        return assignmentController.getAssignmentList(assignment);
     }
 
     @RequestMapping("/getAssignmentDetail")
     public ResultData getAssignmentListDetail(Assignment assignment) {
-        ResultData<Assignment> resultData = new ResultData <>();
-        if (assignment.getAssignmentId() == null) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        Assignment assignmentDetail = assignmentService.getAssignmentDetail(assignment);
-        if (assignmentDetail!=null){
-            resultData.setResult(ResultCodeEnum.OK);
-            resultData.setData(assignmentDetail);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }
-        return resultData;
+        return assignmentController.getAssignmentListDetail(assignment);
     }
 
     @RequestMapping("/submitAssignment")
     public ResultData submitAssignment(StudentAssignment studentAssignment){
-        ResultData<StudentAssignment> resultData = new ResultData <>();
-        if (studentAssignment.getUserId() == null || studentAssignment.getAssignmentId() == null
-                ||studentAssignment.getAssignmentSubmission() == null) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return resultData;
-        }
-        int result = assignmentService.submitAssignment(studentAssignment);
-        if (result>0){
-            resultData.setResult(ResultCodeEnum.OK);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_ADD_FAILURE);
-        }
-        return resultData;
+        return assignmentController.submitAssignment(studentAssignment);
     }
 
 
     @RequestMapping("/searchFile")
     public ResultData searchFile(CourseFile file) {
-        ResultData<List<CourseFile>> resultData = new ResultData <>();
-        List<CourseFile> fileList = fileService.getFileList(file);
-        if (fileList.size()>0) {
-            resultData.setResult(ResultCodeEnum.OK);
-            resultData.setData(fileList);
-        } else {
-            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
-        }
-        return resultData;
+        return fileController.searchFile(file);
     }
 
     @RequestMapping("/downloadFile")
     public ResponseEntity downloadFile(CourseFile file) throws UnsupportedEncodingException {
-        ResultData<CourseFile> resultData = new ResultData <>();
-        if (file.getFileId() == null) {
-            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
-            return ResponseEntity.ok().body(resultData);
-        }
-        File downloadFile = fileService.downloadFile(file);
-        if (downloadFile == null) {
-            resultData.setResult(ResultCodeEnum.FILE_EMPTY); //文件下载失败
-            return ResponseEntity.ok().body(resultData);
-        }
-        HttpHeaders headers = new HttpHeaders();
-        InputStreamResource resource;
-        try {
-            resource = new InputStreamResource(new FileInputStream(downloadFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-            resultData.setResult(ResultCodeEnum.FILE_DOWNLOAD_FAILURE); //文件下载失败
-            return ResponseEntity.ok().body(resultData);
-        }
-        List<CourseFile> fileList = fileService.getFileList(file);
-        CourseFile courseFile = fileList.get(0);
-        String encodedFileName = URLEncoder.encode(courseFile.getFileName(),"utf-8");
-//        System.out.println(encodedFileName);
-        headers.setContentDispositionFormData("file",encodedFileName);
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        return ResponseEntity.ok().headers(headers).body(resource);
+        return fileController.downloadFile(file);
+    }
+
+    @RequestMapping("/getCommentList")
+    public ResultData getCommentList(Integer courseId) {
+        return commentController.getCommentList(courseId);
+    }
+
+    @RequestMapping("/addComment")
+    public ResultData addComment(Comment comment){
+        return commentController.addComment(comment);
+    }
+
+    @RequestMapping("/deleteComment")
+    public ResultData deleteComment(Integer commentId) {
+        return commentController.deleteComment(commentId);
     }
 
 }
