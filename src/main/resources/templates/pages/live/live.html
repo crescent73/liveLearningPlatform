@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>live</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="../../../css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="../../../data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="../../../files/live/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="../../../scripts/jquery-3.2.1.min.js"></script>
+    <script src="../../../scripts/axure/axQuery.js"></script>
+    <script src="../../../scripts/axure/globals.js"></script>
+    <script src="../../../scripts/axutils.js"></script>
+    <script src="../../../scripts/axure/annotation.js"></script>
+    <script src="../../../scripts/axure/axQuery.std.js"></script>
+    <script src="../../../scripts/axure/doc.js"></script>
+    <script src="../../../scripts/messagecenter.js"></script>
+    <script src="../../../scripts/axure/events.js"></script>
+    <script src="../../../scripts/axure/recording.js"></script>
+    <script src="../../../scripts/axure/action.js"></script>
+    <script src="../../../scripts/axure/expr.js"></script>
+    <script src="../../../scripts/axure/geometry.js"></script>
+    <script src="../../../scripts/axure/flyout.js"></script>
+    <script src="../../../scripts/axure/model.js"></script>
+    <script src="../../../scripts/axure/repeater.js"></script>
+    <script src="../../../scripts/axure/sto.js"></script>
+    <script src="../../../scripts/axure/utils.temp.js"></script>
+    <script src="../../../scripts/axure/variables.js"></script>
+    <script src="../../../scripts/axure/drag.js"></script>
+    <script src="../../../scripts/axure/move.js"></script>
+    <script src="../../../scripts/axure/visibility.js"></script>
+    <script src="../../../scripts/axure/style.js"></script>
+    <script src="../../../scripts/axure/adaptive.js"></script>
+    <script src="../../../scripts/axure/tree.js"></script>
+    <script src="../../../scripts/axure/init.temp.js"></script>
+    <script src="../../../scripts/axure/legacy.js"></script>
+    <script src="../../../scripts/axure/viewer.js"></script>
+    <script src="../../../scripts/axure/math.js"></script>
+    <script src="../../../scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="../../../data/document.js"></script>
+    <script src="../../../files/live/data.js"></script>
+    <link href="../../../static/video/video-js.min.css" rel="stylesheet" type="text/css">
+    <script src="../../../static/video/video.min.js"></script>
+    <script src="../../../scripts/axure/ios.js"></script>
+    <!-- 引入的videojs-flash.js插件主要是为播放rtmp视频流-->
+    <script src="../../../static/video/videojs-flash.min.js"></script>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <link href="../../../static/css/bootstrap.css" rel="stylesheet"/>
+    <script src="http://cdn.bootcss.com/sockjs-client/1.1.1/sockjs.min.js"></script>
+    <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.js"></script>
+    <script src="../../../static/js/jquery-2.1.0.min.js"></script>
+    <script src="../../../static/js/bootstrap.js"></script>
+    <script src="../../../static/js/vue.js"></script>
+    <script src="../../../static/js/jquery.danmu.min.js"></script>
+    <style>
+        .col-center-block {
+            float: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tab-content > .active {
+            border: 1px solid #ddd;
+            /*border-top: none;*/
+            /*overflow: auto;*/
+        }
+        .nav-pills > li > a {
+            border-radius: 0px;
+        }
+        #danmu {
+            width: 100% !important;
+        }
+        #chatinput .form-control {
+            border-radius: 0px;
+        }
+
+        #chatinput .btn {
+            border-radius: 0px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container" id="chatroom">
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: 10px;">
+            <!--标题区域-->
+            <div >
+                <div class="col-md-8" style="height: 70px;width:1920px;padding-left: 10px;background-color: #f6f6f6;float: left;">
+                    <img class="img-responsive" style="width: 166px;height:70px; float: left;"
+                         src="../../../images/main/u3.png" alt="">
+                    <div id = 'sign_in'><button class="btn btn-default pull-right" style="float: left;height:45px;width:85px;color: #ffffff;background-color: #ea6165" onclick="signin()">签到</button></div>
+                    <h3 style="font-family: 'Arial Narrow Bold', 'Arial Narrow', 'Arial', sans-serif;margin-left: 15px;margin-top: 10px; float: inside;">爱课直播间(移动端、电脑端、安卓客户端)</h3>
+
+                </div>
+            </div>
+            <!--公告区域-->
+
+        </div>
+
+    <div class="col-md-8">
+
+        <div id="u172" style="position:relative; background-color: black ;">
+            <div id="danmu" style=""></div>
+            <video id="v-player"
+                   class="video-js col-center-block">
+
+                <source src="rtmp://106.15.251.188:1935/live/1-1">
+            </video>
+        </div>
+    </div>
+    <!--
+        作者：979783618@qq.com
+        时间：2017-05-14
+        描述：左侧栏目结束
+    -->
+    <!--
+        作者：979783618@qq.com
+        时间：2017-05-14
+        描述：右侧讨论区开始
+    -->
+    <div class="col-md-4">
+        <!--tabs-->
+        <ul style="font-family: 'Arial Narrow Bold', 'Arial Narrow', 'Arial', sans-serif" id="menuTabs" class="nav nav-pills nav-justified">
+            <li class="active">
+                <a href="#discussion" data-toggle="tab"><i class="fa fa-tree"></i>互动聊天</a>
+            </li>
+            <li>
+                <a href="#members" data-toggle="tab"><i class="fa fa-tree"></i>现场嘉宾({{number}})</a>
+            </li>
+            <li>
+                <a href="#guests" data-toggle="tab"><i class="fa fa-tree"></i>最近访问</a>
+            </li>
+        </ul>
+        <!--内容滚动区域开始-->
+        <div id="tabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="discussion" style="padding:181px;">
+                <div v-for="message in messages">
+                    <span style="color: #79a1af;">{{message.creator}}:</span>
+                    <span>{{message.msgBody}}</span>
+                </div>
+            </div>
+            <!--内容滚动区域结束-->
+            <!--现场观众统计开始-->
+            <div class="tab-pane fade in" style="padding-top: 10px;" id="members" style="padding:10px;">
+                <div style="padding:164px;" th:each="user : ${online_guests}">
+                    <span style="color: #79a1af;" th:text="${user.randomName}"></span>
+                    <span th:text="${user.ip}">${user.ip}</span>
+                </div>
+            </div>
+            <!--现场观众统计结束-->
+            <!--最近访问统计总数-->
+            <div class="tab-pane fade in" style="padding-top: 10px;" id="guests" style="padding:10px;">
+                <div style="padding:194px;" th:each="guest : ${history_guests}">
+                    <span style="color: #79a1af;" th:text="${guest.userEntity.randomName}"></span>
+                    <span th:text="${guest.userEntity.ip}"></span>
+                    <span th:text="${#calendars.format(guest.accessTime,'yyyy-MM-dd mm:ss')}"></span>
+                </div>
+            </div>
+        </div>
+        <div id="chatinput" class="input-group" style="margin-top: 5px;">
+            <input type="text" class="form-control" v-model="messageinput" @keyup.13="sendMessage"
+                   placeholder="参与话题讨论">
+            <span class="input-group-btn">
+				        	<button class="btn btn-success" type="button" @click="sendMessage">发送!</button>
+				      </span>
+        </div>
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u175" class="ax_default shape">
+        <img id="u175_img" class="img " src="../../../images/live/u133.svg"/>
+        <div id="u175_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    var chatroom = new Vue({
+        el: '#chatroom',
+        data: {
+            stompClient: null,
+            messages: [],
+            messageinput: null,
+            rtmpSource: null,
+            videoPlayer: null,
+            number: 0,
+            danmu:null,
+            danmuColor:['#666666','blue','white','red','pink']
+        },
+        methods: {
+            connecttosocket: function () {
+                this.messages.push({
+                    creator: '系统消息',
+                    msgBody: '连接中...'
+                })
+                var socket = new SockJS("/live")
+                this.stompClient = Stomp.over(socket)
+                this.stompClient.connect({}, function (frame) {
+                    chatroom.messages.push({
+                        creator: '系统消息',
+                        msgBody: '连接成功！'
+                    })
+                    //接收聊天室消息
+                    chatroom.stompClient.subscribe('/topic/online_user', function (data) {
+                        chatroom.number = JSON.parse(data.body).length
+                    });
+                    chatroom.stompClient.subscribe('/topic/group', function (data) {
+                        //console.log(JSON.parse(data.body))
+                        chatroom.messages.push(JSON.parse(data.body))
+                        let time = $('#danmu').data("nowTime")+3;
+                        let aDanmu={
+                            text:JSON.parse(data.body).msgBody,
+                            color:chatroom.danmuColor[parseInt(Math.random()*4, 10)],
+                            size:1,
+                            position:0,
+                            "time":time
+                        }
+                        $('#danmu').danmu("addDanmu",aDanmu)
+                    });
+
+
+                });
+            },
+            sendMessage: function () {
+                if (chatroom.messageinput != null && chatroom.userid != '') {
+                    this.stompClient.send("/demo/chat", {atytopic: "topic"}, chatroom.messageinput);
+                    this.messageinput = null;
+                } else if (chatroom.messageinput == null) {
+                    chatroom.messageinput = "请输入内容!!!";
+                }
+
+
+            },
+            videoInit(){
+                this.videoPlayer = videojs('v-player', {
+                        //初始化数据
+                        height: '750px',
+                        width: '1000px',
+                        "techOrder": ["html5", "flash"],
+                        controls: true,
+                        "autoplay": true,
+                        sources: [{
+                            /*rtmp://live.hkstv.hk.lxdns.com/live/hks*/
+                            src: 'rtmp://106.15.251.188:1935/live/1-1',
+                            // type: 'rtmp/flv'
+                        }]
+                    },
+                    function () {
+                        this.on('loadeddata', function () {
+                            console.log(this)
+                        })
+
+                        this.on('pause', function () {
+                            //alert('pause')
+                        })
+                    }
+                )
+            }
+
+        },
+        mounted: function () {
+            //聊天室初始化
+            this.connecttosocket()
+            //视频初始化
+            this.videoInit()
+            //弹幕初始化
+            this.danmu = $("#danmu").danmu({
+                right: 0,
+                top: 0 ,
+                height: 439,  //弹幕区高度
+                zindex :1,   //弹幕区域z-index属性
+                speed:7000,      //滚动弹幕的默认速度，这是数值值得是弹幕滚过每672像素所需要的时间（毫秒）
+                sumTime:65535,   //弹幕流的总时间
+                danmuLoop:true,   //是否循环播放弹幕
+                defaultFontColor:"#bbbbbb",   //弹幕的默认颜色
+                fontSizeSmall:16,     //小弹幕的字号大小
+                FontSizeBig:24,       //大弹幕的字号大小
+                opacity:"0.9",			//默认弹幕透明度
+                topBottonDanmuTime:6000,   // 顶部底部弹幕持续时间（毫秒）
+                SubtitleProtection:false,     //是否字幕保护
+                positionOptimize:false,         //是否位置优化，位置优化是指像AB站那样弹幕主要漂浮于区域上半部分
+                maxCountInScreen: 40,   //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
+                maxCountPerSec: 10      //每分秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
+            });
+            $('#danmu').danmu('danmuStart');
+        }
+    });
+    /**function changeSrc(){
+        alert("请使用推流软件(OBS等)，推送到rtmp://localhost/live/test,即可在本直播间看到您的直播内容!")
+        chatroom.videoPlayer.src('rtmp://106.15.251.188/live/test')
+        chatroom.videoPlayer.load('rtmp://106.15.251.188/live/test');
+        chatroom.videoPlayer.play()
+    }**/
+
+
+
+    function signin(){
+    var vue = new Vue({
+        el: "#sign_in",
+        data: {
+            signId: "",
+            studentId: ""
+        },
+        methods: {
+            do_signin: function () {
+                let self = this;
+                $.ajax({
+                    type:"post",
+                    url:"/student/sign",
+                    data:{
+                        signId: self.signId,
+                        studentId: self.studentId,
+                    },
+                    success:function(res){
+                        console.log(res);
+                        if(res.code === "200"){
+                            localStorage.setItem("token",res.data.token);
+                            localStorage.setItem("signId",self.signId);
+                            localStorage.setItem("studentId", self.studentId);
+                            alert("签到成功！")
+                        } else {
+                            window.location.href = "";
+                            alert("签到失败！")
+                        }
+                    },
+                    error:function(res){
+                        console.log(res);
+                        window.location.href = "";
+                        alert("出问题了！请刷新重试。")
+                    }
+                });
+            }
+        }
+    })
+    }
+</script>
+</body>
+</html>
