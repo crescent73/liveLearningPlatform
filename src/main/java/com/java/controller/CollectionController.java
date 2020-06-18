@@ -1,6 +1,7 @@
 package com.java.controller;
 
 import com.java.constant.enums.ResultCodeEnum;
+import com.java.model.dto.CollectionDetail;
 import com.java.model.entity.Collections;
 import com.java.model.entity.Course;
 import com.java.model.vo.ResultData;
@@ -18,12 +19,12 @@ public class CollectionController {
     private CollectionService collectionService;
 
     public ResultData collectCourseList(Course course, Integer userId) {
-        ResultData <List<Course>> resultData = new ResultData <>();
+        ResultData <List<CollectionDetail>> resultData = new ResultData <>();
         if (userId == null){
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
         }
-        List<Course> courseList = collectionService.collectCourseList(course, userId);
+        List<CollectionDetail> courseList = collectionService.collectCourseList(course, userId);
         if (courseList!=null){
             resultData.setData(courseList);
             resultData.setResult(ResultCodeEnum.OK);

@@ -1,6 +1,7 @@
 package com.java.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.java.model.dto.CollectionDetail;
 import com.java.model.entity.Collections;
 import com.java.model.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,5 +13,5 @@ import java.util.List;
 @Mapper
 public interface CollectionDao extends BaseMapper<Collections> {
 
-    List<Course> findUserCollection(Integer userId, Course course);
+    List<CollectionDetail> findUserCollection(Integer userId, Course course);
 }

@@ -1,6 +1,7 @@
 package com.java;
 
 import com.java.dao.CollectionDao;
+import com.java.model.dto.CollectionDetail;
 import com.java.model.entity.Course;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,6 @@ public class XmlTest {
     public void collectionTest(){
         Course course = new Course();
         course.setCourseId(1);
-        List<Course> userCollection = collectionDao.findUserCollection(1, course);
+        List<CollectionDetail> userCollection = collectionDao.findUserCollection(1, course);
     }
 }

@@ -3,6 +3,7 @@ package com.java.service.impl;
 import com.java.dao.CollectionDao;
 import com.java.dao.CourseDao;
 import com.java.dao.UserDao;
+import com.java.model.dto.CollectionDetail;
 import com.java.model.entity.Collections;
 import com.java.model.entity.Course;
 import com.java.model.entity.User;
@@ -38,8 +39,8 @@ public class CollectionServiceImpl implements CollectionService {
      * @return
      */
     @Override
-    public List<Course> collectCourseList(Course course, Integer userId) {
-        List<Course> courseList = collectionDao.findUserCollection(userId, course);
+    public List<CollectionDetail> collectCourseList(Course course, Integer userId) {
+        List<CollectionDetail> courseList = collectionDao.findUserCollection(userId, course);
         if (courseList.size()>0){
             return courseList;
         } else {
