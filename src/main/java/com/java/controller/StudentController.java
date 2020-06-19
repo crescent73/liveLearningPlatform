@@ -107,8 +107,8 @@ public class StudentController {
     }
 
     @RequestMapping("/getAssignmentDetail")
-    public ResultData getAssignmentListDetail(Assignment assignment) {
-        return assignmentController.getAssignmentListDetail(assignment);
+    public ResultData getAssignmentListDetail(Assignment assignment,Integer studentId) {
+        return assignmentController.getAssignmentListDetailStudent(assignment,studentId);
     }
 
     @RequestMapping("/submitAssignment")

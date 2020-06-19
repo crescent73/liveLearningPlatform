@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class AssignmentController {
@@ -32,16 +33,33 @@ public class AssignmentController {
         return resultData;
     }
 
-    public ResultData getAssignmentListDetail(Assignment assignment) {
-        ResultData<Assignment> resultData = new ResultData <>();
+    public ResultData getAssignmentListDetailTeacher(Assignment assignment) {
+        ResultData<Map> resultData = new ResultData <>();
         if (assignment.getAssignmentId() == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
         }
-        Assignment assignmentDetail = assignmentService.getAssignmentDetail(assignment);
-        if (assignmentDetail!=null){
+        Map map = assignmentService.getAssignmentDetailTeacher(assignment);
+        if (map!=null){
             resultData.setResult(ResultCodeEnum.OK);
-            resultData.setData(assignmentDetail);
+            resultData.setData(map);
+        } else {
+            resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
+        }
+        return resultData;
+    }
+
+    public ResultData getAssignmentListDetailStudent(Assignment assignment,Integer studentId) {
+        ResultData<Map> resultData = new ResultData <>();
+        if (assignment.getAssignmentId() == null || studentId==null) {
+            resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
+            return resultData;
+        }
+        assignment.setUserId(studentId);
+        Map map = assignmentService.getAssignmentDetailStudent(assignment);
+        if (map!=null){
+            resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(map);
         } else {
             resultData.setResult(ResultCodeEnum.DB_FIND_FAILURE);
         }

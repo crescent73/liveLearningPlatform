@@ -9,7 +9,9 @@ import com.java.service.intf.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
@@ -36,10 +38,38 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment getAssignmentDetail(Assignment assignment) {
+    public Map getAssignmentDetailTeacher(Assignment assignment) {
         Assignment assignment1 = assignmentDao.selectById(assignment.getAssignmentId());
-        return assignment1;
+        if (assignment1!=null) {
+            QueryWrapper<StudentAssignment> studentAssignmentQueryWrapper = new QueryWrapper<>();
+            studentAssignmentQueryWrapper.eq("assignment_id",assignment.getAssignmentId());
+            List<StudentAssignment> studentAssignments = studentAssignmentDao.selectList(studentAssignmentQueryWrapper);
+            Map<String,Object> map = new HashMap<>();
+            map.put("assignment",assignment1);
+            map.put("studentAssignment",studentAssignments);
+            return map;
+        }
+        return null;
     }
+
+    @Override
+    public Map getAssignmentDetailStudent(Assignment assignment) {
+        Assignment assignment1 = assignmentDao.selectById(assignment.getAssignmentId());
+        if (assignment1!=null) {
+            QueryWrapper<StudentAssignment> studentAssignmentQueryWrapper = new QueryWrapper<>();
+            Map<String,Object> map = new HashMap<>();
+            studentAssignmentQueryWrapper.eq("assignment_id",assignment.getAssignmentId());
+            studentAssignmentQueryWrapper.eq("user_id",assignment.getUserId());
+            StudentAssignment studentAssignment = studentAssignmentDao.selectOne(studentAssignmentQueryWrapper);
+            map.put("assignment",assignment1);
+            if (studentAssignment!=null) {
+                map.put("studentAssignment",studentAssignment);
+            }
+            return map;
+        }
+        return null;
+    }
+
 
     @Override
     public int publishAssignment(Assignment assignment) {

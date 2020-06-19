@@ -171,7 +171,7 @@ public class TeacherController {
 
     @RequestMapping("/getAssignmentDetail")
     public ResultData getAssignmentListDetail(Assignment assignment) {
-        return assignmentController.getAssignmentListDetail(assignment);
+        return assignmentController.getAssignmentListDetailTeacher(assignment);
     }
 
     @RequestMapping("/publishAssignment")
