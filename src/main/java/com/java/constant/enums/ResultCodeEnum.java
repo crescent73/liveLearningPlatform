@@ -44,8 +44,10 @@ public enum ResultCodeEnum
 	FILE_UPLOAD_SUCCESS("200","文件上传成功"),
 	FILE_UPLOAD_FAILURE("405","文件上传失败"),
 	FILE_DOWNLOAD_FAILURE("406","文件下载失败"),
+	IMAGE_DOWNLOAD_FAILURE("406","图片获取失败"),
 	FILE_DELETE_FAILURE("407","文件下载失败"),
 	FILE_EMPTY("408","文件不存在"),
+	IMAGE_EMPTY("408","图片不存在"),
 	USER_ALREADY_LOGIN("409","用户已登陆"),;
 
 	private String code;

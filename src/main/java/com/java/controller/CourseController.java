@@ -180,7 +180,7 @@ public class CourseController {
         }
         Course course = courseService.getCourseById(courseId);
         if (course == null) {
-            resultData.setResult(ResultCodeEnum.FILE_EMPTY); //文件下载失败
+            resultData.setResult(ResultCodeEnum.IMAGE_EMPTY); //文件下载失败
             return ResponseEntity.ok().body(resultData);
         }
         HttpHeaders headers = new HttpHeaders();
@@ -189,7 +189,7 @@ public class CourseController {
             resource = new InputStreamResource(new FileInputStream(new File(course.getCoursePicturePath())));
         } catch (IOException e) {
             e.printStackTrace();
-            resultData.setResult(ResultCodeEnum.FILE_DOWNLOAD_FAILURE); //文件下载失败
+            resultData.setResult(ResultCodeEnum.IMAGE_DOWNLOAD_FAILURE); //文件下载失败
             return ResponseEntity.ok().body(resultData);
         }
         String encodedFileName = URLEncoder.encode(course.getCoursePictureName(),"utf-8");

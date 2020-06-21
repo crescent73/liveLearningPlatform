@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -108,50 +108,45 @@
 
                 <div class="personal_des permessage">
 
-                    <div class="messagelist" v-for="notice in noticeList">
-                        <div  class="messages">
-
-                            <div class="fr">
-                                <label style="font-weight: bold;font-size: 15px" >{{notice.noticeTitle}}</label>
-                                <p>
-                                    {{notice.noticeContent}}
-                                </p>
-                                <div class="top"><span class="fl time">{{notice.publishTime | formatDate}}</span></div>
-                                <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modifyNotice"><a style="color: grey" >修改公告</a></div>
-                                <div class="buy btn" data-favid="14" v-on:click="deleteNotice(notice)"><a style="color: grey">删除公告</a></div>
-
-                            </div>
-
-                            <!--修改公告-->
-                            <div class="modal fade" id="modifyNotice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="modifyNoticeLabel">修改公告</h4>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <!--修改公告-->
-                                            <div  class="issques clearfix js-form">
-                                                <p class="perinform" style="color: grey">标&nbsp;&nbsp;题：<input type="text"  maxlength="10" id="modifyTitle" v-model="notice.noticeTitle"></p>
-                                                <p style="color: grey">内&nbsp;&nbsp;容：
-                                                <div class="wgt-ipt-wrap pub-editor-wrap " >
-                                                    <textarea  class="" placeholder="" id="modifyContent" v-model="notice.noticeContent"></textarea>
-                                                </div>
-                                                </p>
-
+                    <div class="messagelist" v-for="courseNotice in noticeList">
+                        <!--修改公告-->
+                        <div class="modal fade" id="modifyNotice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="modifyNoticeLabel">修改公告</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--修改公告-->
+                                        <div  class="issques clearfix js-form">
+                                            <p class="perinform" style="color: grey">标&nbsp;&nbsp;题：<input type="text"  maxlength="10" class="modifyTitle" v-model="courseForm.noticeTitle"></p>
+                                            <p style="color: grey">内&nbsp;&nbsp;容：
+                                            <div class="wgt-ipt-wrap pub-editor-wrap " >
+                                                <textarea  class="" placeholder="" class="modifyContent" v-model="courseForm.noticeContent"></textarea>
                                             </div>
-
+                                            </p>
 
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                            <button type="button" class="btn btn-primary" v-on:click="modifyNotice(notice)">修改公告</button>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="modifyNotice(courseNotice)">修改公告</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div  class="messages">
+                            <div class="fr">
+                                <label style="font-weight: bold;font-size: 15px" >{{courseNotice.noticeTitle}}</label>
+                                <p>
+                                    {{courseNotice.noticeContent}}
+                                </p>
+                                <div class="top"><span class="fl time">{{courseNotice.publishTime | formatDate}}</span></div>
+                                <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modifyNotice" @click="click(courseNotice)"><a style="color: grey" >修改公告</a></div>
+                                <div class="buy btn" data-favid="14" v-on:click="deleteNotice(courseNotice)"><a style="color: grey">删除公告</a></div>
+                            </div>
+
 
                         </div>
                     </div>
@@ -359,7 +354,11 @@
     var courseNotice = new Vue({
         el: '#user_course_notice_teacher',
         data: {
-            noticeList:[]
+            noticeList:[],
+            courseForm:{
+                noticeTitle:'',
+                noticeContent:''
+            }
         },
         methods: {
             getNoticeList(){
@@ -410,11 +409,16 @@
                     }
                 });
             },
+            click(notice) {
+                console.log(notice)
+                this.courseForm = notice;
+            },
 
             modifyNotice(notice){
+                console.log(notice)
                 let that = this;
-                var modifyTitle=$("#modifyTitle").val();
-                var modifyContent=$("#modifyContent").val();
+                // var modifyTitle=$("#modifyTitle").val();
+                // var modifyContent=$("#modifyContent").val();
                 $.ajax({
                     type:"POST",
                     url:"/teacher/modifyNotice",
