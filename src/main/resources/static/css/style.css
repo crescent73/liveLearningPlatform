@@ -732,7 +732,7 @@ caption {
 }
 
 .dialogbox .box.errorput, .coninform .errorput input, .dialogbox .valcode.errorput input {
-    border-color: #f00;
+    border-color: #ff0000;
     box-shadow: 0 0 5px #aa0b0b;
 }
 
@@ -2025,6 +2025,7 @@ textarea:focus {
 .module1_5, .module1_6 {
     width: 229px !important;
 }
+
 
 .module2 {
     height: 140px;

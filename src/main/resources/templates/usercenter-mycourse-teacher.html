@@ -6,21 +6,14 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
 	<title>我的课程- 慕学在线网</title>
-	<link rel="stylesheet" type="text/css" href="../css/reset.css">
-	<link rel="stylesheet" type="text/css" href="../css/animate.css">
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../js/plugins/queryCity/css/cityLayout.css">
-    
-    <link rel="stylesheet" type="text/css" href="../css/lq.datetimepick.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 
-	<link rel="stylesheet" type="text/css" href="../css/muke/common-less.css" />
-    <link rel="stylesheet" type="text/css" href="../css/muke/course/learn-less.css" />
-    <link rel="stylesheet" type="text/css" href="../css/mooc.css" />
-    <link rel="stylesheet" type="text/css" href="../css/muke/course/common-less.css">
-    <link rel="stylesheet" type="text/css" href="../css/muke/course/course-comment.css" />
-
-    <script src="../js/jquery.min.js" type="text/javascript"></script>
-    <script src="../js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+   <!-- <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>-->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -35,12 +28,12 @@
                         
                         <div class="personal">
                             <dl class="user fr">
-                                <dd>bobby<img class="down fr" src="../images/top_down.png"/></dd>
-                                <dt><img width="20" height="20" src="../media/image/2016/12/default_big_14.png"/></dt>
+                                <dd>bobby<img class="down fr" src="/images/top_down.png"/></dd>
+                                <dt><img width="20" height="20" src="/media/image/2016/12/default_big_14.png"/></dt>
                             </dl>
                             <div class="userdetail">
                             	<dl>
-	                                <dt><img width="80" height="80" src="../media/image/2016/12/default_big_14.png"/></dt>
+	                                <dt><img width="80" height="80" src="/media/image/2016/12/default_big_14.png"/></dt>
 	                                <dd>
 	                                    <h2>django</h2>
 	                                    <p>bobby</p>
@@ -62,7 +55,7 @@
             
     <div class="middle">
         <div class="wp">
-            <a href="index.html"><img class="fl" src="../images/aike1.jpg"/></a>
+            <a href="index.html"><img class="fl" src="/images/aike1.jpg"/></a>
             <h1>我的爱课网 · 老师</h1>
         </div>
     </div>
@@ -84,7 +77,7 @@
         </div>
     </section>
 
-<section>
+<section id="usercenter_mycourse_teacher">
 	<div class="wp list personal_list">
 	<div class="left">
         <ul>
@@ -102,29 +95,84 @@
     
     <div class="right" >
 		<div class="personal_des Releasecont">
-			<div class="head">
-				<h1>我的课程</h1>
-				<div class="buy btn" data-favid="14"><a style="color: grey">创建课程</a></div>
+			<div class="head" >
+				<h1 style="font-size: 22px">我的课程</h1>
+                <!--<button style="font-size: 16px" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse">
+                    创建课程
+                </button>-->
+                <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse"><a style="color: grey" >创建课程</a></div>
 			</div>
 		</div>
 		<div class="personal_des permessage">
 			<div class="companycenter">
-				<div class="group_list brief">
+				<div class="group_list brief"  >
                     
-                    <div class="module1_5 box">
+                    <div class="module1_5 box" v-for="course in courseList">
                             <a href="usercenter-couese-notice-teacher.html">
-                                <img width="214" height="190" class="scrollLoading" src="../media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/>
+                                <img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/>
                             </a>
                             <div class="des">
-                                <a href="usercenter-couese-notice.html"><h2>django与vuejs实战项目2</h2></a>
-                            	 <span class="fr">对外展示</span>
+                                <a href="usercenter-couese-notice.html"><p>{{course.courseName}}</p></a>
+                                <iput class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setCoursePermission">
+                                     <p class="fr" v-if="course.isShow==1">对外展示</p>
+                                     <p class="fr" v-if="course.isShow==0">不对外展示</p>
+                                </iput>
+
                             </div>
                             <div class="bottom">
-                                <span class="fl">Bobby</span>
-                                <span class="delete-group fr jsDeleteFav_course" data-favid="15"></span>
+                                <span class="fl">{{course.teacherName}}</span>
+                                <span class="delete-group fr jsDeleteFav_course" data-favid="15" v-on:click="deleteCourse(course)"></span>
+                            </div>
+
+                        <!--创建课程-->
+                        <div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="addNoticeLabel">创建课程</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div  class="issques clearfix js-form">
+                                            <p class="perinform" style="color: grey">课&nbsp;程&nbsp;名：<input type="text"  maxlength="10" id="courseName"></p>
+                                            <p class="perinform" style="color: grey">课&nbsp;程&nbsp;号：<input type="text"  maxlength="10" id="courseNumber"></p>
+                                            <p class="perinform" style="color: grey">课&nbsp;程&nbsp;图&nbsp;片：<input type="file"  id="coursePicture"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="addCourse(course)">确认</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
+
+                        <!--修改课程权限-->
+                        <div class="modal fade" id="setCoursePermission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="setPermissionLabel">设置课程权限</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        课程权限：<input type="radio" name="show" value="1">对外展示&nbsp;&nbsp;<input type="radio" name="show" value="2">不对外展示
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="isShow(course)">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
 				</div>
 			</div>
 		</div>
@@ -132,7 +180,11 @@
 
 
 	</div>
+
+
 </section>
+
+
 
 
 <!--sidebar start-->
@@ -150,7 +202,7 @@
 <div class="dialog" id="jsDialog">
     <div class="successbox dialogbox" id="jsSuccessTips">
         <h1>成功提交</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <div class="cont">
             <h2>您的需求提交成功！</h2>
             <p></p>
@@ -159,7 +211,7 @@
     <!--提示弹出框-->
     <div class="bidtips dialogbox promptbox" id="jsComfirmDialig">
         <h1>确认提交</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <div class="cont">
             <h2>您确认提交吗？</h2>
             <dd class="autoTxtCount">
@@ -172,7 +224,7 @@
     </div>
     <div class="resetpwdbox dialogbox" id="jsResetDialog">
         <h1>修改密码</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <div class="cont">
             <form id="jsResetPwdForm" autocomplete="off">
                 <div class="box">
@@ -194,7 +246,7 @@
     </div>
     <div class="dialogbox changeemai1 changephone" id="jsChangeEmailDialog">
         <h1>修改邮箱</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <p>请输入新的邮箱地址</p>
         <form id="jsChangeEmailForm" autocomplete="off">
             <div class="box">
@@ -215,9 +267,9 @@
 
     <div  class="noactivebox dialogbox" id="jsUnactiveForm" >
         <h1>邮件验证提示</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <div class="center">
-            <img src="../images/send.png"/>
+            <img src="/images/send.png"/>
             <p>我们已经向您的邮箱<span class="green" id="jsEmailToActive">12@13.com</span>发送了邮件，<br/>为保证您的账号安全，请及时验证邮箱</p>
             <p class="a"><a class="btn" id="jsGoToEmail" target="_blank" href="http://mail.qq.com">去邮箱验证</a></p>
             <p class="zy_success upmove"></p>
@@ -227,7 +279,7 @@
     </div>
     <div class="resetpassbox dialogbox" id="jsSetNewPwd">
         <h1>重新设置密码</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <p class="green">请输入新密码</p>
         <form id="jsSetNewPwdForm">
             <div class="box">
@@ -252,7 +304,7 @@
     </div>
     <div class="forgetbox dialogbox">
         <h1>忘记密码</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <div class="cont">
             <form id="jsFindPwdForm" autocomplete="off">
                 <input type='hidden' name='csrfmiddlewaretoken' value='DaP7IUKm9FA9nELA9YUlYYWpyIDdCiIP' />
@@ -275,142 +327,151 @@
 </div>
 <div class="bg" id="dialogBg"></div>
 
-
-<script src="../js/selectUi.js" type='text/javascript'></script>
-<script type="text/javascript" src="../js/plugins/laydate/laydate.js"></script>
-<script src="../js/plugins/layer/layer.js"></script>
-<script src="../js/plugins/queryCity/js/public.js" type="text/javascript"></script>
-<script src="../js/unslider.js" type="text/javascript"></script>
-<script src="../js/plugins/jquery.scrollLoading.js"  type="text/javascript"></script>
-<script src="../js/validateDialog.js"  type="text/javascript"></script>
-<script src="../js/deco-common.js"  type="text/javascript"></script>
-
-<script src='../js/plugins/jquery.upload.js' type='text/javascript'></script>
-<script src="../js/validate.js" type="text/javascript"></script>
-<script src="../js/deco-user.js"></script>
-
-<script type="text/javascript">
-    $('.jsDeleteFav_course').on('click', function(){
-        var _this = $(this),
-            favid = _this.attr('data-favid');
-        alert(favid)
-        $.ajax({
-                cache: false,
-                type: "POST",
-                url: "/org/add_fav/",
-                data: {
-                    fav_type: 1,
-                    fav_id: favid,
-                    csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
-                },
-                async: true,
-                success: function(data) {
-                    Dml.fun.winReload();
-                }
-            });
-    });
-
-    $('.jsDeleteFav_teacher').on('click', function(){
-            var _this = $(this),
-                favid = _this.attr('data-favid');
-            $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "/org/add_fav/",
-                    data: {
-                        fav_type: 3,
-                        fav_id: favid,
-                        csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
-                    },
-                    async: true,
-                    success: function(data) {
-                        Dml.fun.winReload();
-                    }
-                });
-        });
-
-
-    $('.jsDeleteFav_org').on('click', function(){
-            var _this = $(this),
-                favid = _this.attr('data-favid');
-            $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "/org/add_fav/",
-                    data: {
-                        fav_type: 2,
-                        fav_id: favid,
-                        csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
-                    },
-                    async: true,
-                    success: function(data) {
-                        Dml.fun.winReload();
-                    }
-                });
-        });
-</script>
-
-
+<script src="js/vue.js"></script>
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 <script>
-        var shareUrl = '',
-            shareText = '',
-            shareDesc = '',
-            shareComment = '';
-        $(function () {
-            $(".bdsharebuttonbox a").mouseover(function () {
-                var type = $(this).attr('data-cmd'),
-                    $parent = $(this).parent('.bdsharebuttonbox'),
-                    fxurl = $parent.attr('data-url'),
-                    fxtext = $parent.attr('data-text'),
-                    fxdesc = $parent.attr('data-desc'),
-                    fxcomment = $parent.attr('data-comment');
-                switch (type){
-                    case 'tsina':
-                    case 'tqq':
-                    case 'renren':
-                            shareUrl = fxurl;
-                            shareText = fxdesc;
-                            shareDesc = '';
-                            shareComment = '';
-                        break;
-                    default :
-                            shareUrl = fxurl;
-                            shareText = fxtext;
-                            shareDesc = fxdesc;
-                            shareComment = fxcomment;
-                        break;
-                }
-            });
-        });
-        function SetShareUrl(cmd, config) {
-            if (shareUrl) {
-                config.bdUrl = "" + shareUrl;
-            }
-            if(shareText){
-                config.bdText = shareText;
-            }
-            if(shareDesc){
-                config.bdDesc = shareDesc;
-            }
-            if(shareComment){
-                config.bdComment = shareComment;
+    var mycourse = new Vue({
+        el: '#usercenter_mycourse_teacher',
+        data: {
+            courseList:[]
+        },
+        methods: {
+            getMycourseList(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/searchCourse",
+                    data:{
+                        'teacherId':1,
+                    },
+                    success(res) {
+                        console.log(res)
+                        that.courseList = res.data;
+                        // console.log(this.noticeList)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+
+                });
+            },
+
+            addCourse(course){
+                let that=this;
+                var name=$('#courseName').val;
+                var number=$('#courseNumber').val;
+                var picture=$('#coursePicture').val;
+
+                $.ajax({
+                    type:'POST',
+                    url:'/teacher/addCourse',
+                    data:{
+                        'courseName': name,
+                        'courseNumber': number,
+                        'teacherId': course.teacherId,
+                        'picture':picture
+                    },
+                    success(res) {
+                        console.log(res)
+                        if(res.code==200)
+                        {
+                            alert("添加成功！");
+                        }
+                        else{
+                            alert(res.data.msg);
+                        }
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                })
+            },
+
+            deleteCourse(course){
+                let that = this;
+                $.ajax({
+                    type:'POST',
+                    url:'/teacher/deleteCourse',
+                    data:{
+                        'courseId':course.courseId
+                    },
+                    success(res) {
+                        console.log(res)
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                        if (res.code == 210) {
+                            alert("删除失败！");
+                        } else {
+                            alert("删除成功！");
+                        }
+                    },
+                    error(res) {
+                        console.log(res)
+                    }
+                })
+
+            },
+
+            isShow(course){
+                let that = this;
+                var isShow = $('input[name="show"]:checked').val;
+
+                $.ajax({
+                    type:'POST',
+                    url:'/teacher/setCoursePermission',
+                    data:{
+                        'courseId':course.courseId,
+                        'courseType':isShow
+                    },
+                    success(res) {
+                        console.log(res)
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                        if (res.code == 210) {
+                            alert("修改失败！");
+                        } else {
+                            alert("修改成功！");
+                        }
+                    },
+                    error(res) {
+                        console.log(res)
+                    }
+                })
+            },
+
+        },
+        filters: {
+            formatDate: function (value) {
+                let date = new Date(value);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
             }
 
-            return config;
+        },
+        created(){
+
+        },
+        mounted() {
+            this.getMycourseList();
         }
-        window._bd_share_config = {
-            "common": {
-                "onBeforeClick":SetShareUrl,
-                "bdPic":"",
-                "bdMini":"2",
-                "searchPic":"1",
-                "bdMiniList":false
-            },
-            "share": {
-                "bdSize":"16"
-            }
-        };
-    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com../api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+
+    });
 </script>
+
+
+
 </body>
 </html>

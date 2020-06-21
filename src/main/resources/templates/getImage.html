@@ -10,8 +10,8 @@
 </div>
 
 
-</body>
-<script src="/js/vue.js"></script>
+<script src="js/vue.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     var imageSrc = new Vue({
@@ -23,7 +23,7 @@
             getImage(){
                 let that = this;
                 $.ajax({
-                    type: "get",
+                    type: "POST",
                     url:"/teacher/getCourseImage",
                     responseType: 'blob',
                     data:{
@@ -55,4 +55,5 @@
 
     });
 </script>
+</body>
 </html>
