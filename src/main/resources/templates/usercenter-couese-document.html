@@ -52,9 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="usercenter-message.html">
-                            <div class="msg-num"><span id="MsgNum">0</span></div>
-                        </a>
+
                     
                     
 				</div>
@@ -112,9 +110,11 @@
             <div class="messagelist" v-for="file in fileList">
                 <div  class="messages">
                     <div class="fr">
-                        <label style="font-weight: bold;font-size: 15px">{{file.fileTitle}}</label>
-                        <p>{{file.fileContent}}</p>
-                        <p ><a v-bind:src="file.filePath">{{file.fileName}}</a></p>
+                        <label style="font-weight: bold;font-size: 18px">{{file.fileTitle}}</label>
+                        <p style="font-weight: lighter;font-size: 15px">{{file.fileContent}}</p>
+
+                        <p style="font-weight: bold;font-size: 18px">附件</p>
+                       <a :src="fileSrc" style="font-weight: lighter;font-size: 15px">{{file.fileName}}</a>
                         <div class="top"><span class="fl time">{{file.uploadTime | formatDate}}</span></div>
                     </div>
                 </div>
@@ -281,7 +281,8 @@
     var courseFile = new Vue({
         el: '#user_course_file',
         data: {
-            fileList:[]
+            fileList:[],
+            fileSrc:""
         },
         methods: {
             getFileList(){
@@ -302,7 +303,35 @@
                     }
 
                 });
+            },
+
+            downloadFile(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/downloadFile",
+                    responseType: 'blob',
+                    data:{
+                        fileId:1
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.fileSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+
+                });
             }
+
+
 
         },
         filters: {

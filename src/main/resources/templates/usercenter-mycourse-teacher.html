@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 	<title>我的课程- 慕学在线网</title>
 	<link rel="stylesheet" type="text/css" href="/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="/css/animate.css">
@@ -45,9 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="usercenter-message.html">
-                            <div class="msg-num"><span id="MsgNum">0</span></div>
-                        </a>
+
                     
                     
 				</div>
@@ -84,98 +83,92 @@
             <li ><a href="usercenter-info-teacher.html">个人资料</a></li>
             <li class="active2"><a href="usercenter-mycourse-teacher.html">我的课程</a></li>
             <li ><a href="usercenter-fav-course-teacher.html">我的收藏</a></li>
-            <li >
-                <a href="usercenter-message-teacher.html" style="position: relative;">
-                    我的消息
-                </a>
-            </li>
         </ul>
 	</div>
 
     
-    <div class="right" >
+    <div class="right"  >
 		<div class="personal_des Releasecont">
 			<div class="head" >
 				<h1 style="font-size: 22px">我的课程</h1>
                 <!--<button style="font-size: 16px" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse">
                     创建课程
                 </button>-->
-                <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse"><a style="color: grey" >创建课程</a></div>
+                <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse" ><a style="color: grey" >创建课程</a></div>
 			</div>
 		</div>
-		<div class="personal_des permessage">
-			<div class="companycenter">
-				<div class="group_list brief"  >
-                    
-                    <div class="module1_5 box" v-for="course in courseList">
-                            <a href="usercenter-couese-notice-teacher.html">
-                                <img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/>
-                            </a>
-                            <div class="des">
-                                <a href="usercenter-couese-notice.html"><p>{{course.courseName}}</p></a>
-                                <iput class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setCoursePermission">
-                                     <p class="fr" v-if="course.isShow==1">对外展示</p>
-                                     <p class="fr" v-if="course.isShow==0">不对外展示</p>
-                                </iput>
+        <div class="right" >
 
-                            </div>
-                            <div class="bottom">
-                                <span class="fl">{{course.teacherName}}</span>
-                                <span class="delete-group fr jsDeleteFav_course" data-favid="15" v-on:click="deleteCourse(course)"></span>
-                            </div>
+            <div class="personal_des permessage" v-for="course in courseList">
 
-                        <!--创建课程-->
-                        <div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addNoticeLabel">创建课程</h4>
-                                    </div>
-                                    <div class="modal-body">
+                <div class="messagelist" >
+                    <div  class="messages">
+                        <div class="fr">
+                            <label style="font-weight: bold;font-size: 16px">课程名：<a style="font-weight: lighter;font-size: 15px">{{course.courseName}}</a></label><br>
+                            <label style="font-weight: bold;font-size: 16px">课程类型：<a style="font-weight: lighter;font-size: 15px">{{course.courseType}}</a></label><br>
+                            <label style="font-weight: bold;font-size: 16px">课程内容：<a style="font-weight: lighter;font-size: 15px">{{course.courseDetail}}</a></label><br>
+                            <label style="font-weight: bold;font-size: 16px">课程难度：<a style="font-weight: lighter;font-size: 15px">{{course.courseLevel}}</a></label><br>
+                            <label style="font-weight: bold;font-size: 16px">课程权限：
+                                <a  style="font-weight: lighter;font-size: 15px" v-if="course.isShow==1">对外展示</a>
+                                <a  style="font-weight: lighter;font-size: 15px" v-if="course.isShow==0">不对外展示</a>
+                            </label><br>
 
-                                        <div  class="issques clearfix js-form">
-                                            <p class="perinform" style="color: grey">课&nbsp;程&nbsp;名：<input type="text"  maxlength="10" id="courseName"></p>
-                                            <p class="perinform" style="color: grey">课&nbsp;程&nbsp;号：<input type="text"  maxlength="10" id="courseNumber"></p>
-                                            <p class="perinform" style="color: grey">课&nbsp;程&nbsp;图&nbsp;片：<input type="file"  id="coursePicture"></p>
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="button" class="btn btn-primary" v-on:click="addCourse(course)">确认</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setCoursePermission" @click="click1(course)"><a style="color: grey">设置课程权限</a></p>
+                            <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" v-on:click="deleteFavCourse(course)"><a style="color: grey">删除课程</a></p>
                         </div>
-
-                        <!--修改课程权限-->
-                        <div class="modal fade" id="setCoursePermission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="setPermissionLabel">设置课程权限</h4>
-                                    </div>
-                                    <div class="modal-body">
-
-                                        课程权限：<input type="radio" name="show" value="1">对外展示&nbsp;&nbsp;<input type="radio" name="show" value="2">不对外展示
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="button" class="btn btn-primary" v-on:click="isShow(course)">确认</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
 
                     </div>
+                </div>
 
-				</div>
-			</div>
-		</div>
+
+                <!--创建课程-->
+                <div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="addNoticeLabel">创建课程</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div  class="issques clearfix js-form">
+                                    <p class="perinform" style="color: grey">课&nbsp;程&nbsp;名：<input type="text"  maxlength="10" id="courseName"></p>
+                                    <p class="perinform" style="color: grey">课&nbsp;程&nbsp;号：<input type="text"  maxlength="10" id="courseNumber"></p>
+                                    <p class="perinform" style="color: grey">课&nbsp;程&nbsp;图&nbsp;片：<input type="file"  id="coursePicture" ></p>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" v-on:click="addCourse()">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--修改课程权限-->
+                <div class="modal fade" id="setCoursePermission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="setPermissionLabel">设置课程权限</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                课程权限：<input type="radio" name="show" value="1">对外展示&nbsp;&nbsp;<input type="radio" name="show" value="0">不对外展示
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" v-on:click="isShow(courseForm1)">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 	</div>
 
 
@@ -334,8 +327,15 @@
     var mycourse = new Vue({
         el: '#usercenter_mycourse_teacher',
         data: {
-            courseList:[]
+            courseList:[],
+            courseForm1:{
+                courseId:''
+            },
+            courseForm2:{
+                teacherId:''
+            }
         },
+
         methods: {
             getMycourseList(){
                 let that = this;
@@ -357,11 +357,15 @@
                 });
             },
 
-            addCourse(course){
+            addCourse(){
                 let that=this;
-                var name=$('#courseName').val;
-                var number=$('#courseNumber').val;
-                var picture=$('#coursePicture').val;
+
+                var name=$('#courseName').val();
+                var number=$('#courseNumber').val();
+                var picture=$('#coursePicture').get(0).files[0];
+                var formData=new FormData();
+                formData.append("file",picture);
+
 
                 $.ajax({
                     type:'POST',
@@ -369,8 +373,19 @@
                     data:{
                         'courseName': name,
                         'courseNumber': number,
-                        'teacherId': course.teacherId,
-                        'picture':picture
+                       // 'teacherId': course.teacherId,
+                        'picture': formData
+                    },
+
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    xhr: function(){
+                        var xhr = $.ajaxSettings.xhr();
+                        if(onprogress && xhr.upload) {
+                            xhr.upload.addEventListener("progress" , onprogress, false);
+                            return xhr;
+                        }
                     },
                     success(res) {
                         console.log(res)
@@ -389,6 +404,13 @@
                     }
                 })
             },
+
+            onprogress(evt){
+                var loaded = evt.loaded;         //已经上传大小情况
+                var tot = evt.total;           //附件总大小
+                var per = Math.floor(100*loaded/tot);   //已经上传的百分比
+            },
+
 
             deleteCourse(course){
                 let that = this;
@@ -417,13 +439,13 @@
 
             isShow(course){
                 let that = this;
-                var isShow = $('input[name="show"]:checked').val;
+                var isShow = $("input[name='show']:checked").val();
 
                 $.ajax({
                     type:'POST',
                     url:'/teacher/setCoursePermission',
                     data:{
-                        'courseId':course.courseId,
+                        'id':course.courseId,
                         'courseType':isShow
                     },
                     success(res) {
@@ -440,6 +462,16 @@
                         console.log(res)
                     }
                 })
+            },
+
+            click1(notice) {
+                console.log(notice)
+                this.courseForm1 = notice;
+            },
+
+            click2(notice) {
+                console.log(notice)
+                this.courseForm2 = notice;
             },
 
         },

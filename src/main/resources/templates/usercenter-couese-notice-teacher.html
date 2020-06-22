@@ -47,9 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="usercenter-message.html">
-                        <div class="msg-num"><span id="MsgNum">0</span></div>
-                    </a>
+
 
 
                 </div>
@@ -98,10 +96,11 @@
         <div class="right" >
             <div class="personal_des Releasecont">
                 <div class="head">
-                    <h1>公告</h1>
-                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addNotice">
+                    <h1 style="font-size: 22px">公告</h1>
+                    <!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addNotice">
                         发布公告
-                    </button>
+                    </button>-->
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addNotice"><a style="color: grey">发布公告</a></div>
                 </div>
             </div>
             <div class="right" >
@@ -120,10 +119,10 @@
                                     <div class="modal-body">
                                         <!--修改公告-->
                                         <div  class="issques clearfix js-form">
-                                            <p class="perinform" style="color: grey">标&nbsp;&nbsp;题：<input type="text"  maxlength="10" class="modifyTitle" v-model="courseForm.noticeTitle"></p>
+                                            <p class="perinform" style="color: grey">标&nbsp;&nbsp;题：<input type="text"  maxlength="10" class="modifyTitle" v-model="courseForm.noticeTitle" id="modifyTitle"></p>
                                             <p style="color: grey">内&nbsp;&nbsp;容：
                                             <div class="wgt-ipt-wrap pub-editor-wrap " >
-                                                <textarea  class="" placeholder="" class="modifyContent" v-model="courseForm.noticeContent"></textarea>
+                                                <textarea  class="" placeholder="" class="modifyContent" v-model="courseForm.noticeContent" id="modifyContent"></textarea>
                                             </div>
                                             </p>
 
@@ -131,11 +130,12 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="button" class="btn btn-primary" v-on:click="modifyNotice(courseNotice)">修改公告</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="modifyNotice(courseForm)">修改公告</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div  class="messages">
                             <div class="fr">
                                 <label style="font-weight: bold;font-size: 15px" >{{courseNotice.noticeTitle}}</label>
@@ -417,8 +417,8 @@
             modifyNotice(notice){
                 console.log(notice)
                 let that = this;
-                // var modifyTitle=$("#modifyTitle").val();
-                // var modifyContent=$("#modifyContent").val();
+                var modifyTitle=$("#modifyTitle").val();
+                var modifyContent=$("#modifyContent").val();
                 $.ajax({
                     type:"POST",
                     url:"/teacher/modifyNotice",

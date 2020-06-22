@@ -10,7 +10,7 @@
 </div>
 
 
-<script src="js/vue.js"></script>
+<script src="../../static/js/vue.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
@@ -27,7 +27,7 @@
                     url:"/teacher/getCourseImage",
                     responseType: 'blob',
                     data:{
-                        courseId:13
+                        courseId:1
                     },
                     xhr:function(){// Seems like the only way to get access to the xhr object
                         var xhr = new XMLHttpRequest();

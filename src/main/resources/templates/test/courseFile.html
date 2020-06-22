@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<title>courseFile</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<!-- Font Awesome Icons -->
+	<link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../dist/css/adminlte.min.css">
+	<!-- SweetAlert2 -->
+	<link rel="stylesheet" href="/blackboard/page/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+	<!-- Google Font: Source Sans Pro -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+	<!-- 引用阿里的字体图标库 -->
+  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1546252_v6mv4erx9zg.css">
+
+</head>
+<body  style="background-color: #f4f6f9">
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content" id="content">
+		<!-- Content Header (Page header) -->
+		<div class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1 class="m-0 text-dark">课程文档</h1>
+					</div><!-- /.col -->
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item"><a href="courseList.html" target="top">主页</a></li>
+							<li class="breadcrumb-item"><a href="course.html" target="top">{{courseName}}课程</a></li>
+							<li class="breadcrumb-item"><a href="courseFile.html">课程文档</a></li>
+							<li class="breadcrumb-item active">文档列表</li>
+						</ol>
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.container-fluid -->
+		</div>
+		<!-- /.content-header -->
+		<!-- Main content -->
+		<div class="content">
+			<div class="card">
+				<div class="card-body">
+					<ul v-if="!isFileEmpty" class="list-group">
+						<li v-for="file in files" v-bind:key="file.id"  class="list-group-item">
+							<div class="media">
+								<div class="media-body">
+									<h4 class="media-heading text-bold">
+										{{file.fileName}}
+                                        <button v-show="isTeacher" @click="deleteFile(file)" type="button" class="btn btn-tool">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+									</h4>
+									<dl>
+										<dd class="text-muted">{{file.uploadDate | formatDate}} -- {{file.teacherName}}老师</dd>
+										<dt>文档描述</dt>
+										<dd>{{ file.fileDescription }}</dd>
+										<dt>附件</dt>
+										<dd>
+											<div v-if="file.isShowAttachment">
+												<div v-for="attachment in file.attachmentList" v-bind:key="attachment.id">
+													<span class="iconfont iconyasuobao-  mr-2"></span>
+													<span @click="downloadAttachment(attachment)" >{{attachment.attachmentName}}</span>
+													<button v-show="isTeacher" @click="deleteAttachment(attachment)" type="button" class="btn btn-tool">
+														<i class="far fa-trash-alt"></i>
+													</button>
+												</div>
+											</div>
+
+											<div v-if="!file.isShowAttachment">
+												还没有添加附件哦~
+											</div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div v-show="isFileEmpty">
+						当前还没有课程文档哦~
+					</div>
+				</div><!-- /.card-body -->
+			</div><!-- /.card -->
+		</div><!-- /.container-fluid -->
+	</div>
+	<!-- /.content-wrapper -->
+</body>
+<script src="../plugins/jquery/jquery.min.js"></script><!-- jQuery -->
+<script src="/blackboard/page/dist/js/request.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script><!-- Bootstrap 4 -->
+<script src="../plugins/sweetalert2/sweetalert2.min.js"></script><!-- SweetAlert2 -->
+<script src="../dist/js/adminlte.min.js"></script><!-- AdminLTE App -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><!-- 引用vue -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script><!-- 引用axios -->
+<script src="requestParam.js"></script>
+<script  type="text/javascript">
+	var app = new Vue({
+		el: '#content',
+		data() {
+			return{
+				isTeacher:false,
+				isFileEmpty:true,
+				courseName:null,
+				files:[],
+				fileForm:{
+					"courseId": null,
+				},
+                file:{
+                    "fileId":null
+                },
+				attachmentForm:{
+					"attachmentId":null
+				}
+			}
+		},
+		methods:{
+			fileList(){
+				let that = this;
+                this.cleatFormData();
+				request({
+					type:requestType.post,
+					url:requestUrl.searchFile,
+					data:that.fileForm,
+				}).then(
+						function success(res){
+							if(res.code === "208") {
+								that.isFileEmpty = false;
+								that.files = res.data.data;
+								that.files.forEach(item=>{
+									if(item.attachmentList.length === 0){
+										Vue.set(item,'isShowAttachment',false);
+									} else {
+										Vue.set(item,'isShowAttachment',true);
+									}
+								});
+							} else {
+								that.isFileEmpty = true;
+							}
+						},
+						function error(res){
+							console.log(res)
+						}
+				);
+			},
+            deleteFile(file){
+				let that = this;
+				this.file.fileId = file.id;
+				Swal.fire({
+					title: '确认删除文档吗?',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '删除',
+					cancelButtonText: "取消"
+				}).then((result) => {
+					if (result.value) {
+						request({
+							type:requestType.post,
+							url:requestUrl.deleteFile,
+							data:this.file,
+						}).then(
+								function success(res){
+									if(res.code === "204") {
+										Toast.fire({
+											type: 'success',
+											title: '删除成功',
+											onAfterClose: function () {
+												that.fileList();//刷新数据
+											}
+										});
+									} else {
+										Toast.fire({
+											type: 'error',
+											title: '删除失败，请稍后重试'
+										});
+									}
+								},
+								function error(res){
+									console.log(res)
+								}
+						);
+					}
+				})
+
+
+            },
+            deleteAttachment(attachment){
+				let that = this;
+				this.attachmentForm.attachmentId = attachment.id;
+				Swal.fire({
+					title: '确认删除文档吗?',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '删除',
+					cancelButtonText: "取消"
+				}).then((result) => {
+					if (result.value) {
+						request({
+							type:requestType.post,
+							url:requestUrl.deleteAttachment,
+							data:this.attachmentForm,
+						}).then(
+								function success(res){
+									if(res.code === "204") {
+										Toast.fire({
+											type: 'success',
+											title: '删除成功',
+											onAfterClose: function () {
+												that.fileList();//刷新数据
+											}
+										});
+									} else {
+										Toast.fire({
+											type: 'error',
+											title: '删除失败，请稍后重试'
+										});
+									}
+								},
+								function error(res){
+									console.log(res)
+								}
+						);
+					}
+				})
+
+            },
+			downloadAttachment(attachment){
+				this.attachmentForm.attachmentId = attachment.id;
+				axios({
+					url:requestUrl.downloadAttachment,
+					method: requestType.post,
+					data:this.attachmentForm,
+					headers:requestHeader,
+					responseType: 'blob'
+				}).then((res)=>{
+					const data = res.data;
+					// 有可能下载失败，返回{code: '409'},但responseType: 'blob'会把data强制转为blob，导致下载undefined.excel
+					// 解决：将已转为blob类型的data转回json格式，判断是否下载成功
+					let r = new FileReader();
+					r.onload = function () {
+						// 如果JSON.parse(this.result)不报错，说明this.result是json字符串，是下载报错情况的返回值，弹框提示
+						// 如果JSON.parse(this.result)报错，说明下载成功，进入catch
+						try {
+							let resData = JSON.parse(this.result);// this.result为FileReader获取blob数据转换为json后的数据，即后台返回的原始数据
+							console.log(resData);
+							alert("文件下载失败!")
+						} catch (err) {
+							let fileName = res.headers['content-disposition'];
+							if (fileName && fileName.length >= 2) {// 获取文件名
+								console.log(fileName);
+								console.log(decodeURI(fileName));
+								fileName = fileName.split('=')[2];
+								fileName = fileName.substring(1,fileName.length-1);
+								console.log(fileName);
+							}
+							fileName = decodeURIComponent(fileName);
+							console.log(fileName);
+							if (window.navigator.msSaveOrOpenBlob) {// 兼容ie11
+								try {
+									const blobObject = new Blob([data]);
+									window.navigator.msSaveOrOpenBlob(blobObject, fileName)
+								} catch (e) {
+									console.log(e)
+								}
+								return
+							}
+							let url = window.URL.createObjectURL(new Blob([data]));
+							let link = document.createElement('a');
+							link.style.display = 'none';
+							link.href = url;
+							link.setAttribute('download', fileName);
+							document.body.appendChild(link);
+							link.click();
+							document.body.removeChild(link)
+						}
+					};
+					r.readAsText(data) // FileReader的API
+				}).catch((error)=>{
+					console.log(error);
+				});
+
+			},
+            cleatFormData(){
+			    this.fileForm.fileName = "";
+            },
+			init(type){
+				switch(type){
+					case "2"://教师
+						this.isTeacher = true;
+						this.fileForm.courseId = localStorage.getItem("courseId");
+						this.courseName = localStorage.getItem("courseName");
+						break;
+					case "3"://学生
+						this.isTeacher = false;
+						this.fileForm.courseId = localStorage.getItem("courseId");
+						this.courseName = localStorage.getItem("courseName");
+						break;
+					case "1":
+						window.location.href = requestHref.login;//跳转到登陆页面
+						break;
+					default:
+						window.location.href = requestHref.login;//跳转到登陆页面
+				}
+			},
+		},
+		filters: {
+			formatDate: function (value) {
+				let date = new Date(value);
+				let y = date.getFullYear();
+				let MM = date.getMonth() + 1;
+				MM = MM < 10 ? ('0' + MM) : MM;
+				let d = date.getDate();
+				d = d < 10 ? ('0' + d) : d;
+				let h = date.getHours();
+				h = h < 10 ? ('0' + h) : h;
+				let m = date.getMinutes();
+				m = m < 10 ? ('0' + m) : m;
+				let s = date.getSeconds();
+				s = s < 10 ? ('0' + s) : s;
+				return y + '年' + MM + '月' + d + '日 ' + h + ':' + m + ':' + s;
+			},
+		},
+		created(){
+			this.init(localStorage.getItem("userType"));
+			this.fileList();
+		},
+		mounted(){
+
+		}
+
+	})
+</script>
+</html>

@@ -48,9 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="usercenter-message.html">
-                            <div class="msg-num"><span id="MsgNum">0</span></div>
-                        </a>
+
                     
                     
 				</div>
@@ -87,11 +85,6 @@
             <li ><a href="usercenter-info-teacher.html">个人资料</a></li>
             <li ><a href="usercenter-mycourse-teacher.html">我的课程</a></li>
             <li class="active2"><a href="usercenter-fav-course-teacher.html">我的收藏</a></li>
-            <li >
-                <a href="usercenter-message-teacher.html" style="position: relative;">
-                    我的消息
-                </a>
-            </li>
         </ul>
 	</div>
 
@@ -102,31 +95,33 @@
                     <h1>我的收藏</h1>
                 </div>
             </div>
+        <div class="right" >
+
             <div class="personal_des permessage">
-                
-                <div class="companycenter">
-                    <div class="group_list brief" v-for="course in courseList">
 
-                        <div class="module1_5 box" v-show="course.isShow">
-                            <a href="course-detail.html">
-                                <img width="214" height="190" src="/media/courses/2016/12/57035ff200014b8a06000338-240-135_dHfj8Nq.jpg"/>
-                            </a>
-                            <div class="des">
-                                <a href="course-detail.html"><h2>{{course.courseName}}</h2></a>
-                            </div>
-                            <div class="bottom">
-                                <span class="fl">{{course.teacherId}}</span>
-                                <span class="delete-group fr jsDeleteFav_course" data-favid="12" v-on:click="deleteFavCourse(course)"></span>
-                            </div>
+                <div class="messagelist" v-for="course in courseList">
+                    <div  class="messages">
+                        <div class="fr">
+                            <label style="font-weight: bold;font-size: 17px">{{course.courseId}}---{{course.courseName}}</label>
+                            <p style="font-size: 13px">
+                                {{course.teacherId}}老师
+                            </p>
+                            <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" v-on:click="deleteFavCourse(course)"><a style="color: grey">删除</a></p>
                         </div>
-
-
 
                     </div>
                 </div>
-            </div>
-        </div>
 
+
+                <div class="pageturn pagerright">
+                    <ul class="pagelist">
+                        <li class="active"><a href="?page=1">1</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 	</div>
 </section>

@@ -12,14 +12,15 @@
     <link rel="stylesheet" type="text/css" href="/js/plugins/queryCity/css/cityLayout.css">
     <link rel="stylesheet" type="text/css" href="/css/lq.datetimepick.css"/>
 
-    <link rel="stylesheet" type="text/css" href="/css/muke/common-less.css" />
+   <!-- <link rel="stylesheet" type="text/css" href="/css/muke/common-less.css" />
     <link rel="stylesheet" type="text/css" href="/css/muke/course/learn-less.css" />
     <link rel="stylesheet" type="text/css" href="/css/mooc.css" />
     <link rel="stylesheet" type="text/css" href="/css/muke/course/common-less.css">
-    <link rel="stylesheet" type="text/css" href="/css/muke/course/course-comment.css" />
+    <link rel="stylesheet" type="text/css" href="/css/muke/course/course-comment.css" />-->
 
     <script src="/js/jquery.min.js" type="text/javascript"></script>
-    <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -51,9 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="usercenter-message.html">
-                            <div class="msg-num"><span id="MsgNum">0</span></div>
-                        </a>
+
                     
                     
 				</div>
@@ -103,8 +102,8 @@
     <div class="right" >
             <div class="personal_des Releasecont">
                 <div class="head">
-                    <h1>作业</h1>
-                    <div class="buy btn" data-favid="14"><a style="color: grey">发布作业</a></div>
+                    <h1 style="font-size: 22px">作业</h1>
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#publishHomework"><a style="color: grey">发布作业</a></div>
                 </div>
             </div>
 
@@ -116,10 +115,43 @@
                         {{homework.assignmentContent}}
                     </p>
                     <div class="top"><span class="fl time">{{homework.publishTime | formatDate}}</span></div>
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modifyNotice" @click=""><a style="color: grey" >批改作业</a></div>
+                    <div class="buy btn" data-favid="14" v-on:click="deleteAssignment(homework)"><a style="color: grey">删除作业</a></div>
                 </div>
             </div>
+
+            <!--发布公告-->
+            <div class="modal fade" id="publishHomework" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="addNoticeLabel">发布作业</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div  class="issques clearfix js-form">
+                                <p class="perinform" style="color: grey">标&nbsp;&nbsp;题：<input type="text"  maxlength="10" id="title"></p>
+                                <p style="color: grey">内&nbsp;&nbsp;容：
+                                <div class="wgt-ipt-wrap pub-editor-wrap " >
+                                    <textarea  class="" placeholder="" id="content"></textarea>
+                                </div>
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" v-on:click="publishAssignment(homework)">发布作业</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+
+
 
 	</div>
 </section>
@@ -294,7 +326,62 @@
                     }
 
                 });
-            }
+            },
+
+            publishAssignment(homework){
+                let that = this;
+                var title = $("#title").val();
+                var content = $("#content").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/teacher/publishAssignment",
+                    data: {
+                        'courseId': homework.courseId,
+                        'userId': homework.userId,
+                        'assignmentTitle': title,
+                        'assignmentContent': content
+                    },
+                    success(res) {
+                        console.log(res)
+                        if (res.code == 200) {
+                            alert("发布成功！");
+                        } else {
+                            alert(res.data.msg);
+                        }
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                    },
+                    error(res) {
+                        console.log(res)
+                    }
+                });
+            },
+
+            deleteAssignment(homework) {
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/teacher/deleteAssignment",
+                    data: {
+                        'assignmentId': homework.assignmentId,
+
+                    },
+                    success(res) {
+                        console.log(res)
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                        if (res.code == 210) {
+                            alert("删除失败！");
+                        } else {
+                            alert("删除成功！");
+                        }
+                    },
+                    error(res) {
+                        console.log(res)
+                    }
+                });
+            },
+
 
         },
         filters: {
