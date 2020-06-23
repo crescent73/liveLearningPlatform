@@ -87,7 +87,6 @@
 		<img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
         <ul>
             <li ><a href="usercenter-couese-notice.html">公告</a></li>
-            <li ><a href="usercenter-couese-courseware.html">课件</a></li>
             <li class="active2"><a href="usercenter-couese-homework.html">作业</a></li>
             <li >
                 <a href="usercenter-couese-document.html" style="position: relative;">
@@ -117,9 +116,15 @@
                         </div>
                         <div class="modal-body">
                             <!--提交作业-->
-                            <div  class="issques clearfix js-form">
+                            <!--<div  class="issques clearfix js-form">
                                 <p class="perinform" style="color: grey">作业：<input type="file"  id="content"></p>
+                            </div>-->
+                            <p style="color: grey">作&nbsp;&nbsp;业：
+                            <div class="wgt-ipt-wrap pub-editor-wrap " >
+                                <textarea  class="" placeholder="" class="modifyContent"  id="content"></textarea>
                             </div>
+                            </p>
+
 
                         </div>
                         <div class="modal-footer">
@@ -137,13 +142,40 @@
                         {{homework.assignmentContent}}
                     </p>
                     <div class="top"><span class="fl time">{{homework.publishTime | formatDate}}</span></div>
-                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#submitHomework" @click="click(homework)"><a style="color: grey" >提交作业</a></div>
-
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#submitHomework" @click="click1(homework)"><a style="color: grey" >提交作业</a></div>
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#getGrade"  v-on:click=" getAssignmentDetail(homework)"><a style="color: grey" >查看成绩</a></div>
                 </div>
             </div>
         </div>
 
 
+        </div>
+
+        <!--查看成绩-->
+        <div class="modal fade" id="getGrade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" >查看成绩</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div  class="issques clearfix js-form">
+                            <p class="perinform" style="color: grey">成&nbsp;&nbsp;绩：<input type="text"  maxlength="10" class="modifyTitle" v-model="score" ></p>
+                            <p style="color: grey">老师回复：
+                            <div class="wgt-ipt-wrap pub-editor-wrap " >
+                                <textarea  class="" placeholder="" class="modifyContent" v-model="reply" ></textarea>
+                            </div>
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -302,7 +334,13 @@
             homeworkForm:{
                 assignmentId:'',
                 userId:''
-            }
+            },
+            result:{
+                score:'',
+                teacherReply:''
+            },
+            score:'',
+            reply:''
         },
         methods: {
             getHomeworkList(){
@@ -335,7 +373,7 @@
                     data:{
                         'assignmentId':homework.assignmentId,
                         'userId':homework.userId,
-                        'assignmentSubmition':content
+                        'assignmentSubmission':content
                     },
                     success(res) {
                         console.log(res)
@@ -344,7 +382,7 @@
                             alert("提交成功！");
                         }
                         else{
-                            alert(res.data.msg);
+                            alert("提交失败");
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
@@ -354,9 +392,34 @@
                     }
                 })
             },
-            click(homework) {
+            click1(homework) {
                 console.log(homework)
                 this.homeworkForm = homework;
+            },
+            click2(homework) {
+                console.log(homework)
+                this.result = homework;
+            },
+
+            getAssignmentDetail(homework){
+                let that = this;
+                $.ajax({
+                    type:'POST',
+                    url:'/student/getAssignmentDetail',
+                    data:{
+                        'assignmentId':homework.assignmentId,
+                        'studentId':homework.userId,
+                    },
+                    success(res) {
+                        console.log(res);
+                        that.score = res.data.studentAssignment.score;
+                        that.reply = res.data.studentAssignment.teacherReply;
+                        // console.log(this.noticeList)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                })
             },
 
         },

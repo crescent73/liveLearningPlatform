@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
+	<!--meta charset="UTF-8"-->
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
     <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
@@ -140,7 +140,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary" v-on:click="addCourse()">确认</button>
+                                <button type="button" class="btn btn-primary" v-on:click="addCourse(courseForm2)">确认</button>
                             </div>
                         </div>
                     </div>
@@ -333,10 +333,78 @@
             },
             courseForm2:{
                 teacherId:''
+            },
+
+            courseName:null,
+            fileForm: {
+                courseId: null,
+                uploaderId: null,
+                fileName: null,
+                fileDescription: null,
+                file: null
             }
         },
 
         methods: {
+            getFile(event) {
+                this.fileForm.file = event.target.files;
+            },
+            addFile(event){
+                if(this.fileForm.fileName == null || this.fileForm.fileDescription == null){
+                    return ;
+                }
+                if(this.fileForm.file == null) {
+                    Toast.fire({
+                        type: 'error',
+                        title: '附件不能为空'
+                    });
+                    return ;
+                }
+                let formData = new FormData();
+                formData.append("courseId",this.fileForm.courseId);
+                formData.append("uploaderId",this.fileForm.uploaderId);
+                formData.append("fileName",this.fileForm.fileName);
+                formData.append("fileDescription",this.fileForm.fileDescription);
+                if(this.fileForm.file != null){
+                    for(let i=0; i<this.fileForm.file.length; i++){
+                        formData.append("file",this.fileForm.file[i]);
+                    }
+                }
+                request({
+                    type:requestType.post,
+                    url:requestUrl.addFile,
+                    data:formData,
+                    processData: false,
+                    contentType : false,
+                    dataType: "json",
+                }).then(
+                    function success(res){
+                        console.log(res);
+                        if(res.code === "406"){
+                            Toast.fire({
+                                type: 'success',
+                                title: '文档上传成功',
+                                onAfterClose: function () {
+                                    window.location.href = requestHref.courseFile;
+                                }
+                            });
+                        } else {
+                            Toast.fire({
+                                type: 'error',
+                                title: '文档上传失败，请稍后重试'
+                            });
+                        }
+                    },
+                    function error(res){
+                        console.log(res)
+                    }
+                );
+                return false;
+            },
+
+
+
+
             getMycourseList(){
                 let that = this;
                 $.ajax({
@@ -357,59 +425,7 @@
                 });
             },
 
-            addCourse(){
-                let that=this;
 
-                var name=$('#courseName').val();
-                var number=$('#courseNumber').val();
-                var picture=$('#coursePicture').get(0).files[0];
-                var formData=new FormData();
-                formData.append("file",picture);
-
-
-                $.ajax({
-                    type:'POST',
-                    url:'/teacher/addCourse',
-                    data:{
-                        'courseName': name,
-                        'courseNumber': number,
-                       // 'teacherId': course.teacherId,
-                        'picture': formData
-                    },
-
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    xhr: function(){
-                        var xhr = $.ajaxSettings.xhr();
-                        if(onprogress && xhr.upload) {
-                            xhr.upload.addEventListener("progress" , onprogress, false);
-                            return xhr;
-                        }
-                    },
-                    success(res) {
-                        console.log(res)
-                        if(res.code==200)
-                        {
-                            alert("添加成功！");
-                        }
-                        else{
-                            alert(res.data.msg);
-                        }
-                        //that.noticeList = res.data;
-                        // console.log(this.noticeList)
-                    },
-                    error(res){
-                        console.log(res)
-                    }
-                })
-            },
-
-            onprogress(evt){
-                var loaded = evt.loaded;         //已经上传大小情况
-                var tot = evt.total;           //附件总大小
-                var per = Math.floor(100*loaded/tot);   //已经上传的百分比
-            },
 
 
             deleteCourse(course){
@@ -464,14 +480,14 @@
                 })
             },
 
-            click1(notice) {
-                console.log(notice)
-                this.courseForm1 = notice;
+            click1(course) {
+                console.log(course);
+                this.courseForm1 = course;
             },
 
-            click2(notice) {
-                console.log(notice)
-                this.courseForm2 = notice;
+            click2(course) {
+                console.log(course);
+                this.courseForm2 = course;
             },
 
         },

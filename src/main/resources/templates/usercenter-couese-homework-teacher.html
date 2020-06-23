@@ -88,7 +88,6 @@
 		<img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
         <ul>
             <li ><a href="usercenter-couese-notice-teacher.html">公告</a></li>
-            <li ><a href="usercenter-couese-courseware-teacher.html">课件</a></li>
             <li class="active2"><a href="usercenter-couese-homework-teacher.html">作业</a></li>
             <li >
                 <a href="usercenter-couese-document-teacher.html" style="position: relative;">
@@ -115,12 +114,12 @@
                         {{homework.assignmentContent}}
                     </p>
                     <div class="top"><span class="fl time">{{homework.publishTime | formatDate}}</span></div>
-                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modifyNotice" @click=""><a style="color: grey" >批改作业</a></div>
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#studentHomework" v-on:click="getAssignmentDetail(homework)"><a style="color: grey" >学生作业</a></div>
                     <div class="buy btn" data-favid="14" v-on:click="deleteAssignment(homework)"><a style="color: grey">删除作业</a></div>
                 </div>
             </div>
 
-            <!--发布公告-->
+            <!--发布作业-->
             <div class="modal fade" id="publishHomework" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -143,6 +142,72 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <button type="button" class="btn btn-primary" v-on:click="publishAssignment(homework)">发布作业</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--学生作业-->
+            <div class="modal fade" id="studentHomework" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" >学生作业</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="messagelist" v-for="assignment in assignmentList">
+                            <div  class="messages" >
+                                <div class="fr">
+                                    <label style="font-weight: bold;font-size: 15px">{{assignment.userId}}</label>
+                                    <p>
+                                        {{assignment.assignmentSubmission}}
+                                    </p>
+                                    <div class="top"><span class="fl time">{{assignment.uploadTime | formatDate}}</span></div>
+                                    <label style="font-weight: bold;font-size: 15px">老师回复：<a style="font-weight: lighter;font-size: 15px">{{assignment.teacherReply}}</a></label><br>
+                                    <label style="font-weight: bold;font-size: 15px">成绩：<a style="font-weight: lighter;font-size: 15px">{{assignment.score}}</a></label><br>
+                                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gradeHomework" @click="click(assignment)"><a style="color: grey" >批改作业</a></div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--批改作业-->
+            <div class="modal fade" id="gradeHomework" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" >批改作业</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div  class="issques clearfix js-form">
+                                <label style="font-weight: bold;font-size: 15px">{{assignmentForm.userId}}</label>
+                                <p>
+                                    {{assignmentForm.assignmentSubmission}}
+                                </p>
+                                <hr/>
+                                <p class="perinform" style="color: grey">分&nbsp;&nbsp;数：<input type="text"  maxlength="10" id="score"></p>
+                                <p style="color: grey">回&nbsp;&nbsp;复：
+                                <div class="wgt-ipt-wrap pub-editor-wrap " >
+                                    <textarea  class="" placeholder="" id="reply"></textarea>
+                                </div>
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" v-on:click="gradeAssignment(assignmentForm)">确认</button>
                         </div>
                     </div>
                 </div>
@@ -305,7 +370,13 @@
     var courseNotice = new Vue({
         el: '#user_course_homework_teacher',
         data: {
-            homeworkList:[]
+            homeworkList:[],
+            assignmentList:[],
+            assignmentForm:{
+                studentAssignmentId:'',
+                userId:'',
+                assignmentSubmission: '',
+            }
         },
         methods: {
             getHomeworkList(){
@@ -326,6 +397,25 @@
                     }
 
                 });
+            },
+
+            getAssignmentDetail(homework){
+                let that = this;
+                $.ajax({
+                    type:'POST',
+                    url:'/teacher/getAssignmentDetail',
+                    data:{
+                        'assignmentId':homework.assignmentId
+                    },
+                    success(res) {
+                        console.log(res)
+                        that.assignmentList = res.data.studentAssignment;
+                        // console.log(this.noticeList)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                })
             },
 
             publishAssignment(homework){
@@ -381,6 +471,40 @@
                     }
                 });
             },
+
+            gradeAssignment(assignment){
+                let that = this;
+                var score=$("#score").val();
+                var reply=$("#reply").val();
+
+                $.ajax({
+                    type:'POST',
+                    url:'/teacher/gradeAssignment',
+                    data:{
+                        'studentAssignmentId':assignment.studentAssignmentId,
+                        'score':score,
+                        'teacherReply':reply,
+                    },
+                    success(res) {
+                        console.log(res)
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                        if (res.code == 200) {
+                            alert("批改成功！");
+                        } else {
+                            alert("批改失败！");
+                        }
+                    },
+                    error(res) {
+                        console.log(res)
+                    }
+                })
+            },
+            click(assignment){
+
+                console.log(assignment);
+                this.assignmentForm= assignment;
+            }
 
 
         },

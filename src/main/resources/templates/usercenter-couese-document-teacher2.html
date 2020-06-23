@@ -13,6 +13,16 @@
     
     <link rel="stylesheet" type="text/css" href="/css/lq.datetimepick.css"/>
 
+	<!--<link rel="stylesheet" type="text/css" href="/css/muke/common-less.css" />
+    <link rel="stylesheet" type="text/css" href="/css/muke/course/learn-less.css" />
+    <link rel="stylesheet" type="text/css" href="/css/mooc.css" />
+    <link rel="stylesheet" type="text/css" href="/css/muke/course/common-less.css">
+    <link rel="stylesheet" type="text/css" href="/css/muke/course/course-comment.css" />-->
+
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
+
 </head>
 <body>
 <section class="headerwrap headerwrap2">
@@ -45,14 +55,13 @@
                         </div>
 
                     
-                    
 				</div>
 			</div>
             
     <div class="middle">
         <div class="wp">
             <a href="index.html"><img class="fl" src="/images/aike1.jpg"/></a>
-            <h1>我的爱课网 · 学生</h1>
+            <h1>我的爱课网 · 老师</h1>
         </div>
     </div>
 			</div>
@@ -73,15 +82,15 @@
         </div>
     </section>
 
-<section id="user_course_notice">
+<section id="user_course_file_teacher">
 	<div class="wp list personal_list">
 	<div class="left">
 		<img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
         <ul>
-            <li class="active2"><a href="usercenter-couese-notice.html">公告</a></li>
-            <li ><a href="usercenter-couese-homework.html">作业</a></li>
-            <li >
-                <a href="usercenter-couese-document.html" style="position: relative;">
+            <li ><a href="usercenter-couese-notice-teacher.html">公告</a></li>
+            <li ><a href="usercenter-couese-homework-teacher.html">作业</a></li>
+            <li class="active2">
+                <a href="usercenter-couese-document-teacher.html" style="position: relative;">
                       文档
                 </a>
             </li>
@@ -92,35 +101,95 @@
     <div class="right" >
             <div class="personal_des Releasecont">
                 <div class="head">
-                    <h1>公告</h1>
+                    <h1 style="font-size: 22px"> 文档</h1>
+                    <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addDocument"><a style="color: grey">上传文档</a></div>
                 </div>
             </div>
-           <div class="right" >
+        <div class="personal_des permessage">
 
-		<div class="personal_des permessage">
-			
-			<div class="messagelist" v-for="notice in noticeList">
-                    <div  class="messages">
-                        <div class="fr">
-                            <label style="font-weight: bold;font-size: 15px">{{notice.noticeTitle}}</label>
-                            <p>
-                                {{notice.noticeContent}}
-                            </p>
-                            <div class="top"><span class="fl time">{{notice.publishTime | formatDate}}</span><span class="fr btn foldbtn"></span></div>
+            <div class="messagelist" v-for="file in fileList">
+                <!--修改文档-->
+                <div class="modal fade" id="modifyFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="modifyNoticeLabel">修改文档</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--修改文档-->
+                                <div  class="issques clearfix js-form">
+                                    <p class="perinform" style="color: grey">文档标题：<input type="text"  maxlength="10" class="modifyTitle" v-model="fileForm.fileTitle" id="modifyTitle"></p>
+                                    <p style="color: grey">文件描述：
+                                    <div class="wgt-ipt-wrap pub-editor-wrap " >
+                                        <textarea  class="" placeholder="" class="modifyContent" v-model="fileForm.fileContent" id="modifyContent"></textarea>
+                                    </div>
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" v-on:click="modifyFile(fileForm)">修改文档</button>
+                            </div>
                         </div>
                     </div>
-			</div>
+                </div>
 
 
-			<div class="pageturn pagerright">
-                <ul class="pagelist">                  
-                            <li class="active"><a href="?page=1">1</a></li>
-            </ul>
+                <div  class="messages">
+                    <div class="fr">
+                        <label style="font-weight: bold;font-size: 18px">{{file.fileTitle}}</label>
+                        <p style="font-weight: lighter;font-size: 15px">{{file.fileContent}}</p>
+
+                        <p style="font-weight: bold;font-size: 18px">附件</p>
+                        <a :src="fileSrc" style="font-weight: lighter;font-size: 15px">{{file.fileName}}</a><br>
+
+                        <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modifyFile" @click="click(file)"><a style="color: grey">修改文档信息</a></p>
+                        <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" v-on:click="deleteFile(file)"><a style="color: grey">删除文档</a></p>
+
+                        <div class="top"><span class="fl time">{{file.uploadTime | formatDate}}</span></div>
+                    </div>
+                </div>
+
+
+                <!--上传课件-->
+                <div class="modal fade" id="addDocument" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="addNoticeLabel">上传文档</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div  class="issques clearfix js-form">
+                                    <p class="perinform" style="color: grey">文件标题：<input type="text"  maxlength="10" id="title"></p>
+
+                                    <p class="perinform" style="color: grey">文件：<input type="file"  id="document"></p>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" v-on:click=" addFile(file)">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-		</div>
 
-	</div>
+
+            <div class="pageturn pagerright">
+                <ul class="pagelist">
+                    <li class="active"><a href="?page=1">1</a></li>
+                </ul>
+            </div>
         </div>
+            
+    </div>
 
 
 	</div>
@@ -209,7 +278,7 @@
         <h1>邮件验证提示</h1>
         <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <div class="center">
-            <img src="images/send.png"/>
+            <img src="../images/send.png"/>
             <p>我们已经向您的邮箱<span class="green" id="jsEmailToActive">12@13.com</span>发送了邮件，<br/>为保证您的账号安全，请及时验证邮箱</p>
             <p class="a"><a class="btn" id="jsGoToEmail" target="_blank" href="http://mail.qq.com">去邮箱验证</a></p>
             <p class="zy_success upmove"></p>
@@ -219,7 +288,7 @@
     </div>
     <div class="resetpassbox dialogbox" id="jsSetNewPwd">
         <h1>重新设置密码</h1>
-        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>
+        <div class="close jsCloseDialog"><img src="/images/dig_close.png"/></div>
         <p class="green">请输入新密码</p>
         <form id="jsSetNewPwdForm">
             <div class="box">
@@ -254,9 +323,7 @@
                 </div>
                 <div class="box">
                     <span class="word3">验证码</span>
-                    <input autocomplete="off" class="form-control-captcha find-password-captcha" id="find-password-captcha_1" name="captcha_f_1" placeholder="请输入验证码" type="text" />
-                    <input class="form-control-captcha find-password-captcha" id="find-password-captcha_0" name="captcha_f_0" placeholder="请输入验证码" type="hidden" value="5f3c00e47fb1be12d2fd15b9a860711597721b3f" /> &nbsp;
-<!--                    <img src="/captcha/image/5f3c00e47fb1be12d2fd15b9a860711597721b3f/" alt="captcha" class="captcha" />-->
+                    <input autocomplete="off" class="form-control-captcha find-password-captcha" id="find-password-captcha_1" name="captcha_f_1" placeholder="请输入验证码" type="text" /> <input class="form-control-captcha find-password-captcha" id="find-password-captcha_0" name="captcha_f_0" placeholder="请输入验证码" type="hidden" value="5f3c00e47fb1be12d2fd15b9a860711597721b3f" /> &nbsp;<img src="/captcha/image/5f3c00e47fb1be12d2fd15b9a860711597721b3f/" alt="captcha" class="captcha" />
                 </div>
                 <div class="error btns" id="jsForgetTips"></div><!--忘记密码错误-->
                 <div class="button">
@@ -270,28 +337,32 @@
 <div class="bg" id="dialogBg"></div>
 
 
-
 <script src="js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 <script>
-    var courseNotice = new Vue({
-        el: '#user_course_notice',
+    var courseFile = new Vue({
+        el: '#user_course_file_teacher',
         data: {
-            noticeList:[]
+            fileList:[],
+            fileSrc:"",
+            fileForm:{
+                fileTitle:'',
+                fileContent:''
+            }
         },
         methods: {
-            getNoticeList(){
+            getFileList(){
                 let that = this;
                 $.ajax({
                     type: "POST",
-                    url:"/student/getNoticeList",
+                    url:"/teacher/searchFile",
                     data:{
                         'courseId':1,
                     },
                     success(res) {
                         console.log(res)
-                        that.noticeList = res.data;
+                        that.fileList = res.data;
                         // console.log(this.noticeList)
                     },
                     error(res){
@@ -299,7 +370,128 @@
                     }
 
                 });
-            }
+            },
+
+            downloadFile(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/downloadFile",
+                    responseType: 'blob',
+                    data:{
+                        fileId:1
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.fileSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+
+                });
+            },
+
+            addFile(file){
+                let that=this;
+                var fileTitle=$('#title').val();
+                var document=$('#document').val();
+
+                $.ajax({
+                    type:'POST',
+                    url:'/teacher/addFile',
+                    data:{
+                        'courseId': file.courseId,
+                        'userId': file.userId,
+                        'fileTitle': fileTitle,
+                        'file':document
+                    },
+                    success(res) {
+                        console.log(res)
+                        if(res.code==200)
+                        {
+                            alert("添加成功！");
+                        }
+                        else{
+                            alert(res.data.msg);
+                        }
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                })
+            },
+
+            modifyFile(file){
+
+                let that = this;
+                var modifyTitle=$("#modifyTitle").val();
+                var modifyContent=$("#modifyContent").val();
+                $.ajax({
+                    type:"POST",
+                    url:"/teacher/modifyFile",
+                    data:{
+                        'fileId': file.fileId,
+                        'fileTitle':modifyTitle,
+                        'fileContent':modifyContent
+                    },
+                    success(res) {
+                        console.log(res)
+                        if(res.code==200)
+                        {
+                            alert("修改成功！");
+                        }
+                        else{
+                            alert(res.data.msg);
+                        }
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                })
+            },
+
+            click(file) {
+                console.log(file)
+                this.fileForm = file;
+            },
+
+            deleteFile(file) {
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/teacher/deleteFile",
+                    data: {
+                        'fileId': file.fileId,
+
+                    },
+                    success(res) {
+                        console.log(res)
+                        //that.noticeList = res.data;
+                        // console.log(this.noticeList)
+                        if (res.code == 210) {
+                            alert("删除失败！");
+                        } else {
+                            alert("删除成功！");
+                        }
+                    },
+                    error(res) {
+                        console.log(res)
+                    }
+                });
+            },
+
+
 
         },
         filters: {
@@ -324,10 +516,11 @@
 
         },
         mounted() {
-            this.getNoticeList();
+            this.getFileList();
         }
 
     });
 </script>
+
 </body>
 </html>
