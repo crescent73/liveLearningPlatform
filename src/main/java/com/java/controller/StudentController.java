@@ -9,6 +9,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -123,8 +124,11 @@ public class StudentController {
     }
 
     @RequestMapping("/downloadFile")
-    public ResponseEntity downloadFile(CourseFile file) throws UnsupportedEncodingException {
-        return fileController.downloadFile(file);
+    public ResponseEntity downloadFile(Integer fileId, @RequestBody Map<String,Object> map) throws UnsupportedEncodingException {
+        if(fileId == null){
+            fileId = (Integer) map.get("fileId");
+        }
+        return fileController.downloadFile(fileId);
     }
 
     @RequestMapping("/getCommentList")

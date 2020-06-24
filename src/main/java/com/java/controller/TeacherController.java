@@ -8,6 +8,7 @@ import com.java.model.vo.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -190,7 +191,8 @@ public class TeacherController {
     }
 
     @RequestMapping("/addFile")
-    public ResultData addFile(CourseFile courseFile, @RequestParam("file") List<MultipartFile> files, HttpServletRequest req) {
+    public ResultData addFile(CourseFile courseFile, @RequestParam("upFile") List<MultipartFile> files, HttpServletRequest req) {
+        System.out.println(files);
         return fileController.addFile(courseFile,files,req);
     }
 
@@ -200,8 +202,11 @@ public class TeacherController {
     }
 
     @RequestMapping("/downloadFile")
-    public ResponseEntity downloadFile(CourseFile file) throws UnsupportedEncodingException {
-        return fileController.downloadFile(file);
+    public ResponseEntity downloadFile(Integer fileId, @RequestBody Map<String,Object> map) throws UnsupportedEncodingException {
+        if(fileId == null){
+            fileId = (Integer) map.get("fileId");
+        }
+        return fileController.downloadFile(fileId);
     }
 
     @RequestMapping("/modifyFile")

@@ -87,8 +87,8 @@
 <script>
     let login = new Vue({
         el: '#login',
-        data(){
-            return {
+        data:{
+
                 name: "",
                 password: "",
                 userType: "3",
@@ -96,32 +96,91 @@
                     {text:"管理员",value:"1"},
                     {text:"教师",value:"2"},
                     {text:"学生",value:"3"},
-                ]
-            }
+                ],
+
+
         },
         mounted(){
 
         },
         methods:{
+            do_check (){
+                if(this.name === null || this.name === undefined || this.name === "") {
+                    alert("用户名不能为空！");
+                    return false;
+                }
+                if(this.password === null || this.password === undefined || this.password === "") {
+                    alert("密码不能为空！");
+                    return false;
+                }
+                return true;
+            },
+
             do_login(){
-                let that = this;
+                let that = this
+                that.userType = $("#account_type option:selected").val();
+                if(!that.do_check()) {
+                    return;
+                }
                 $.ajax({
                     type:"post",
                     url:"/system/login",
                     data:{
-                        name: this.name,
-                        password: this.password,
-                        userType: this.userType
+                        name: that.name,
+                        password: that.password,
+                        userType: that.userType
                     },
                     success:function(res){
+
+
                         console.log(res);
                         if(res.code=="200"){
-                            window.location.href = "index.html";
+                            localStorage.setItem("token",res.data.token);
+                            localStorage.setItem("userRole",that.userType);
+                            localStorage.setItem("userId", res.data.userid);
+                            localStorage.setItem("user", JSON.stringify(res.data));
+                            switch(that.userType){
+                                case "1":
+                                    console.log("1");
+                                    break;
+
+                                case "2":
+                                    console.log("2");
+                                    localStorage.setItem("userId", res.data.userId);
+                                    localStorage.setItem("userNickName", res.data.userNickname);
+                                    localStorage.setItem("userGender", res.data.userGender);
+                                    localStorage.setItem("userEmail", res.data.userEmail);
+                                    localStorage.setItem("userRole", res.data.userRole);
+                                    localStorage.setItem("userNumber", res.data.userNumber);
+                                    localStorage.setItem("userName", res.data.userName);
+
+
+                                   window.location.href = "course-commentnew.html";
+                                    break;
+
+                                case "3":
+                                    console.log("3");
+                                    localStorage.setItem("userId", res.data.userId);
+                                    localStorage.setItem("userNickname", res.data.userNickname);
+                                    localStorage.setItem("userGender", res.data.userGender);
+                                    localStorage.setItem("userEmail", res.data.userEmail);
+                                    localStorage.setItem("userRole", res.data.userRole);
+                                    localStorage.setItem("userNumber", res.data.userNumber);
+                                    localStorage.setItem("userName", res.data.userName);
+
+                                    window.location.href = "course-commentnew.html";
+                                    break;
+
+                            }
+
+                        }else {
+                            //window.location.href = "";
+                            alert("登录失败！请检查输入。")
                         }
                     },
                     error:function(res){
                         console.log(res);
-                        window.location.href = "";
+                        //window.location.href = "";
                         alert("出问题了！请刷新重试。")
                     }
                 });

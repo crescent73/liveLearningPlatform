@@ -12,7 +12,7 @@ public interface FileService {
     // 获取文档列表
     List<CourseFile> getFileList(CourseFile file);
     // 下载文档
-    File downloadFile(CourseFile file);
+    File downloadFile(Integer fileId);
     // 修改文档信息
     int modifyFileInfo(CourseFile file);
     // 删除文档

@@ -35,8 +35,10 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             return -1;
         }
+        System.out.println(courseFile);
         // 将数据添加到数据库中
         int insert = fileDao.insert(courseFile);
+        System.out.println(insert);
         return insert;
     }
 
@@ -57,8 +59,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File downloadFile(CourseFile file) {
-        CourseFile courseFile = fileDao.selectById(file.getFileId());
+    public File downloadFile(Integer fileId) {
+        CourseFile courseFile = fileDao.selectById(fileId);
 //        System.out.println(courseFile);
         File downloadFile = null;
         try {
@@ -87,13 +89,16 @@ public class FileServiceImpl implements FileService {
                     int result = fileDao.deleteById(fileId);
                     return  result;
                 } else  {
+                    fileDao.deleteById(fileId);
                     return -2; // 文件删除失败
                 }
             } else {
+                fileDao.deleteById(fileId);
                 return -1; // 文件不存在
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fileDao.deleteById(fileId);
             return -1; // 文件不存在
         }
     }

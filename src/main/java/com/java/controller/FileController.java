@@ -29,7 +29,10 @@ public class FileController {
     public ResultData addFile(CourseFile courseFile, List<MultipartFile> files, HttpServletRequest req) {
         ResultData resultData = new ResultData <>();
         int result;
-        if (courseFile.getCourseId()==null || courseFile.getUserId()==null || courseFile.getFileTitle() == null || files == null) {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(courseFile);
+        System.out.println(files);
+        if (courseFile.getCourseId()==null || courseFile.getUserId()==null || courseFile.getFileTitle() == null || files==null||files.size() <=0) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
         }
@@ -60,13 +63,14 @@ public class FileController {
         return resultData;
     }
 
-    public ResponseEntity downloadFile(CourseFile file) throws UnsupportedEncodingException {
+    public ResponseEntity downloadFile(Integer fileId) throws UnsupportedEncodingException {
+        System.out.println(fileId);
         ResultData<CourseFile> resultData = new ResultData <>();
-        if (file.getFileId() == null) {
+        if (fileId == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return ResponseEntity.ok().body(resultData);
         }
-        File downloadFile = fileService.downloadFile(file);
+        File downloadFile = fileService.downloadFile(fileId);
         if (downloadFile == null) {
             resultData.setResult(ResultCodeEnum.FILE_EMPTY); //文件下载失败
             return ResponseEntity.ok().body(resultData);
@@ -80,6 +84,8 @@ public class FileController {
             resultData.setResult(ResultCodeEnum.FILE_DOWNLOAD_FAILURE); //文件下载失败
             return ResponseEntity.ok().body(resultData);
         }
+        CourseFile file = new CourseFile();
+        file.setFileId(fileId);
         List<CourseFile> fileList = fileService.getFileList(file);
         CourseFile courseFile = fileList.get(0);
         String encodedFileName = URLEncoder.encode(courseFile.getFileName(),"utf-8");

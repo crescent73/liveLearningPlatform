@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.java.dao.StudentCourseDao">
-    <select id="searchStudentCourse" resultType="Course">
-        select * from course
+    <select id="searchStudentCourse" resultType="CourseDetail">
+        select course_id,course_number,course_name,is_show,course_detail,course_level,course_type,user.user_id teacher_id,user_nickname teacher_name,user_number teacher_number
+        from course inner join user on course.teacher_id = user.user_id
         where course_id in (
             select course_id from student_course
             where user_id=#{studentId})

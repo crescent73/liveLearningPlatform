@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.java.dao.CollectionDao">
-    <select id="findUserCollection" resultType="Course">
-        select * from course
-        where course_id in (select course_id from collection where user_id=#{userId})
+    <select id="findUserCollection" resultType="CollectionDetail">
+        select course.course_id,course_number,course_name,is_show,teacher_id,course_detail,course_level,course_type,collection_id,user_id,collect_time
+        from course inner join collection on course.course_id = collection.course_id
+        where user_id=#{userId}
         <if test="course.courseName!=null and course.courseName!=''">
             and course_name like CONCAT(CONCAT('%', #{course.courseName}), '%')
         </if>
