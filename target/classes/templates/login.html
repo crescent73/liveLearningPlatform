@@ -1,110 +1,216 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Log in</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="css/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.min.css">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-<body class="hold-transition login-page">
-<div class="login-box" id="login">
-    <div class="login-logo">
-        <a><b>LOGIN</b></a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+    <title>login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="/data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="/files/login/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="/scripts/jquery-3.2.1.min.js"></script>
+    <script src="/scripts/axure/axQuery.js"></script>
+    <script src="/scripts/axure/globals.js"></script>
+    <script src="/scripts/axutils.js"></script>
+    <script src="/scripts/axure/annotation.js"></script>
+    <script src="/scripts/axure/axQuery.std.js"></script>
+    <script src="/scripts/axure/doc.js"></script>
+    <script src="/scripts/messagecenter.js"></script>
+    <script src="/scripts/axure/events.js"></script>
+    <script src="/scripts/axure/recording.js"></script>
+    <script src="/scripts/axure/action.js"></script>
+    <script src="/scripts/axure/expr.js"></script>
+    <script src="/scripts/axure/geometry.js"></script>
+    <script src="/scripts/axure/flyout.js"></script>
+    <script src="/scripts/axure/model.js"></script>
+    <script src="/scripts/axure/repeater.js"></script>
+    <script src="/scripts/axure/sto.js"></script>
+    <script src="/scripts/axure/utils.temp.js"></script>
+    <script src="/scripts/axure/variables.js"></script>
+    <script src="/scripts/axure/drag.js"></script>
+    <script src="/scripts/axure/move.js"></script>
+    <script src="/scripts/axure/visibility.js"></script>
+    <script src="/scripts/axure/style.js"></script>
+    <script src="/scripts/axure/adaptive.js"></script>
+    <script src="/scripts/axure/tree.js"></script>
+    <script src="/scripts/axure/init.temp.js"></script>
+    <script src="/scripts/axure/legacy.js"></script>
+    <script src="/scripts/axure/viewer.js"></script>
+    <script src="/scripts/axure/math.js"></script>
+    <script src="/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="/data/document.js"></script>
+    <script src="/files/login/data.js"></script>
 
-            <div >
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" v-model="name" placeholder="用户名">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-<!--                            <span class="fas fa-envelope"></span>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" v-model="password" placeholder="密码">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-<!--                            <span class="fas fa-lock"></span>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <select v-model="userType" id="account_type" class="form-control select2" data-placeholder="选择用户类型">
-                        <option v-for="option in options" :value="option.value">{{option.text}}</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button class="btn btn-primary btn-block" @click="do_login">Sign In</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </div>
-            <p class="mb-1">
-                <a href="">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-                <a href="" class="text-center">Register a new membership</a>
-            </p>
+</head>
+<body>
+<div id="login" class="">
+
+    <!-- Unnamed (Image) -->
+    <div id="u78" class="ax_default image">
+        <img id="u78_img" class="img " src="/images/login/u78.png"/>
+        <div id="u78_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
         </div>
-        <!-- /.login-card-body -->
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u79" class="ax_default box_1">
+        <img id="u79_img" class="img " src="/images/login/u79.svg"/>
+        <div id="u79_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u80" class="ax_default box_1">
+        <div id="u80_div" class=""></div>
+        <div id="u80_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Image) -->
+    <div id="u81" class="ax_default image">
+        <img id="u81_img" class="img " src="/images/main/u3.png"/>
+        <div id="u81_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Text Field) -->
+    <div id="u82" class="ax_default text_field">
+        <img id="u82_img" class="img " src="/images/login/u82.svg"/>
+        <span id="u82_input" type="text" class="u82_input">登录您的爱课账户</span>
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u83" class="ax_default shape">
+        <div id="u83_div" class=""></div>
+        <div id="u83_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u84" class="ax_default shape">
+        <div id="u84_div" class=""></div>
+        <div id="u84_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- e-mail/phonenum (Text Field) -->
+    <div id="u85" class="ax_default text_field" data-label="e-mail/phonenum">
+        <img id="u85_img" class="img " src="/images/login/e-mail_phonenum_u85.svg"/>
+        <input v-model="name" id="u85_input" type="text" placeholder="用户名" class="u85_input"/>
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u86" class="ax_default shape">
+        <div id="u86_div" class=""></div>
+        <div id="u86_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- password (Text Field) -->
+    <div id="u87" class="ax_default text_field" data-label="password">
+        <img id="u87_img" class="img " src="/images/login/password_u87.svg"/>
+        <input id="u87_input" type="password" v-model="password" placeholder="密码" class="u87_input"/>
+    </div>
+
+    <!-- Unnamed (Shape) -->
+    <div id="u88" class="ax_default icon">
+        <img id="u88_img" class="img " src="/images/login/u88.svg"/>
+        <div id="u88_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Rectangle) -->
+    <div id="u89" class="ax_default shape">
+        <div id="u89_div" class=""></div>
+        <div id="u89_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Shape) -->
+    <div id="u90" class="ax_default icon">
+        <img id="u90_img" class="img " src="/images/login/u90.svg"/>
+        <div id="u90_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- 登录 (Rectangle) -->
+    <div id="u91" class="ax_default link_button" data-label="登录">
+        <div id="u91_div" class=""></div>
+        <div id="u91_text" class="text ">
+            <p><span @click="do_login">登 录</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Text Field) -->
+    <div id="u92" class="ax_default text_field">
+        <img id="u92_img" class="img " src="/images/login/u92.svg"/>
+        <span id="u92_input" type="text" class="u92_input">还没有账户？</span>
+    </div>
+
+    <!-- 注册-link (Text Field) -->
+    <div id="u93" class="ax_default text_field" data-label="注册-link">
+        <img id="u93_img" class="img " src="/images/login/__-link_u93.svg"/>
+        <span id="u93_input" type="text" class="u93_input">返回注册</span>
+    </div>
+
+    <!-- close (Shape) -->
+    <div id="u94" class="ax_default icon" data-label="close">
+        <img id="u94_img" class="img " src="/images/login/close_u94.svg"/>
+        <div id="u94_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Shape) -->
+    <div id="u95" class="ax_default icon">
+        <img id="u95_img" class="img " src="/images/login/u95.svg"/>
+        <div id="u95_text" class="text " style="display:none; visibility: hidden">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (Droplist) -->
+    <div id="u96" class="ax_default droplist">
+        <img id="u96_img" class="img " src="/images/login/u96.svg"/>
+        <select v-model="userType" id="u96_input" class="u96_input">
+            <option v-for="option in options" :value="option.value" class="u96_input_option" value="教师">教师</option>
+            <option v-for="option in options" :value="option.value" class="u96_input_option" value="管理员">管理员</option>
+            <option v-for="option in options" :value="option.value" class="u96_input_option" value="学生">学生</option>
+        </select>
     </div>
 </div>
-<!-- /.login-box -->
+<script src="/scripts/axure/ios.js"></script>
 
 <!-- jQuery -->
-<script src="js/jquery-2.1.0.min.js"></script>
+<script src="../static/js/jquery-2.1.0.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="js/bootstrap.js"></script>
+<script src="../static/js/bootstrap.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
-<script src="js/vue.js"></script>
+<script src="../static/js/adminlte.min.js"></script>
+<script src="../static/js/vue.js"></script>
+<script src="/scripts/axure/ios.js"></script>
+
+
 <script>
-    let login = new Vue({
-        el: '#login',
-        data:{
 
-                name: "",
-                password: "",
-                userType: "3",
-                options:[
-                    {text:"管理员",value:"1"},
-                    {text:"教师",value:"2"},
-                    {text:"学生",value:"3"},
-                ],
-
-
+    var vue = new Vue({
+        el: "#login",
+        data: {
+            name: "",
+            password: "",
+            userType: "",
         },
-        mounted(){
-
-        },
-        methods:{
-            do_check (){
+        methods: {
+            do_check: function () {
                 if(this.name === null || this.name === undefined || this.name === "") {
                     alert("用户名不能为空！");
                     return false;
@@ -115,80 +221,87 @@
                 }
                 return true;
             },
-
-            do_login(){
-                let that = this
-                that.userType = $("#account_type option:selected").val();
-                if(!that.do_check()) {
+            do_login: function () {
+                let self = this;
+                self.userType = $("#account_type option:selected").val();
+                if(!self.do_check()) {
                     return;
                 }
                 $.ajax({
                     type:"post",
                     url:"/system/login",
                     data:{
-                        name: that.name,
-                        password: that.password,
-                        userType: that.userType
+                        name: self.name,
+                        password: self.password,
+                        userType: self.userType
                     },
                     success:function(res){
-
-
                         console.log(res);
-                        if(res.code=="200"){
+                        if(res.code === "200"){
                             localStorage.setItem("token",res.data.token);
-                            localStorage.setItem("userRole",that.userType);
-                            localStorage.setItem("userId", res.data.userid);
-                            localStorage.setItem("user", JSON.stringify(res.data));
-                            switch(that.userType){
+                            localStorage.setItem("userRole",self.userType);
+                            localStorage.setItem("userId", res.data.data.id);
+                            localStorage.setItem("user", JSON.stringify(res.data.data));
+                            switch (self.userType) {
                                 case "1":
                                     console.log("1");
-                                    break;
+                                    localStorage.setItem("userNickname", "");
+                                    localStorage.setItem("userEmail", res.data.data.adminEmail);
+                                    localStorage.setItem("userNumber", res.data.data);
+                                    localStorage.setItem("schoolId", "");
+                                    localStorage.setItem("userName", res.data.data.adminName);
+                                    localStorage.setItem("userGender", "");
+                                    localStorage.setItem("userPassword", res.data.data.adminPassword);
 
+                                    //***********************管理员***********************
+                                    //window.location.href ="page/admin/admin.html";
+                                    break;
                                 case "2":
                                     console.log("2");
-                                    localStorage.setItem("userId", res.data.userId);
-                                    localStorage.setItem("userNickName", res.data.userNickname);
-                                    localStorage.setItem("userGender", res.data.userGender);
-                                    localStorage.setItem("userEmail", res.data.userEmail);
-                                    localStorage.setItem("userRole", res.data.userRole);
-                                    localStorage.setItem("userNumber", res.data.userNumber);
-                                    localStorage.setItem("userName", res.data.userName);
+                                    localStorage.setItem("userNickname", "");
+                                    localStorage.setItem("userEmail", res.data.data.teacherEmail);
+                                    localStorage.setItem("userNumber", res.data.data.teacherNumber);
+                                    localStorage.setItem("schoolId", res.data.data.teacherSchool);
+                                    localStorage.setItem("userName", res.data.data.teacherName);
+                                    localStorage.setItem("userGender", "");
+                                    localStorage.setItem("userPassword", res.data.data.teacherPassword);
 
 
-                                   window.location.href = "course-commentnew.html";
+                                    // **********************教师界面待修改***********************************
+                                    window.location.href = "usercenter-mycourse-teacher.html";
                                     break;
 
                                 case "3":
                                     console.log("3");
-                                    localStorage.setItem("userId", res.data.userId);
-                                    localStorage.setItem("userNickname", res.data.userNickname);
-                                    localStorage.setItem("userGender", res.data.userGender);
-                                    localStorage.setItem("userEmail", res.data.userEmail);
-                                    localStorage.setItem("userRole", res.data.userRole);
-                                    localStorage.setItem("userNumber", res.data.userNumber);
-                                    localStorage.setItem("userName", res.data.userName);
+                                    localStorage.setItem("userNickname", res.data.data.studentNickname);
+                                    localStorage.setItem("userEmail", res.data.data.studentEmail);
+                                    localStorage.setItem("userNumber", res.data.data.studentNumber);
+                                    localStorage.setItem("schoolId", res.data.data.studentSchool);
+                                    localStorage.setItem("userName", res.data.data.studentName);
+                                    localStorage.setItem("userGender", res.data.data.studentGender);
+                                    localStorage.setItem("userPassword", res.data.data.studentPassword);
 
-                                    window.location.href = "course-commentnew.html";
+
+                                    // **********************学生界面待修改***********************************
+                                    window.location.href = "usercenter-mycours.html";
                                     break;
-
                             }
-
-                        }else {
-                            //window.location.href = "";
+                        } else {
+                            window.location.href = "";
                             alert("登录失败！请检查输入。")
                         }
                     },
                     error:function(res){
                         console.log(res);
-                        //window.location.href = "";
+                        window.location.href = "";
                         alert("出问题了！请刷新重试。")
                     }
                 });
             }
         }
-
     })
 </script>
+
 
 </body>
 </html>
