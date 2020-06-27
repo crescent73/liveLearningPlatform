@@ -181,7 +181,7 @@
     <!-- Unnamed (Droplist) -->
     <div id="u96" class="ax_default droplist">
         <img id="u96_img" class="img " src="/images/login/u96.svg"/>
-        <select v-model="userType" id="u96_input" class="u96_input">
+        <select v-model="userType" id="u96_input" id="account_type" class="u96_input">
             <option v-for="option in options" :value="option.value" class="u96_input_option" value="教师">教师</option>
             <option v-for="option in options" :value="option.value" class="u96_input_option" value="管理员">管理员</option>
             <option v-for="option in options" :value="option.value" class="u96_input_option" value="学生">学生</option>

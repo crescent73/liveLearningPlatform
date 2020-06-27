@@ -181,7 +181,7 @@
     <!-- Unnamed (Droplist) -->
     <div id="u96" class="ax_default droplist">
         <img id="u96_img" class="img " src="/images/login/u96.svg"/>
-        <select v-model="userType" id="u96_input" class="u96_input">
+        <select v-model="userType" id="u96_input" id="account_type" class="u96_input">
             <option v-for="option in options" :value="option.value" class="u96_input_option" value="教师">教师</option>
             <option v-for="option in options" :value="option.value" class="u96_input_option" value="管理员">管理员</option>
             <option v-for="option in options" :value="option.value" class="u96_input_option" value="学生">学生</option>
@@ -238,20 +238,20 @@
                     success:function(res){
                         console.log(res);
                         if(res.code === "200"){
-                            localStorage.setItem("token",res.data.token);
+                           // localStorage.setItem("token",res.data.token);
                             localStorage.setItem("userRole",self.userType);
-                            localStorage.setItem("userId", res.data.data.id);
-                            localStorage.setItem("user", JSON.stringify(res.data.data));
+                            localStorage.setItem("userId", res.data.id);
+                            localStorage.setItem("user", JSON.stringify(res.data));
                             switch (self.userType) {
                                 case "1":
                                     console.log("1");
                                     localStorage.setItem("userNickname", "");
-                                    localStorage.setItem("userEmail", res.data.data.adminEmail);
-                                    localStorage.setItem("userNumber", res.data.data);
+                                    localStorage.setItem("userEmail", res.data.userEmail);
+                                    localStorage.setItem("userNumber", res.data);
                                     localStorage.setItem("schoolId", "");
-                                    localStorage.setItem("userName", res.data.data.adminName);
+                                    localStorage.setItem("userName", res.data.userName);
                                     localStorage.setItem("userGender", "");
-                                    localStorage.setItem("userPassword", res.data.data.adminPassword);
+                                    localStorage.setItem("userPassword", res.data.userPassword);
 
                                     //***********************管理员***********************
                                     //window.location.href ="page/admin/admin.html";
@@ -259,12 +259,12 @@
                                 case "2":
                                     console.log("2");
                                     localStorage.setItem("userNickname", "");
-                                    localStorage.setItem("userEmail", res.data.data.teacherEmail);
-                                    localStorage.setItem("userNumber", res.data.data.teacherNumber);
-                                    localStorage.setItem("schoolId", res.data.data.teacherSchool);
-                                    localStorage.setItem("userName", res.data.data.teacherName);
+                                    localStorage.setItem("userEmail", res.data.userEmail);
+                                    localStorage.setItem("userNumber", res.data.userNumber);
+                                    localStorage.setItem("schoolId", res.data.userSchool);
+                                    localStorage.setItem("userName", res.data.userName);
                                     localStorage.setItem("userGender", "");
-                                    localStorage.setItem("userPassword", res.data.data.teacherPassword);
+                                    localStorage.setItem("userPassword", res.data.userPassword);
 
 
                                     // **********************教师界面待修改***********************************
@@ -273,17 +273,17 @@
 
                                 case "3":
                                     console.log("3");
-                                    localStorage.setItem("userNickname", res.data.data.studentNickname);
-                                    localStorage.setItem("userEmail", res.data.data.studentEmail);
-                                    localStorage.setItem("userNumber", res.data.data.studentNumber);
-                                    localStorage.setItem("schoolId", res.data.data.studentSchool);
-                                    localStorage.setItem("userName", res.data.data.studentName);
-                                    localStorage.setItem("userGender", res.data.data.studentGender);
-                                    localStorage.setItem("userPassword", res.data.data.studentPassword);
+                                    localStorage.setItem("userNickname", res.data.userNickname);
+                                    localStorage.setItem("userEmail", res.data.userEmail);
+                                    localStorage.setItem("userNumber", res.data.userNumber);
+                                    localStorage.setItem("schoolId", res.data.userSchool);
+                                    localStorage.setItem("userName", res.data.userName);
+                                    localStorage.setItem("userGender", res.data.userGender);
+                                    localStorage.setItem("userPassword", res.data.userPassword);
 
 
                                     // **********************学生界面待修改***********************************
-                                    window.location.href = "usercenter-mycours.html";
+                                    window.location.href = "usercenter-mycourse.html";
                                     break;
                             }
                         } else {
