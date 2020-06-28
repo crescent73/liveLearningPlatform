@@ -217,12 +217,10 @@
                         localStorage.setItem("userEmail", that.userEmail);
                         localStorage.setItem("schoolId", that.schoolId);
                         localStorage.setItem("userName", that.userName);
-                        location.reload();
 
                     },
                     error(res){
-                        console.log(res);
-                        location.reload();
+                        console.log(res)
                     }
                 })
             },

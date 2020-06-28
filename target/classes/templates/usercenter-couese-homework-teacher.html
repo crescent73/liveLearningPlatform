@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/js/plugins/queryCity/css/cityLayout.css">
     <link rel="stylesheet" type="text/css" href="/css/lq.datetimepick.css"/>
+>
 
     <script src="/js/jquery.min.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
@@ -85,7 +86,7 @@
 <section>
 	<div class="wp list personal_list">
 	<div class="left">
-		<img width="214" height="190" class="scrollLoading" :src="imageSrc"/><br/><br/>
+		<img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
         <ul>
             <li ><a href="usercenter-couese-notice-teacher.html">公告</a></li>
             <li class="active2"><a href="usercenter-couese-homework-teacher.html">作业</a></li>
@@ -228,7 +229,6 @@
 <script src="js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <!-- jQuery -->
 <script src="/js/request.js"></script>
@@ -271,42 +271,16 @@
                 studentAssignmentId:'',
                 userId:'',
                 assignmentSubmission: '',
-            },
-            imageSrc:""
+            }
         },
         methods: {
-            getCourseImage(){
-                let that = this;
-                $.ajax({
-                    type: "POST",
-                    url:"/teacher/getCourseImage",
-                    responseType: 'blob',
-                    data:{
-                        courseId: that.courseId,
-                    },
-                    xhr:function(){// Seems like the only way to get access to the xhr object
-                        var xhr = new XMLHttpRequest();
-                        xhr.responseType= 'blob'
-                        return xhr;
-                    },
-                    success(res) {
-                        console.log(res)
-                        var url = window.URL || window.webkitURL;
-                        that.imageSrc = url.createObjectURL(res);
-                    },
-                    error(res){
-                        console.log(res)
-                    }
-                });
-            },
-
             getHomeworkList(){
                 let that = this;
                 $.ajax({
                     type: "POST",
                     url:"/teacher/getAssignmentList",
                     data:{
-                        courseId: that.courseId,
+                        'courseId':that.courseId,
                     },
                     success(res) {
                         console.log(res)
@@ -356,17 +330,14 @@
                         console.log(res)
                         if (res.code == 200) {
                             alert("发布成功！");
-                            location.reload();
                         } else {
                             alert(res.data.msg);
-                            location.reload();
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
                     },
                     error(res) {
-                        console.log(res);
-                        location.reload();
+                        console.log(res)
                     }
                 });
             },
@@ -386,10 +357,8 @@
                         // console.log(this.noticeList)
                         if (res.code == 210) {
                             alert("删除失败！");
-                            location.reload();
                         } else {
                             alert("删除成功！");
-                            location.reload();
                         }
                     },
                     error(res) {
@@ -417,15 +386,12 @@
                         // console.log(this.noticeList)
                         if (res.code == 200) {
                             alert("批改成功！");
-                            location.reload();
                         } else {
                             alert("批改失败！");
-                            location.reload();
                         }
                     },
                     error(res) {
-                        console.log(res);
-                        location.reload();
+                        console.log(res)
                     }
                 })
             },
@@ -501,9 +467,10 @@
         created(){
 
             this.init(localStorage.getItem("userRole"));
-
         },
         mounted() {
+            this.getHomeworkList();
+
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
@@ -515,9 +482,6 @@
             this.schoolId= parseInt(localStorage.getItem("schoolId"));
 
             this.courseId=parseInt(localStorage.getItem("courseId"));
-
-            this.getHomeworkList();
-            this.getCourseImage();
         }
 
     });

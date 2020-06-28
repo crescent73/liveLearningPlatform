@@ -259,8 +259,8 @@
                 fileTitle:'',
                 fileContent:'',
                 file:null,
-                courseId:this.courseId,
-                userId:this.userId,
+                courseId:1,
+                userId:2,
             },
             fileSrc:"",
             imageSrc:""
@@ -273,7 +273,7 @@
                     url:"/teacher/getCourseImage",
                     responseType: 'blob',
                     data:{
-                        courseId: that.courseId,
+                        courseId:that.courseId,
                     },
                     xhr:function(){// Seems like the only way to get access to the xhr object
                         var xhr = new XMLHttpRequest();
@@ -290,7 +290,6 @@
                     }
                 });
             },
-
             getFile(event) {
                 this.upFile.file = event.target.files;
             },
@@ -331,14 +330,13 @@
 
                 return false;
             },
-
             getFileList(){
                 let that = this;
                 $.ajax({
                     type: "POST",
                     url:"/teacher/searchFile",
                     data:{
-                        'courseId': that.courseId,
+                        'courseId':1,
                     },
                     success(res) {
                         console.log(res)
@@ -541,9 +539,11 @@
         created(){
 
             this.init(localStorage.getItem("userRole"));
-            this.getFileList();
         },
         mounted() {
+            this.getCourseImage();
+            this.getFileList();
+
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
@@ -556,9 +556,6 @@
 
             this.courseId=parseInt(localStorage.getItem("courseId"));
             this.fileId=parseInt(localStorage.getItem("fileId"));
-
-            this.getCourseImage();
-
         }
 
     });
