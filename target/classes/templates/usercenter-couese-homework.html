@@ -86,7 +86,7 @@
 <section>
 	<div class="wp list personal_list">
 	<div class="left">
-		<img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
+		<img width="214" height="190" class="scrollLoading" :src="imageSrc"/><br/><br/>
         <ul>
             <li ><a href="usercenter-couese-notice.html">公告</a></li>
             <li class="active2"><a href="usercenter-couese-homework.html">作业</a></li>
@@ -236,9 +236,35 @@
                 teacherReply:''
             },
             score:'',
-            reply:''
+            reply:'',
+            imageSrc:"",
         },
         methods: {
+            getCourseImage(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/getCourseImage",
+                    responseType: 'blob',
+                    data:{
+                        courseId: that.courseId,
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.imageSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                });
+            },
+
             getHomeworkList(){
                 let that = this;
                 $.ajax({
@@ -384,8 +410,6 @@
             this.init(localStorage.getItem("userRole"));
         },
         mounted() {
-            this.getHomeworkList();
-
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
@@ -397,6 +421,8 @@
             this.schoolId= parseInt(localStorage.getItem("schoolId"));
 
             this.courseId=parseInt(localStorage.getItem("courseId"));
+
+            this.getHomeworkList();
         }
 
     });

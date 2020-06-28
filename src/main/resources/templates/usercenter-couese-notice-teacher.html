@@ -86,7 +86,7 @@
 <section >
     <div class="wp list personal_list">
         <div class="left">
-            <img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
+            <img width="214" height="190" class="scrollLoading" :src="imageSrc"/><br/><br/>
             <ul>
                 <li class="active2"><a href="usercenter-couese-notice-teacher.html">公告</a></li>
                 <li ><a href="usercenter-couese-homework-teacher.html">作业</a></li>
@@ -206,6 +206,7 @@
 <script src="js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     var courseNotice = new Vue({
         el: '#user_course_notice_teacher',
@@ -237,9 +238,35 @@
             courseForm:{
                 noticeTitle:'',
                 noticeContent:''
-            }
+            },
+            imageSrc:""
         },
         methods: {
+            getCourseImage(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/getCourseImage",
+                    responseType: 'blob',
+                    data:{
+                        courseId: that.courseId,
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.imageSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                });
+            },
+
             getNoticeList(){
                 let that = this;
                 $.ajax({

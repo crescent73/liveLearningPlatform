@@ -110,7 +110,7 @@
                 <div class="messagelist" v-for="course in courseList">
                     <div  class="messages" >
                         <div class="fr">
-                            <label style="font-weight: bold;font-size: 16px">课程名：<a style="font-weight: lighter;font-size: 15px">{{course.courseName}}</a></label><br>
+                            <label style="font-weight: bold;font-size: 16px">课程名：<div class="buy btn" data-favid="14" v-on:click="change(course)"><a>{{course.courseName}}</a></div></label><br>
                             <label style="font-weight: bold;font-size: 16px">课程类型：<a style="font-weight: lighter;font-size: 15px">{{course.courseType}}</a></label><br>
                             <label style="font-weight: bold;font-size: 16px">课程内容：<a style="font-weight: lighter;font-size: 15px">{{course.courseDetail}}</a></label><br>
                             <label style="font-weight: bold;font-size: 16px">课程难度：<a style="font-weight: lighter;font-size: 15px">{{course.courseLevel}}</a></label><br>
@@ -121,12 +121,6 @@
                     </div>
                 </div>
 
-
-                <div class="pageturn pagerright">
-                    <ul class="pagelist">
-                        <li class="active"><a href="?page=1">1</a></li>
-                    </ul>
-                </div>
             </div>
 
         </div>
@@ -199,6 +193,12 @@
                     }
 
                 });
+            },
+
+            change(course){
+                localStorage.setItem("courseId",course.courseId);
+                window.location.href="usercenter-couese-notice.html";
+
             },
 
             init(type){

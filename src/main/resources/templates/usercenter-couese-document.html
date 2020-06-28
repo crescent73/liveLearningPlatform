@@ -83,7 +83,7 @@
 <section>
 	<div class="wp list personal_list">
 	<div class="left">
-		<img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
+		<img width="214" height="190" class="scrollLoading" :src="imageSrc"/><br/><br/>
         <ul>
             <li ><a href="usercenter-couese-notice.html">公告</a></li>
             <li ><a href="usercenter-couese-homework.html">作业</a></li>
@@ -111,7 +111,7 @@
                         <p style="font-weight: lighter;font-size: 15px">{{file.fileContent}}</p>
 
                         <p style="font-weight: bold;font-size: 18px">附件</p>
-                       <a :src="fileSrc" style="font-weight: lighter;font-size: 15px">{{file.fileName}}</a>
+                       <a :src="fileSrc" style="font-weight: lighter;font-size: 15px" @click="downloadFile(file)">{{file.fileName}}</a>
                         <div class="top"><span class="fl time">{{file.uploadTime | formatDate}}</span></div>
                     </div>
                 </div>
@@ -172,9 +172,35 @@
             userGender:"",
 
             fileList:[],
-            fileSrc:""
+            fileSrc:"",
+            imageSrc:"",
         },
         methods: {
+            getCourseImage(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/getCourseImage",
+                    responseType: 'blob',
+                    data:{
+                        courseId: that.courseId,
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.imageSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                });
+            },
+
             getFileList(){
                 let that = this;
                 $.ajax({
@@ -195,29 +221,60 @@
                 });
             },
 
-            downloadFile(){
-                let that = this;
-                $.ajax({
-                    type: "POST",
+            downloadFile(file){
+                let data = {
+                    'fileId':file.fileId
+                }
+                axios({
                     url:"/teacher/downloadFile",
-                    responseType: 'blob',
-                    data:{
-                        fileId:that.fileId,
-                    },
-                    xhr:function(){// Seems like the only way to get access to the xhr object
-                        var xhr = new XMLHttpRequest();
-                        xhr.responseType= 'blob'
-                        return xhr;
-                    },
-                    success(res) {
-                        console.log(res)
-                        var url = window.URL || window.webkitURL;
-                        that.fileSrc = url.createObjectURL(res);
-                    },
-                    error(res){
-                        console.log(res)
-                    }
-
+                    method: "post",
+                    data:data,
+                    responseType: 'blob'
+                }).then((res)=>{
+                    const data = res.data;
+                    // 有可能下载失败，返回{code: '409'},但responseType: 'blob'会把data强制转为blob，导致下载undefined.excel
+                    // 解决：将已转为blob类型的data转回json格式，判断是否下载成功
+                    let r = new FileReader();
+                    r.onload = function () {
+                        // 如果JSON.parse(this.result)不报错，说明this.result是json字符串，是下载报错情况的返回值，弹框提示
+                        // 如果JSON.parse(this.result)报错，说明下载成功，进入catch
+                        try {
+                            let resData = JSON.parse(this.result);// this.result为FileReader获取blob数据转换为json后的数据，即后台返回的原始数据
+                            console.log(resData);
+                            alert("文件下载失败!")
+                        } catch (err) {
+                            let fileName = res.headers['content-disposition'];
+                            if (fileName && fileName.length >= 2) {// 获取文件名
+                                console.log(fileName);
+                                console.log(decodeURI(fileName));
+                                fileName = fileName.split('=')[2];
+                                fileName = fileName.substring(1,fileName.length-1);
+                                console.log(fileName);
+                            }
+                            fileName = decodeURIComponent(fileName);
+                            console.log(fileName);
+                            if (window.navigator.msSaveOrOpenBlob) {// 兼容ie11
+                                try {
+                                    const blobObject = new Blob([data]);
+                                    window.navigator.msSaveOrOpenBlob(blobObject, fileName)
+                                } catch (e) {
+                                    console.log(e)
+                                }
+                                return
+                            }
+                            let url = window.URL.createObjectURL(new Blob([data]));
+                            let link = document.createElement('a');
+                            link.style.display = 'none';
+                            link.href = url;
+                            link.setAttribute('download', fileName);
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link)
+                        }
+                    };
+                    r.readAsText(data) // FileReader的API
+                }).catch((error)=>{
+                    console.log(error);
                 });
             },
 
@@ -289,8 +346,6 @@
             this.init(localStorage.getItem("userRole"));
         },
         mounted() {
-            this.getFileList();
-
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
@@ -303,6 +358,8 @@
 
             this.courseId=parseInt(localStorage.getItem("courseId"));
             this.fileId=parseInt(localStorage.getItem("fileId"));
+
+            this.getFileList();
         }
 
     });

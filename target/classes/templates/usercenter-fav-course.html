@@ -106,10 +106,8 @@
                 <div class="messagelist" v-for="course in courseList">
                     <div  class="messages">
                         <div class="fr">
-                            <label style="font-weight: bold;font-size: 17px">{{course.courseId}}---{{course.courseName}}</label>
-                            <p style="font-size: 13px">
-                                {{course.teacherId}}老师
-                            </p>
+                            <label style="font-weight: bold;font-size: 16px">课程名：<div class="buy btn" data-favid="14" v-on:click="change(course)"><a>{{course.courseName}}</a></div></label><br>
+                            <label style="font-weight: bold;font-size: 16px">教师ID：<a style="font-weight: lighter;font-size: 15px">{{course.teacherId}}</a></label><br>
                             <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" v-on:click="deleteFavCourse(course)"><a style="color: grey">删除</a></p>
                         </div>
 
@@ -180,35 +178,15 @@
             userGender:"",
 
             courseList:[],
-            imageSrc:""
         },
         methods: {
 
-            getImage(course){
-                let that = this;
-                $.ajax({
-                    type: "POST",
-                    url:"/teacher/getCourseImage",
-                    responseType: 'blob',
-                    data:{
-                        courseId:course.courseId
-                    },
-                    xhr:function(){// Seems like the only way to get access to the xhr object
-                        var xhr = new XMLHttpRequest();
-                        xhr.responseType= 'blob'
-                        return xhr;
-                    },
-                    success(res) {
-                        console.log(res)
-                        var url = window.URL || window.webkitURL;
-                        that.imageSrc = url.createObjectURL(res);
-                    },
-                    error(res){
-                        console.log(res)
-                    }
+            change(course){
+                localStorage.setItem("courseId",course.courseId);
+                window.location.href="usercenter-couese-notice.html";
 
-                });
             },
+
 
             getCollectionCourseList(){
                 let that = this;
