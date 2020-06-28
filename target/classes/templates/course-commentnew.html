@@ -192,7 +192,7 @@
                 isTeacher:false,
                 userName:null,
                 courseName:null,
-                courseId:1,
+                courseId:"",
 
                 userEmail: "",
                 original_password: "",
@@ -364,17 +364,13 @@
                 console.log(type);
                 switch(type){
                     case "2"://教师
-                        that.userNickname = localStorage.getItem("userNickname");
                         that.logoutData.id = localStorage.getItem("userId");
                         that.logoutData.userType = localStorage.getItem("userRole");
-                        that.courseName = localStorage.getItem("courseName");
                         that.isTeacher = true;
                         break;
                     case "3"://学生
-                        that.userNickname = localStorage.getItem("userNickname");
-                        that.logoutData.id = localStorage.getItem("userRole");
-                        that.courseName = localStorage.getItem("courseName");
-                        that.logoutData.userType = localStorage.getItem("userType");
+                        that.logoutData.id = localStorage.getItem("userId");
+                        that.logoutData.userType = localStorage.getItem("userRole");
                         that.isTeacher = false;
                         break;
                     case "1":
@@ -432,12 +428,17 @@
             this.getCommentList();
             this.getImage();
 
-            this.userName = JSON.parse(localStorage.getItem("userName"));
+            this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
             this.userNickname = localStorage.getItem("userNickname");
-            this.userRole = JSON.parse(localStorage.getItem("userRole"));
+            this.userRole = localStorage.getItem("userRole");
             this.userId = parseInt(localStorage.getItem("userId"));
+            this.userPassword=localStorage.getItem("userPassword");
+            this.userGender=localStorage.getItem("userGender");
+            this.schoolId= parseInt(localStorage.getItem("schoolId"));
+
+            this.courseId=parseInt(localStorage.getItem("courseId"));
         },
         watch: {
             original_password: function (value, old) {

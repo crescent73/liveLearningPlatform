@@ -424,12 +424,17 @@
         mounted() {
             this.getNoticeList();
 
-            this.userName = JSON.parse(localStorage.getItem("userName"));
+            this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
             this.userNickname = localStorage.getItem("userNickname");
-            this.userRole = JSON.parse(localStorage.getItem("userRole"));
+            this.userRole = localStorage.getItem("userRole");
             this.userId = parseInt(localStorage.getItem("userId"));
+            this.userPassword=localStorage.getItem("userPassword");
+            this.userGender=localStorage.getItem("userGender");
+            this.schoolId= parseInt(localStorage.getItem("schoolId"));
+
+            this.courseId=parseInt(localStorage.getItem("courseId"));
         }
 
     });

@@ -108,7 +108,7 @@
             <div class="personal_des permessage">
 
                 <div class="messagelist" v-for="course in courseList">
-                    <div  class="messages">
+                    <div  class="messages" >
                         <div class="fr">
                             <label style="font-weight: bold;font-size: 16px">课程名：<a style="font-weight: lighter;font-size: 15px">{{course.courseName}}</a></label><br>
                             <label style="font-weight: bold;font-size: 16px">课程类型：<a style="font-weight: lighter;font-size: 15px">{{course.courseType}}</a></label><br>
@@ -162,7 +162,7 @@
             isTeacher:false,
             userName:null,
             courseName:null,
-            courseId:1,
+            courseId:"",
 
             userEmail: "",
             original_password: "",
@@ -187,10 +187,10 @@
                     type: "POST",
                     url:"/student/searchCourse",
                     data:{
-                        'studentId':1,
+                        studentId: that.userId
                     },
                     success(res) {
-                        console.log(res)
+                        console.log(res);
                         that.courseList = res.data;
                         // console.log(this.noticeList)
                     },
@@ -206,19 +206,17 @@
                 console.log(type);
                 switch(type){
                     case "2"://教师
-                        that.userNickname = localStorage.getItem("userNickname");
                         that.logoutData.id = localStorage.getItem("userId");
                         that.logoutData.userType = localStorage.getItem("userRole");
-                        that.courseName = localStorage.getItem("courseName");
                         that.isTeacher = true;
                         break;
+
                     case "3"://学生
-                        that.userNickname = localStorage.getItem("userNickname");
-                        that.logoutData.id = localStorage.getItem("userRole");
-                        that.courseName = localStorage.getItem("courseName");
-                        that.logoutData.userType = localStorage.getItem("userType");
+                        that.logoutData.id = localStorage.getItem("userId");
+                        that.logoutData.userType = localStorage.getItem("userRole");
                         that.isTeacher = false;
                         break;
+
                     case "1":
                         //window.location.href = requestHref.login;//跳转到登陆页面
                         break;
@@ -270,14 +268,17 @@
             this.init(localStorage.getItem("userRole"));
         },
         mounted() {
-            this.getMycourseList();
-
-            this.userName = JSON.parse(localStorage.getItem("userName"));
+            this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
             this.userNickname = localStorage.getItem("userNickname");
-            this.userRole = JSON.parse(localStorage.getItem("userRole"));
+            this.userRole = localStorage.getItem("userRole");
             this.userId = parseInt(localStorage.getItem("userId"));
+            this.userPassword=localStorage.getItem("userPassword");
+            this.userGender=localStorage.getItem("userGender");
+            this.schoolId= parseInt(localStorage.getItem("schoolId"));
+
+            this.getMycourseList();
         }
 
     });

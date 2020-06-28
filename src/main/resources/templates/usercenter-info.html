@@ -104,7 +104,7 @@
                             <tbody>
                             <tr>
                                 <td>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</td>
-                                <td><input type="text" name="nick_name" id="nick_name" value="" maxlength="13"></td>
+                                <td><input type="text" name="nick_name" id="nick_name" value="" maxlength="13" v-model="userNickname"></td>
                             </tr>
                             <tr>
                                 <td>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
@@ -114,15 +114,15 @@
                             </tr>
                             <tr>
                                 <td>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>
-                                <td><input type="text" id="email" value="" maxlength="13"></td>
+                                <td><input type="text" id="email" value="" maxlength="13" v-model="userEmail"></td>
                             </tr>
                             <tr>
                                 <td>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;校：</td>
-                                <td><input type="text" id="school" value="" maxlength="13"></td>
+                                <td><input type="text" id="school" value="" maxlength="13" v-model="schoolId"></td>
                             </tr>
                             <tr>
                                 <td>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
-                                <td><input type="text" id="name" value="" maxlength="13"></td>
+                                <td><input type="text" id="name" value="" maxlength="13" v-model="userName"></td>
                             </tr>
                             </tbody>
 
@@ -167,7 +167,7 @@
             isTeacher:false,
             userName:null,
             courseName:null,
-            courseId:1,
+            courseId:"",
 
             userEmail: "",
             original_password: "",
@@ -181,6 +181,8 @@
             userId: "",
             userNickname:"",
             userGender:"",
+            schoolId:"",
+            userPassword:"",
 
             info:[],
 
@@ -199,7 +201,6 @@
                     url:'/system/modifyInfo',
                     data:{
                         'userId':that.userId,
-                        'userPassword':that.userPassword,
                         'userNickname':nickName,
                         'userGender':gender,
                         'userEmail':email,
@@ -210,6 +211,12 @@
                     success(res) {
                         console.log(res);
                         that.info = res.data;
+
+                        localStorage.setItem("userNickName", that.userNickname);
+                        localStorage.setItem("userGender", that.userGender);
+                        localStorage.setItem("userEmail", that.userEmail);
+                        localStorage.setItem("schoolId", that.schoolId);
+                        localStorage.setItem("userName", that.userName);
 
                     },
                     error(res){
@@ -224,19 +231,17 @@
                 console.log(type);
                 switch(type){
                     case "2"://教师
-                        that.userNickname = localStorage.getItem("userNickname");
                         that.logoutData.id = localStorage.getItem("userId");
                         that.logoutData.userType = localStorage.getItem("userRole");
-                        that.courseName = localStorage.getItem("courseName");
                         that.isTeacher = true;
                         break;
+
                     case "3"://学生
-                        that.userNickname = localStorage.getItem("userNickname");
-                        that.logoutData.id = localStorage.getItem("userRole");
-                        that.courseName = localStorage.getItem("courseName");
-                        that.logoutData.userType = localStorage.getItem("userType");
+                        that.logoutData.id = localStorage.getItem("userId");
+                        that.logoutData.userType = localStorage.getItem("userRole");
                         that.isTeacher = false;
                         break;
+
                     case "1":
                         //window.location.href = requestHref.login;//跳转到登陆页面
                         break;
@@ -275,13 +280,15 @@
         },
         mounted() {
 
-            this.userName = JSON.parse(localStorage.getItem("userName"));
+            this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
             this.userNickname = localStorage.getItem("userNickname");
-            this.userRole = JSON.parse(localStorage.getItem("userRole"));
+            this.userRole = localStorage.getItem("userRole");
             this.userId = parseInt(localStorage.getItem("userId"));
             this.userPassword=localStorage.getItem("userPassword");
+            this.userGender=localStorage.getItem("userGender");
+            this.schoolId= parseInt(localStorage.getItem("schoolId"));
         }
 
     });

@@ -135,9 +135,8 @@
 
                         console.log(res);
                         if(res.code=="200"){
-                            localStorage.setItem("token",res.data.token);
                             localStorage.setItem("userRole",that.userType);
-                            localStorage.setItem("userId", res.data.userid);
+                            localStorage.setItem("userId", res.data.userId);
                             localStorage.setItem("user", JSON.stringify(res.data));
                             switch(that.userType){
                                 case "1":
@@ -146,29 +145,25 @@
 
                                 case "2":
                                     console.log("2");
-                                    localStorage.setItem("userId", res.data.userId);
-                                    localStorage.setItem("userNickName", res.data.userNickname);
+                                    localStorage.setItem("userNickname", res.data.userNickname);
                                     localStorage.setItem("userGender", res.data.userGender);
                                     localStorage.setItem("userEmail", res.data.userEmail);
-                                    localStorage.setItem("userRole", res.data.userRole);
                                     localStorage.setItem("userNumber", res.data.userNumber);
                                     localStorage.setItem("userName", res.data.userName);
+                                    localStorage.setItem("schoolId",res.data.schoolId);
 
-
-                                   window.location.href = "course-commentnew.html";
+                                   window.location.href = "usercenter-info-teacher.html";
                                     break;
 
                                 case "3":
                                     console.log("3");
-                                    localStorage.setItem("userId", res.data.userId);
                                     localStorage.setItem("userNickname", res.data.userNickname);
                                     localStorage.setItem("userGender", res.data.userGender);
                                     localStorage.setItem("userEmail", res.data.userEmail);
-                                    localStorage.setItem("userRole", res.data.userRole);
                                     localStorage.setItem("userNumber", res.data.userNumber);
                                     localStorage.setItem("userName", res.data.userName);
 
-                                    window.location.href = "course-commentnew.html";
+                                    window.location.href = "usercenter-info.html";
                                     break;
 
                             }
