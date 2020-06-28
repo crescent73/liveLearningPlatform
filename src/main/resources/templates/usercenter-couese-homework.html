@@ -190,6 +190,7 @@
 <script src="js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <!-- jQuery -->
 <script src="/js/request.js"></script>
@@ -302,15 +303,18 @@
                         if(res.code==200)
                         {
                             alert("提交成功！");
+                            location.reload();
                         }
                         else{
                             alert("提交失败");
+                            location.reload();
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
                     },
                     error(res){
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 })
             },
@@ -408,6 +412,12 @@
         },
         created(){
             this.init(localStorage.getItem("userRole"));
+
+            this.courseId=parseInt(localStorage.getItem("courseId"));
+
+            this.getHomeworkList();
+            this.getCourseImage();
+
         },
         mounted() {
             this.userName = localStorage.getItem("userName");
@@ -420,9 +430,6 @@
             this.userGender=localStorage.getItem("userGender");
             this.schoolId= parseInt(localStorage.getItem("schoolId"));
 
-            this.courseId=parseInt(localStorage.getItem("courseId"));
-
-            this.getHomeworkList();
         }
 
     });

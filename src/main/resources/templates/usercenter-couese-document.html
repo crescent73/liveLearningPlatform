@@ -135,6 +135,7 @@
 <script src="js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <!-- jQuery -->
 <script src="/js/request.js"></script>
@@ -344,6 +345,7 @@
         },
         created(){
             this.init(localStorage.getItem("userRole"));
+
         },
         mounted() {
             this.userName = localStorage.getItem("userName");
@@ -360,6 +362,9 @@
             this.fileId=parseInt(localStorage.getItem("fileId"));
 
             this.getFileList();
+            this.getCourseImage();
+
+
         }
 
     });

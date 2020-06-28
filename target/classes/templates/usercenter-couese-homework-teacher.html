@@ -356,14 +356,17 @@
                         console.log(res)
                         if (res.code == 200) {
                             alert("发布成功！");
+                            location.reload();
                         } else {
                             alert(res.data.msg);
+                            location.reload();
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
                     },
                     error(res) {
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 });
             },
@@ -383,8 +386,10 @@
                         // console.log(this.noticeList)
                         if (res.code == 210) {
                             alert("删除失败！");
+                            location.reload();
                         } else {
                             alert("删除成功！");
+                            location.reload();
                         }
                     },
                     error(res) {
@@ -412,12 +417,15 @@
                         // console.log(this.noticeList)
                         if (res.code == 200) {
                             alert("批改成功！");
+                            location.reload();
                         } else {
                             alert("批改失败！");
+                            location.reload();
                         }
                     },
                     error(res) {
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 })
             },
@@ -493,6 +501,7 @@
         created(){
 
             this.init(localStorage.getItem("userRole"));
+
         },
         mounted() {
             this.userName = localStorage.getItem("userName");
@@ -508,6 +517,7 @@
             this.courseId=parseInt(localStorage.getItem("courseId"));
 
             this.getHomeworkList();
+            this.getCourseImage();
         }
 
     });

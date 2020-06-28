@@ -303,7 +303,6 @@
 
             },
 
-
             getMycourseList(){
                 let that = this;
                 $.ajax({
@@ -323,9 +322,6 @@
 
                 });
             },
-
-
-
 
             deleteCourse(course){
                 let that = this;
@@ -369,12 +365,15 @@
                         // console.log(this.noticeList)
                         if (res.code == 210) {
                             alert("修改失败！");
+                            location.reload();
                         } else {
                             alert("修改成功！");
+                            location.reload();
                         }
                     },
                     error(res) {
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 })
             },
@@ -452,6 +451,7 @@
         created(){
 
             this.init(localStorage.getItem("userRole"));
+
         },
         mounted() {
             this.userName = localStorage.getItem("userName");
@@ -465,6 +465,7 @@
             this.schoolId= parseInt(localStorage.getItem("schoolId"));
 
             this.getMycourseList();
+
         }
 
     });

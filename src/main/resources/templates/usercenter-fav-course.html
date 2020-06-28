@@ -229,12 +229,15 @@
                         // console.log(this.noticeList)
                         if (res.code == 210) {
                             alert("删除失败！");
+                            location.reload();
                         } else {
                             alert("删除成功！");
+                            location.reload();
                         }
                     },
                     error(res) {
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 });
             },

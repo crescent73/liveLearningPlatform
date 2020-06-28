@@ -541,6 +541,7 @@
         created(){
 
             this.init(localStorage.getItem("userRole"));
+            this.getFileList();
         },
         mounted() {
             this.userName = localStorage.getItem("userName");
@@ -557,7 +558,7 @@
             this.fileId=parseInt(localStorage.getItem("fileId"));
 
             this.getCourseImage();
-            this.getFileList();
+
         }
 
     });
