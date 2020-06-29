@@ -95,6 +95,7 @@
                         文档
                     </a>
                 </li>
+                <li ><a href="live.html">直播</a></li>
             </ul>
         </div>
 
@@ -482,6 +483,14 @@
         }
 
     });
+
+
+    function changeSrc(){
+        alert("请使用推流软件(OBS等)，推送到rtmp://106.15.251.188:1935/live,即可在本直播间看到您的直播内容!");
+        chatroom.videoPlayer.src('rtmp://106.15.251.188:1935/live');
+        chatroom.videoPlayer.load('rtmp://106.15.251.188:1935/live');
+        chatroom.videoPlayer.play()
+    }
 </script>
 </body>
 </html>
