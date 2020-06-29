@@ -2,91 +2,75 @@
 <html xmlns:v-on="http://www.w3.org/1999/xhtml">
 
 <head>
-	<!--meta charset="UTF-8"-->
+    <!--meta charset="UTF-8"-->
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
     <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
-	<title>我的课程- 慕学在线网</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="/css/animate.css">
+    <title>我的课程- 慕学在线网</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/animate.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 
-<!--    <script src="/js/jquery.min.js" type="text/javascript"></script>-->
-   <!-- <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>-->
-<!--    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">-->
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <!-- <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>-->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <script src="/js/bootstrap.js" type="text/javascript"></script>
 
     <!--<script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>-->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
-    <script src="/js/vue.js"></script>
-
-<!--    <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>-->
-    <script src="/js/adminlte.min.js"></script><!-- AdminLTE App -->
-
-
-    <!-- jQuery -->
-    <script src="/js/request.js"></script>
-    <script src="/js/jquerySession.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script><!-- Bootstrap 4 -->
-    <script src="/js/adminlte.min.js"></script><!-- AdminLTE App -->
-    <!--<script src="/js/bs-custom-file-input.min.js"></script>&lt;!&ndash; bs-custom-file-input &ndash;&gt;-->
-    <script src="/js/sweetalert2.min.js"></script>
-    <script src="/js/requestParam.js"></script>
 
 </head>
 <body>
 <section id="usercenter_mycourse_teacher">
-<section class="headerwrap headerwrap2">
-    <header>
-		<div  class="header2 header">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid" class="container" >
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">爱课网</a>
+    <section class="headerwrap headerwrap2">
+        <header>
+            <div  class="header2 header">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid" class="container" >
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">爱课网</a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" >
+                            <li class="dropdown" v-if="userRole==2">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="glyphicon glyphicon-user" >老师·{{userNickname}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="usercenter-info-teacher.html">个人中心</a></li>
+                                    <li><a @click="logout()">退出</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" v-if="userRole==3">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="glyphicon glyphicon-user" >学生·{{userNickname}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="usercenter-info.html">个人中心</a></li>
+                                    <li><a @click="logout()">退出</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+
+
                     </div>
-                    <ul class="nav navbar-nav navbar-right" >
-                        <li class="dropdown" v-if="userRole==2">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <span class="glyphicon glyphicon-user" >老师·{{userNickname}}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="usercenter-info-teacher.html">个人中心</a></li>
-                                <li><a @click="logout()">退出</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown" v-if="userRole==3">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <span class="glyphicon glyphicon-user" >学生·{{userNickname}}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="usercenter-info.html">个人中心</a></li>
-                                <li><a @click="logout()">退出</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                </nav>
 
-
-
+                <div class="middle">
+                    <div class="wp">
+                        <a href="main.html"><img class="fl" src="/images/aike1.jpg"/></a>
+                        <h1>我的爱课网 · 老师</h1>
+                    </div>
                 </div>
-            </nav>
-            
-    <div class="middle">
-        <div class="wp">
-            <a href="main.html"><img class="fl" src="/images/aike1.jpg"/></a>
-            <h1>我的爱课网 · 老师</h1>
-        </div>
-    </div>
-			</div>
-    </header>
-</section>
+            </div>
+        </header>
+    </section>
 
 
 
-<!--crumbs start-->
+    <!--crumbs start-->
 
     <section>
         <div class="wp">
@@ -98,116 +82,132 @@
         </div>
     </section>
 
-<section>
-	<div class="wp list personal_list">
-	<div class="left">
-        <ul>
-            <li ><a href="usercenter-info-teacher.html">个人资料</a></li>
-            <li class="active2"><a href="usercenter-mycourse-teacher.html">我的课程</a></li>
-            <li ><a href="usercenter-fav-course-teacher.html">我的收藏</a></li>
-        </ul>
-	</div>
+    <section>
+        <div class="wp list personal_list">
+            <div class="left">
+                <ul>
+                    <li ><a href="usercenter-info-teacher.html">个人资料</a></li>
+                    <li class="active2"><a href="usercenter-mycourse-teacher.html">我的课程</a></li>
+                    <li ><a href="usercenter-fav-course-teacher.html">我的收藏</a></li>
+                </ul>
+            </div>
 
-    
-    <div class="right"  >
-		<div class="personal_des Releasecont">
-			<div class="head" >
-				<h1 style="font-size: 22px">我的课程</h1>
-                <!--<button style="font-size: 16px" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse">
-                    创建课程
-                </button>-->
-                <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse" ><a style="color: grey" >创建课程</a></div>
-			</div>
-		</div>
-        <div class="right" >
 
-            <div class="personal_des permessage" v-for="course in courseList">
-
-                <div class="messagelist" >
-                    <div  class="messages">
-                        <div class="fr">
-                            <label style="font-weight: bold;font-size: 16px">课程名：<div class="buy btn" data-favid="14" v-on:click="change(course)"><a>{{course.courseName}}</a></div></label><br>
-                            <label style="font-weight: bold;font-size: 16px">课程类型：<a style="font-weight: lighter;font-size: 15px">{{course.courseType}}</a></label><br>
-                            <label style="font-weight: bold;font-size: 16px">课程内容：<a style="font-weight: lighter;font-size: 15px">{{course.courseDetail}}</a></label><br>
-                            <label style="font-weight: bold;font-size: 16px">课程难度：<a style="font-weight: lighter;font-size: 15px">{{course.courseLevel}}</a></label><br>
-                            <label style="font-weight: bold;font-size: 16px">课程权限：
-                                <a  style="font-weight: lighter;font-size: 15px" v-if="course.isShow==1">对外展示</a>
-                                <a  style="font-weight: lighter;font-size: 15px" v-if="course.isShow==0">不对外展示</a>
-                            </label><br>
-
-                            <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setCoursePermission" @click="click1(course)"><a style="color: grey">设置课程权限</a></p>
-                            <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" v-on:click="deleteFavCourse(course)"><a style="color: grey">删除课程</a></p>
-                        </div>
-
+            <div class="right"  >
+                <div class="personal_des Releasecont">
+                    <div class="head" >
+                        <h1 style="font-size: 22px">我的课程</h1>
+                        <!--<button style="font-size: 16px" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse">
+                            创建课程
+                        </button>-->
+                        <div class="buy btn" data-favid="14" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addCourse" ><a style="color: grey" >创建课程</a></div>
                     </div>
                 </div>
+                <div class="right" >
 
+                    <div class="personal_des permessage" v-for="course in courseList">
 
-                <!--创建课程-->
-                <div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="addNoticeLabel">创建课程</h4>
-                            </div>
-                            <form @submit.prevent="addCourse($event)">
-                            <div class="modal-body">
+                        <div class="messagelist" >
+                            <div  class="messages">
+                                <div class="fr">
+                                    <label style="font-weight: bold;font-size: 16px">课程名：<div class="buy btn" data-favid="14" v-on:click="change(course)"><a>{{course.courseName}}</a></div></label><br>
+                                    <label style="font-weight: bold;font-size: 16px">课程类型：<a style="font-weight: lighter;font-size: 15px">{{course.courseType}}</a></label><br>
+                                    <label style="font-weight: bold;font-size: 16px">课程内容：<a style="font-weight: lighter;font-size: 15px">{{course.courseDetail}}</a></label><br>
+                                    <label style="font-weight: bold;font-size: 16px">课程难度：<a style="font-weight: lighter;font-size: 15px">{{course.courseLevel}}</a></label><br>
+                                    <label style="font-weight: bold;font-size: 16px">课程权限：
+                                        <a  style="font-weight: lighter;font-size: 15px" v-if="course.isShow==1">对外展示</a>
+                                        <a  style="font-weight: lighter;font-size: 15px" v-if="course.isShow==0">不对外展示</a>
+                                    </label><br>
 
-                                <div  class="issques clearfix js-form">
-                                    <p class="perinform" style="color: grey">课&nbsp;程&nbsp;名：<input type="text"  maxlength="10" id="courseName"></p>
-                                    <p class="perinform" style="color: grey">课&nbsp;程&nbsp;号：<input type="text"  maxlength="10" id="courseNumber"></p>
-                                    <p class="perinform" style="color: grey">课&nbsp;程&nbsp;图&nbsp;片：<input type="file"  id="coursePicture" ></p>
+                                    <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setCoursePermission" @click="click1(course)"><a style="color: grey">设置课程权限</a></p>
+                                    <p class="buy btn" data-favid="14" align="right" style="font-size: 15px" v-on:click="deleteFavCourse(course)"><a style="color: grey">删除课程</a></p>
                                 </div>
 
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary" v-on:click="addCourse(courseForm2)">确认</button>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!--修改课程权限-->
-                <div class="modal fade" id="setCoursePermission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="setPermissionLabel">设置课程权限</h4>
-                            </div>
-                            <div class="modal-body">
-
-                                课程权限：<input type="radio" name="show" value="1">对外展示&nbsp;&nbsp;<input type="radio" name="show" value="0">不对外展示
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary" v-on:click="isShow(courseForm1)">确认</button>
                             </div>
                         </div>
+
+
+
+
+
                     </div>
+
                 </div>
             </div>
 
+
         </div>
-	</div>
 
 
-	</div>
-
-
-</section>
+    </section>
 </section>
 
 
+<!--创建课程-->
+<div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addNoticeLabel">创建课程</h4>
+            </div>
+            <form @submit.prevent="addCourse($event)">
+                <div class="modal-body">
+
+                    <div  class="issques clearfix js-form">
+                        <p class="perinform" style="color: grey">课&nbsp;程&nbsp;名：<input type="text"  maxlength="10" id="courseName"></p>
+                        <p class="perinform" style="color: grey">课&nbsp;程&nbsp;号：<input type="text"  maxlength="10" id="courseNumber"></p>
+                        <p class="perinform" style="color: grey">课&nbsp;程&nbsp;图&nbsp;片：<input type="file"  id="coursePicture" ></p>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" v-on:click="addCourse(courseForm2)">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--修改课程权限-->
+<div class="modal fade" id="setCoursePermission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="setPermissionLabel">设置课程权限</h4>
+            </div>
+            <div class="modal-body">
+
+                课程权限：<input type="radio" name="show" value="1">对外展示&nbsp;&nbsp;<input type="radio" name="show" value="0">不对外展示
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" v-on:click="isShow(courseForm1)">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
+<script src="js/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="/js/adminlte.min.js"></script><!-- AdminLTE App -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script><!-- 引用axios -->
 
+<!-- jQuery -->
+<script src="/js/request.js"></script>
+<script src="/js/jquerySession.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script><!-- Bootstrap 4 -->
+<script src="/js/adminlte.min.js"></script><!-- AdminLTE App -->
+<script src="/js/bs-custom-file-input.min.js"></script><!-- bs-custom-file-input -->
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/requestParam.js"></script>
 <script>
     var mycourse = new Vue({
         el: '#usercenter_mycourse_teacher',
@@ -454,11 +454,10 @@
         },
         created(){
 
-
+            this.init(localStorage.getItem("userRole"));
 
         },
         mounted() {
-            this.init(localStorage.getItem("userRole"));
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
