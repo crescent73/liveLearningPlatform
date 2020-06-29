@@ -24,7 +24,7 @@ public class SignController {
             return resultData;
         }
         SignStudent signStudent = new SignStudent();
-        signStudent.setSignId(studentId);
+        signStudent.setStudentId(studentId);
         signStudent.setSignId(signId);
         int result = signService.sign(signStudent);
         if (result>0){
@@ -54,6 +54,7 @@ public class SignController {
         int result = signService.publishSign(sign);
         if (result>0){
             resultData.setResult(ResultCodeEnum.OK);
+            resultData.setData(result);
         } else if (result == -2){
             resultData.setResult(ResultCodeEnum.COURSE_NOT_EXIST);
         } else if (result == -3){
@@ -67,9 +68,9 @@ public class SignController {
     }
 
     public ResultData getSignList(Integer courseId, Integer teacherId, Integer courseScheduleId) {
-        ResultData <List<Sign>> resultData = new ResultData <>();
+        ResultData <String> resultData = new ResultData <>();
         // 非空判断
-        if (courseId == null||teacherId==null) {
+        if (courseScheduleId == null) {
             resultData.setResult(ResultCodeEnum.PARA_WORNING_NULL);
             return resultData;
         }
@@ -80,7 +81,7 @@ public class SignController {
         if (courseScheduleId!=null){
             sign.setCourseScheduleId(courseScheduleId);
         }
-        List<Sign> signDetail = signService.getSignList(sign);
+        String signDetail = signService.getSignList(sign);
         if (signDetail!=null){
             resultData.setResult(ResultCodeEnum.OK);
             resultData.setData(signDetail);

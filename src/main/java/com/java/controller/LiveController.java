@@ -3,6 +3,7 @@ package com.java.controller;
 import com.java.constant.consist.Constant;
 import com.java.model.entity.LiveUser;
 import com.java.model.entity.Msg;
+import com.java.service.intf.SignService;
 import com.java.service.intf.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -24,6 +25,9 @@ public class LiveController {
 
     @Autowired
     private StatService statService;
+
+    @Autowired
+    private SignService signService;
 
     @MessageMapping("/onlineUser.{courseScheduleId}")// 服务端可以接收客户端通过向地址/online_user发送过来的消息
     @SendTo(Constant.ONLINE_USER_TOPIC+".{courseScheduleId}")// 此方法会向订阅/topic/online_user的用户广播online_user的消息
@@ -57,6 +61,12 @@ public class LiveController {
         msg.setSTime(Calendar.getInstance());
         msg.setMsgBody(message);
         return msg;
+    }
+
+    @MessageMapping("/sign.{courseScheduleId}")
+    @SendTo(Constant.SIGN_TOPIC+".{courseScheduleId}")
+    public Integer sign(String message, @Header(value="simpSessionAttributes") Map<String,Object> session,@DestinationVariable Integer courseScheduleId) {
+        return Integer.parseInt(message);
     }
 
     @MessageMapping("change-notice.{courseScheduleId}")

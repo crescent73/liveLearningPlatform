@@ -139,7 +139,7 @@
 </section>
 </section>
 
-<script src="js/vue.js"></script>
+<script src="/js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 <!-- jQuery -->
@@ -212,10 +212,12 @@
                         localStorage.setItem("userEmail", that.userEmail);
                         localStorage.setItem("schoolId", that.schoolId);
                         localStorage.setItem("userName", that.userName);
+                        location.reload();
 
                     },
                     error(res){
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 })
             },

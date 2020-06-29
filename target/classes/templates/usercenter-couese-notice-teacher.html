@@ -86,7 +86,7 @@
 <section >
     <div class="wp list personal_list">
         <div class="left">
-            <img width="214" height="190" class="scrollLoading" src="/media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/><br/><br/>
+            <img width="214" height="190" class="scrollLoading" :src="imageSrc"/><br/><br/>
             <ul>
                 <li class="active2"><a href="usercenter-couese-notice-teacher.html">公告</a></li>
                 <li ><a href="usercenter-couese-homework-teacher.html">作业</a></li>
@@ -95,6 +95,7 @@
                         文档
                     </a>
                 </li>
+                <li ><a href="index-teacher.html">直播</a></li>
             </ul>
         </div>
 
@@ -203,9 +204,20 @@
 
 
 
-<script src="js/vue.js"></script>
+<script src="/js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!-- jQuery -->
+<script src="/js/request.js"></script>
+<script src="/js/jquerySession.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script><!-- Bootstrap 4 -->
+<script src="/js/adminlte.min.js"></script><!-- AdminLTE App -->
+<script src="/js/bs-custom-file-input.min.js"></script><!-- bs-custom-file-input -->
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/requestParam.js"></script>
+
 <script>
     var courseNotice = new Vue({
         el: '#user_course_notice_teacher',
@@ -237,9 +249,35 @@
             courseForm:{
                 noticeTitle:'',
                 noticeContent:''
-            }
+            },
+            imageSrc:"",
         },
         methods: {
+            getCourseImage(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/getCourseImage",
+                    responseType: 'blob',
+                    data:{
+                        courseId: that.courseId,
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.imageSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                });
+            },
+
             getNoticeList(){
                 let that = this;
                 $.ajax({
@@ -277,8 +315,10 @@
                         console.log(res)
                         if (res.code == 200) {
                             alert("插入成功！");
+                            location.reload();
                         } else {
                             alert(res.data.msg);
+                            location.reload();
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
@@ -313,9 +353,11 @@
                         if(res.code==200)
                         {
                             alert("修改成功！");
+                            location.reload();
                         }
                         else{
                             alert(res.data.msg);
+                            location.reload();
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
@@ -342,12 +384,15 @@
                         // console.log(this.noticeList)
                         if (res.code == 210) {
                             alert("删除失败！");
+                            location.reload();
                         } else {
                             alert("删除成功！");
+                            location.reload();
                         }
                     },
                     error(res) {
-                        console.log(res)
+                        console.log(res);
+                        location.reload();
                     }
                 });
             },
@@ -420,10 +465,11 @@
         created(){
 
             this.init(localStorage.getItem("userRole"));
+            this.courseId=parseInt(localStorage.getItem("courseId"));
+            this.getNoticeList();
+            this.getCourseImage();
         },
         mounted() {
-            this.getNoticeList();
-
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
@@ -433,11 +479,17 @@
             this.userPassword=localStorage.getItem("userPassword");
             this.userGender=localStorage.getItem("userGender");
             this.schoolId= parseInt(localStorage.getItem("schoolId"));
-
-            this.courseId=parseInt(localStorage.getItem("courseId"));
         }
 
     });
+
+
+    function changeSrc(){
+        alert("请使用推流软件(OBS等)，推送到rtmp://106.15.251.188:1935/live,即可在本直播间看到您的直播内容!");
+        chatroom.videoPlayer.src('rtmp://106.15.251.188:1935/live');
+        chatroom.videoPlayer.load('rtmp://106.15.251.188:1935/live');
+        chatroom.videoPlayer.play()
+    }
 </script>
 </body>
 </html>

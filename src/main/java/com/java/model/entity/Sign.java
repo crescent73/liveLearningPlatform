@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Data
 @ToString
 public class Sign {
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.AUTO)
     private Integer signId;
     private Integer courseId;
     private Integer userId;

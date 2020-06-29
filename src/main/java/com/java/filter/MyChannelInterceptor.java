@@ -40,6 +40,7 @@ public class MyChannelInterceptor implements ChannelInterceptor {
             subedChannelInDB.add(Constant.MESSAGE_TOPIC);
             subedChannelInDB.add(Constant.ONLINE_USER_TOPIC);
             subedChannelInDB.add("/topic/notice");// 测试的topic
+            subedChannelInDB.add("/topic/sign");// 测试的topic
             String perfix = "";
             if (accessor.getDestination() != null) {
                 String[] split = accessor.getDestination().split("\\.");

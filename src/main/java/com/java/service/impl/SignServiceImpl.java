@@ -5,6 +5,7 @@ import com.java.dao.*;
 import com.java.model.dto.SignDetail;
 import com.java.model.entity.*;
 import com.java.service.intf.SignService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +61,8 @@ public class SignServiceImpl implements SignService {
         if (courseSchedule==null)
             return -4;
         int result = signDao.insert(sign);
-        return result;
+        System.out.println(sign);
+        return sign.getSignId();
     }
 
     /**
@@ -71,14 +73,14 @@ public class SignServiceImpl implements SignService {
      * @return
      */
     @Override
-    public List<Sign> getSignList(Sign sign) {
+    public String getSignList(Sign sign) {
         QueryWrapper<Sign> signQueryWrapper = new QueryWrapper<Sign>();
         signQueryWrapper.eq("course_id",sign.getCourseId());
         signQueryWrapper.eq("user_id",sign.getUserId());
         signQueryWrapper.eq(sign.getCourseScheduleId()!=null,"course_schedule_id",sign.getCourseScheduleId());
-        List<Sign> signList = signDao.selectList(signQueryWrapper);
+        List<String> signList = signDao.getSignList(sign.getCourseScheduleId());
         if (signList.size()>0){
-            return signList;
+            return StringUtils.join(signList,",");
         } else {
             return null;
         }

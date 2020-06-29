@@ -35,17 +35,20 @@
     <div class="row">
         <div class="col-md-12" style="margin-bottom: 10px;">
             <div class="row" style="height: 70px;padding-left: 10px;background-color: #f6f6f6;" >
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <img class="img-responsive" style="width: 166px;height:70px; float: left;"
                          src="images/main/u3.png" alt="">
                     <h3 style="font-family: 'Arial Narrow Bold', 'Arial Narrow', 'Arial', sans-serif;margin-left: 15px;margin-top: 10px; float: inside;">爱课直播间</h3>
                 </div>
-                <div class="col-md-2">
-                    <div id = 'sign_in'><button class="btn btn-default pull-right" style="height:45px;width:85px;color: #ffffff;background-color: #ea6165" @click="sign()">签到</button></div>
+                <div class="col-md-1">
+                    <div id = 'sign_in'><button class="btn btn-default pull-right" style="height:45px;width:85px;color: #ffffff;background-color: #ea6165" @click="publishSign()">签到</button></div>
                 </div>
-<!--                <div class="col-md-1">-->
-<!--                    <button class="btn btn-default pull-right" style="height:45px;width:85px;color: #ffffff;background-color: #47d5af" @click="startCourse()">开始上课</button>-->
-<!--                </div>-->
+                <div class="col-md-1">
+                    <div id = 'sign_in_list'><button class="btn btn-default pull-right" style="height:45px;width:85px;color: #ffffff;background-color: #ea6165" data-toggle="modal" data-target="#getSignList" @click="getSignList()">查看签到列表</button></div>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-default pull-right" style="height:45px;width:85px;color: #ffffff;background-color: #47d5af" @click="startCourse()">开始上课</button>
+                </div>
             </div>
         </div>
         <div class="col-md-8">
@@ -109,6 +112,26 @@
             </div>
         </div>
         <!--描述：右侧讨论区结束-->
+        <!--创建课程-->
+        <div class="modal fade" id="getSignList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addNoticeLabel">签到列表</h4>
+                    </div>
+                    <div >
+                        <div class="modal-body">
+                            {{signList}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+<!--                            <button type="submit" class="btn btn-primary" ">确认</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
@@ -124,14 +147,6 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
 <link href="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css" rel="stylesheet">
 <script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500,
-        grow: 'row'
-    });
-
     var chatroom = new Vue({
         el: '#chatroom',
         data: {
@@ -151,29 +166,24 @@
             userId: "",
             userNickname:"",
             userGender:"",
-            courseId:1
+            courseId:1,
+            signList:""
         },
         methods: {
-            sign(id){
+            getSignList(){
+                let that = this;
                 $.ajax({
                     type:"post",
-                    url:"/student/sign",
+                    url:"/teacher/getSignList",
                     data:{
-                        signId:id,
-                        studentId:this.userId
+                        courseId:this.courseId,
+                        teacherId:this.userId,
+                        courseScheduleId:1
                     },
                     success:function(res){
                         console.log(res)
                         if (res.code==="200") {
-                            Toast.fire({
-                                type: 'success',
-                                title: '签到成功'
-                            });
-                        } else {
-                            Toast.fire({
-                                type: 'error',
-                                title: '签到失败，请稍后重试'
-                            });
+                            that.signList = res.data
                         }
 
                     },
@@ -181,6 +191,42 @@
                         console.log(res)
                     }
                 })
+            },
+            publishSign(){
+                let that = this;
+                Swal.fire({
+                    title: '是否发布签到？',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '确认',
+                    cancelButtonText: "取消"
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type:"post",
+                            url:"/teacher/publishSign",
+                            data:{
+                                courseId:this.courseId,
+                                teacherId:this.userId,
+                                courseScheduleId:1
+                            },
+                            success:function(res){
+                                console.log(res)
+                                if (res.code==="200") {
+                                    that.stompClient.send("/demo/sign."+that.courseScheduleId, {atytopic: "topic"}, res.data);
+                                }
+
+                            },
+                            error:function(res){
+                                console.log(res)
+                            }
+                        })
+                    }
+
+                })
+
+
             },
             startCourse(){
                 let that = this;
@@ -193,7 +239,7 @@
                     success:function(res){
                         console.log(res)
                         if (res.code==="200") {
-                            that.courseScheduleId = 1//res.data.courseScheduleId
+                            that.courseScheduleId =1//= res.data.courseScheduleId
                             that.initHtml();
                             //聊天室初始化
                             that.connecttosocket();
@@ -254,20 +300,7 @@
                         that.allUserOnline = JSON.parse(data.body)
                     });
                     that.stompClient.subscribe('/topic/sign.'+that.courseScheduleId, function (data) {
-                        console.log(JSON.parse(data.body))
-                        Swal.fire({
-                            title: '点击签到',
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: '签到',
-                        }).then((result) => {
-                            if (result.value) {
-                                console.log("sign!!!!!!!!!!!!!!!!!!!!!!!!!")
-                                console.log(JSON.parse(data.body))
-                                that.sign(JSON.parse(data.body))
-                            }
-
-                        })
+                        // alert("是否签到");
                     });
                     // 更新曾经访问用户人数
                     that.stompClient.subscribe('/topic/guest.'+that.courseScheduleId,function(data){
@@ -305,26 +338,60 @@
                 this.videoPlayer.play();
             },
             videoInit(){
-                this.videoPlayer = videojs('v-player', {
-                        //初始化数据
-                        height: '439px',
-                        width: '640px',
-                        "techOrder": ["html5", "flash"],
-                        controls: true,
-                        "autoplay": true,
-                        sources: [{
-                            src: "rtmp://106.15.251.188:1935/live/test",
-                        }]
+                let that = this;
+                $.ajax({
+                    type:"post",
+                    url:"/teacher/sendLivingStream",
+                    data:{
+                        teacherId:this.userId,
+                        courseScheduleId:this.courseScheduleId
                     },
-                    function () {
-                        this.on('loadeddata', function () {
-                            console.log(this)
-                        })
-                        this.on('pause', function () {
-                            //alert('pause')
-                        })
+                    success:function(res){
+                        console.log(res)
+                        if (res.code==="200") {
+                            that.rtmpSource= "rtmp://106.15.251.188:1935/live/test";
+                            console.log(that.rtmpSource)
+                            Swal.fire({
+                                title: '请将直播流推送到一下地址，推送成功后请点击确认按钮',
+                                html:"<h4>server:<br>"+res.data.server+"<br>key:<br>"+res.data.key+"</h4>",
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: '确认',
+                                cancelButtonText: "取消"
+                            }).then((result) => {
+                                if (result.value) {
+                                    console.log("yes!!!!!!!!")
+                                    this.videoPlayer = videojs('v-player', {
+                                            //初始化数据
+                                            height: '439px',
+                                            width: '640px',
+                                            "techOrder": ["html5", "flash"],
+                                            controls: true,
+                                            "autoplay": true,
+                                            sources: [{
+                                                src: that.rtmpSource,
+                                            }]
+                                        },
+                                        function () {
+                                            this.on('loadeddata', function () {
+                                                console.log(this)
+                                            })
+                                            this.on('pause', function () {
+                                                //alert('pause')
+                                            })
+                                        }
+                                    )
+                                }
+
+                            })
+                        }
+                    },
+                    error:function(res){
+                        console.log(res)
                     }
-                )
+                })
+
             },
             danmuInit(){
                 this.danmu = $("#danmu").danmu({
@@ -374,7 +441,6 @@
         mounted: function () {
             this.courseId=parseInt(localStorage.getItem("courseId"));
             this.userName = localStorage.getItem("userName");
-            // this.userId = localStorage.getItem("userId");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
             this.userNickname = localStorage.getItem("userNickname");

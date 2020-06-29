@@ -143,10 +143,10 @@
     </div>
 
     <!-- 登录 (Rectangle) -->
-    <div id="u91" class="ax_default link_button" data-label="登录">
+    <div id="u91" class="ax_default link_button" data-label="登录" @click="do_login">
         <div id="u91_div" class=""></div>
-        <div id="u91_text" class="text ">
-            <p><span @click="do_login">登 录</span></p>
+        <div id="u91_text" class="text " >
+            <p><span >登 录</span></p>
         </div>
     </div>
 
@@ -265,8 +265,9 @@
                                     localStorage.setItem("userNumber", res.data.userNumber);
                                     localStorage.setItem("userName", res.data.userName);
                                     localStorage.setItem("schoolId",res.data.schoolId);
+                                    localStorage.setItem("userId",res.data.userId);
 
-                                    window.location.href = "usercenter-info-teacher.html";
+                                    window.location.href = "usercenter-mycourse-teacher.html";
                                     break;
 
                                 case "3":
@@ -276,8 +277,9 @@
                                     localStorage.setItem("userEmail", res.data.userEmail);
                                     localStorage.setItem("userNumber", res.data.userNumber);
                                     localStorage.setItem("userName", res.data.userName);
+                                    localStorage.setItem("userId",res.data.userId);
 
-                                    window.location.href = "usercenter-info.html";
+                                    window.location.href = "usercenter-mycourse.html";
                                     break;
 
                             }

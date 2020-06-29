@@ -100,7 +100,7 @@
                                 <li><span class="pram word3">课程类别：<i>{{course.courseType}}</i></span><br></li>
                                 <li> <span class="pram word3">授课教师：<i >{{course.teacherName}}</i></span><br></li>
                                 <li class="btn colectgroupbtn"  id="jsLeftBtn" v-on:click="addFavCourse()">收藏</li>
-                                <li class="buy btn"><a style="color: white" href="">开始学习</a></li>
+                                <li class="buy btn"><a style="color: white" href="" >开始学习</a></li>
                             </ul>
 
                         </div>
@@ -166,7 +166,7 @@
 
 
 
-<script src="js/vue.js"></script>
+<script src="/js/vue.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -214,6 +214,31 @@
 
         },
         methods: {
+            getCourseImage(){
+                let that = this;
+                $.ajax({
+                    type: "POST",
+                    url:"/teacher/getCourseImage",
+                    responseType: 'blob',
+                    data:{
+                        courseId: that.courseId,
+                    },
+                    xhr:function(){// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.responseType= 'blob'
+                        return xhr;
+                    },
+                    success(res) {
+                        console.log(res)
+                        var url = window.URL || window.webkitURL;
+                        that.imageSrc = url.createObjectURL(res);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                });
+            },
+
             getCommentList(){
                 let that = this;
                 $.ajax({
@@ -250,9 +275,11 @@
                         if(res.code==200)
                         {
                             alert("添加成功！");
+                            location.reload();
                         }
                         else{
                             alert(res.data.msg);
+                            location.reload();
                         }
                         //that.noticeList = res.data;
                         // console.log(this.noticeList)
@@ -278,8 +305,10 @@
                         // console.log(this.noticeList)
                         if (res.code == 210) {
                             alert("删除失败！");
+                            location.reload();
                         } else {
                             alert("删除成功！");
+                            location.reload();
                         }
                     },
                     error(res) {
@@ -322,6 +351,13 @@
                       console.log(res);
                       if (res.code == 200) {
                           alert("插入成功！");
+                          if(that.userRole==3){
+                              window.location.href="usercenter-fav-course.html";
+                          }
+                          else if(that.userRole==2){
+                              window.location.href="usercenter-fav-course-teacher.html";
+                          }
+
                       } else {
                           alert(res.data.msg);
                       }
@@ -333,31 +369,6 @@
               })
             },
 
-            getImage(){
-                let that = this;
-                $.ajax({
-                    type: "POST",
-                    url:"/teacher/getCourseImage",
-                    responseType: 'blob',
-                    data:{
-                        courseId:that.courseId
-                    },
-                    xhr:function(){// Seems like the only way to get access to the xhr object
-                        var xhr = new XMLHttpRequest();
-                        xhr.responseType= 'blob'
-                        return xhr;
-                    },
-                    success(res) {
-                        console.log(res)
-                        var url = window.URL || window.webkitURL;
-                        that.imageSrc = url.createObjectURL(res);
-                    },
-                    error(res){
-                        console.log(res)
-                    }
-
-                });
-            },
 
             init(type){
                 let that = this;
@@ -423,11 +434,6 @@
             this.init(localStorage.getItem("userRole"));
         },
         mounted() {
-
-            this.getCourseList();
-            this.getCommentList();
-            this.getImage();
-
             this.userName = localStorage.getItem("userName");
             this.userEmail = localStorage.getItem("userEmail");
             this.userNumber = localStorage.getItem("userNumber");
@@ -439,6 +445,10 @@
             this.schoolId= parseInt(localStorage.getItem("schoolId"));
 
             this.courseId=parseInt(localStorage.getItem("courseId"));
+
+            this.getCourseList();
+            this.getCommentList();
+            this.getCourseImage();
         },
         watch: {
             original_password: function (value, old) {

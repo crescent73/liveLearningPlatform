@@ -46,7 +46,7 @@
 
     <!-- Unnamed (Image) -->
     <div id="u78" class="ax_default image">
-        <img id="u78_img" class="img " src="/images/login/u78.png"/>
+        <img id="u78_img" class="img " src="images/login/u78.png"/>
         <div id="u78_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
@@ -54,7 +54,7 @@
 
     <!-- Unnamed (Rectangle) -->
     <div id="u79" class="ax_default box_1">
-        <img id="u79_img" class="img " src="/images/login/u79.svg"/>
+        <img id="u79_img" class="img " src="images/login/u79.svg"/>
         <div id="u79_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
@@ -70,7 +70,7 @@
 
     <!-- Unnamed (Image) -->
     <div id="u81" class="ax_default image">
-        <img id="u81_img" class="img " src="/images/main/u3.png"/>
+        <img id="u81_img" class="img " src="images/main/u3.png"/>
         <div id="u81_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
@@ -78,7 +78,7 @@
 
     <!-- Unnamed (Text Field) -->
     <div id="u82" class="ax_default text_field">
-        <img id="u82_img" class="img " src="/images/login/u82.svg"/>
+        <img id="u82_img" class="img " src="images/login/u82.svg"/>
         <span id="u82_input" type="text" class="u82_input">登录您的爱课账户</span>
     </div>
 
@@ -100,7 +100,7 @@
 
     <!-- e-mail/phonenum (Text Field) -->
     <div id="u85" class="ax_default text_field" data-label="e-mail/phonenum">
-        <img id="u85_img" class="img " src="/images/login/e-mail_phonenum_u85.svg"/>
+        <img id="u85_img" class="img " src="images/login/e-mail_phonenum_u85.svg"/>
         <input v-model="name" id="u85_input" type="text" placeholder="用户名" class="u85_input"/>
     </div>
 
@@ -114,13 +114,13 @@
 
     <!-- password (Text Field) -->
     <div id="u87" class="ax_default text_field" data-label="password">
-        <img id="u87_img" class="img " src="/images/login/password_u87.svg"/>
+        <img id="u87_img" class="img " src="images/login/password_u87.svg"/>
         <input id="u87_input" type="password" v-model="password" placeholder="密码" class="u87_input"/>
     </div>
 
     <!-- Unnamed (Shape) -->
     <div id="u88" class="ax_default icon">
-        <img id="u88_img" class="img " src="/images/login/u88.svg"/>
+        <img id="u88_img" class="img " src="images/login/u88.svg"/>
         <div id="u88_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
@@ -136,35 +136,35 @@
 
     <!-- Unnamed (Shape) -->
     <div id="u90" class="ax_default icon">
-        <img id="u90_img" class="img " src="/images/login/u90.svg"/>
+        <img id="u90_img" class="img " src="images/login/u90.svg"/>
         <div id="u90_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
     </div>
 
     <!-- 登录 (Rectangle) -->
-    <div id="u91" class="ax_default link_button" data-label="登录">
+    <div id="u91" class="ax_default link_button" data-label="登录" @click="do_login">
         <div id="u91_div" class=""></div>
-        <div id="u91_text" class="text ">
-            <p><span @click="do_login">登 录</span></p>
+        <div id="u91_text" class="text " >
+            <p><span >登 录</span></p>
         </div>
     </div>
 
     <!-- Unnamed (Text Field) -->
     <div id="u92" class="ax_default text_field">
-        <img id="u92_img" class="img " src="/images/login/u92.svg"/>
+        <img id="u92_img" class="img " src="images/login/u92.svg"/>
         <span id="u92_input" type="text" class="u92_input">还没有账户？</span>
     </div>
 
     <!-- 注册-link (Text Field) -->
     <div id="u93" class="ax_default text_field" data-label="注册-link">
-        <img id="u93_img" class="img " src="/images/login/__-link_u93.svg"/>
+        <img id="u93_img" class="img " src="images/login/__-link_u93.svg"/>
         <span id="u93_input" type="text" class="u93_input">返回注册</span>
     </div>
 
     <!-- close (Shape) -->
     <div id="u94" class="ax_default icon" data-label="close">
-        <img id="u94_img" class="img " src="/images/login/close_u94.svg"/>
+        <img id="u94_img" class="img " src="images/login/close_u94.svg"/>
         <div id="u94_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
@@ -172,7 +172,7 @@
 
     <!-- Unnamed (Shape) -->
     <div id="u95" class="ax_default icon">
-        <img id="u95_img" class="img " src="/images/login/u95.svg"/>
+        <img id="u95_img" class="img " src="images/login/u95.svg"/>
         <div id="u95_text" class="text " style="display:none; visibility: hidden">
             <p></p>
         </div>
@@ -180,37 +180,45 @@
 
     <!-- Unnamed (Droplist) -->
     <div id="u96" class="ax_default droplist">
-        <img id="u96_img" class="img " src="/images/login/u96.svg"/>
+        <img id="u96_img" class="img " src="images/login/u96.svg"/>
         <select v-model="userType" id="u96_input" id="account_type" class="u96_input">
-            <option v-for="option in options" :value="option.value" class="u96_input_option" value="教师">教师</option>
-            <option v-for="option in options" :value="option.value" class="u96_input_option" value="管理员">管理员</option>
-            <option v-for="option in options" :value="option.value" class="u96_input_option" value="学生">学生</option>
+            <option v-for="option in options" :value="option.value">{{option.text}}</option>
         </select>
     </div>
 </div>
 <script src="/scripts/axure/ios.js"></script>
 
 <!-- jQuery -->
-<script src="../static/js/jquery-2.1.0.min.js"></script>
+<script src="/js/jquery-2.1.0.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../static/js/bootstrap.js"></script>
+<script src="/js/bootstrap.js"></script>
 <!-- AdminLTE App -->
-<script src="../static/js/adminlte.min.js"></script>
-<script src="../static/js/vue.js"></script>
+<script src="/js/adminlte.min.js"></script>
+<script src="/js/vue.js"></script>
 <script src="/scripts/axure/ios.js"></script>
 
 
 <script>
+    let login = new Vue({
+        el: '#login',
+        data:{
 
-    var vue = new Vue({
-        el: "#login",
-        data: {
             name: "",
             password: "",
-            userType: "",
+            userType: "3",
+            options:[
+                // {text:"管理员",value:"1"},
+                {text:"教师",value:"2"},
+                {text:"学生",value:"3"},
+            ],
+
+
         },
-        methods: {
-            do_check: function () {
+        mounted(){
+
+        },
+        methods:{
+            do_check (){
                 if(this.name === null || this.name === undefined || this.name === "") {
                     alert("用户名不能为空！");
                     return false;
@@ -221,84 +229,75 @@
                 }
                 return true;
             },
-            do_login: function () {
-                let self = this;
-                self.userType = $("#account_type option:selected").val();
-                if(!self.do_check()) {
+
+            do_login(){
+                let that = this
+                // that.userType = $("#account_type option:selected").val();
+                if(!that.do_check()) {
                     return;
                 }
                 $.ajax({
                     type:"post",
                     url:"/system/login",
                     data:{
-                        name: self.name,
-                        password: self.password,
-                        userType: self.userType
+                        name: that.name,
+                        password: that.password,
+                        userType: that.userType
                     },
                     success:function(res){
+
+
                         console.log(res);
-                        if(res.code === "200"){
-                           // localStorage.setItem("token",res.data.token);
-                            localStorage.setItem("userRole",self.userType);
-                            localStorage.setItem("userId", res.data.id);
+                        if(res.code=="200"){
+                            localStorage.setItem("userRole",that.userType);
+                            localStorage.setItem("userId", res.data.userId);
                             localStorage.setItem("user", JSON.stringify(res.data));
-                            switch (self.userType) {
+                            switch(that.userType){
                                 case "1":
                                     console.log("1");
-                                    localStorage.setItem("userNickname", "");
-                                    localStorage.setItem("userEmail", res.data.userEmail);
-                                    localStorage.setItem("userNumber", res.data);
-                                    localStorage.setItem("schoolId", "");
-                                    localStorage.setItem("userName", res.data.userName);
-                                    localStorage.setItem("userGender", "");
-                                    localStorage.setItem("userPassword", res.data.userPassword);
-
-                                    //***********************管理员***********************
-                                    //window.location.href ="page/admin/admin.html";
                                     break;
+
                                 case "2":
                                     console.log("2");
-                                    localStorage.setItem("userNickname", "");
+                                    localStorage.setItem("userNickname", res.data.userNickname);
+                                    localStorage.setItem("userGender", res.data.userGender);
                                     localStorage.setItem("userEmail", res.data.userEmail);
                                     localStorage.setItem("userNumber", res.data.userNumber);
-                                    localStorage.setItem("schoolId", res.data.userSchool);
                                     localStorage.setItem("userName", res.data.userName);
-                                    localStorage.setItem("userGender", "");
-                                    localStorage.setItem("userPassword", res.data.userPassword);
+                                    localStorage.setItem("schoolId",res.data.schoolId);
+                                    localStorage.setItem("userId",res.data.userId);
 
-
-                                    // **********************教师界面待修改***********************************
                                     window.location.href = "usercenter-mycourse-teacher.html";
                                     break;
 
                                 case "3":
                                     console.log("3");
                                     localStorage.setItem("userNickname", res.data.userNickname);
+                                    localStorage.setItem("userGender", res.data.userGender);
                                     localStorage.setItem("userEmail", res.data.userEmail);
                                     localStorage.setItem("userNumber", res.data.userNumber);
-                                    localStorage.setItem("schoolId", res.data.userSchool);
                                     localStorage.setItem("userName", res.data.userName);
-                                    localStorage.setItem("userGender", res.data.userGender);
-                                    localStorage.setItem("userPassword", res.data.userPassword);
+                                    localStorage.setItem("userId",res.data.userId);
 
-
-                                    // **********************学生界面待修改***********************************
                                     window.location.href = "usercenter-mycourse.html";
                                     break;
+
                             }
-                        } else {
-                            window.location.href = "";
+
+                        }else {
+                            //window.location.href = "";
                             alert("登录失败！请检查输入。")
                         }
                     },
                     error:function(res){
                         console.log(res);
-                        window.location.href = "";
+                        //window.location.href = "";
                         alert("出问题了！请刷新重试。")
                     }
                 });
             }
         }
+
     })
 </script>
 

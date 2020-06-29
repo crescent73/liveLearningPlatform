@@ -10,7 +10,7 @@ public interface SignService {
     // 发布签到
     int publishSign(Sign sign);
     // 查看签到情况
-    List<Sign> getSignList(Sign sign);
+    String getSignList(Sign sign);
     // 查看签到情况
     List<SignDetail> getSignDetail(SignStudent signStudent);
     // 签到

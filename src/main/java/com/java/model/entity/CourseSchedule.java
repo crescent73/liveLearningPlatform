@@ -11,18 +11,13 @@ import java.sql.Timestamp;
 @ToString
 public class CourseSchedule{
     @TableId(type = IdType.INPUT)
-    private Integer id;
     private Integer courseScheduleId;
     private Integer courseId;
     private Timestamp startTime;
     private Timestamp endTime;
-    private   Integer studentId;
+    private Integer studentId;
 
     public CourseSchedule() {
-    }
-
-    public CourseSchedule(Integer id) {
-        this.id = id;
     }
 
     public CourseSchedule(Integer studentId, Integer courseId) {
